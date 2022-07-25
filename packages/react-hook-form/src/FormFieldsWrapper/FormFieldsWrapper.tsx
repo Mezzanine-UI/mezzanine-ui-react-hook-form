@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import {
   FieldValues,
   FormProvider,
@@ -12,7 +12,7 @@ export interface FormFieldsWrapperProps<T extends FieldValues = FieldValues>
   onSubmit?: SubmitHandler<T>;
 }
 
-const FormFieldsWrapper: FC<FormFieldsWrapperProps> = <T extends FieldValues>({
+const FormFieldsWrapper = <T extends FieldValues>({
   methods,
   children,
   onSubmit = () => {},
