@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.1.2...@mezzanine-ui/react-hook-form@0.1.3) (2022-07-25)
+
+### Bug Fixes
+
+- **react-hook-form/form-fields-wrapper:** fixed polymorphism of form-fields-wrapper ([915ea4c](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/915ea4cd09e1570e364a134ff444257ba80c19ce))
+
 ## [0.1.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.1.1...@mezzanine-ui/react-hook-form@0.1.2) (2022-07-25)
 
 **Note:** Version bump only for package @mezzanine-ui/react-hook-form
