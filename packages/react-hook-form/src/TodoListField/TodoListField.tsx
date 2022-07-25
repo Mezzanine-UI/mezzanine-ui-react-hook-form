@@ -15,7 +15,7 @@ import {
 import { toDoListFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 
 import BaseField from '../BaseField/BaseField';
-import TodoListController from './data/todo-list-controller';
+import { TodoListController } from './data/todo-list-controller';
 import { TodoItem } from './data/typings';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 
