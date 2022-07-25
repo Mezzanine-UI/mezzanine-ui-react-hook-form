@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import EventEmitter from 'eventemitter3';
 import { TodoItem, UpdateTodoOptions } from './typings';
 
-class TodoListController<T = any> extends EventEmitter {
+export class TodoListController<T = any> extends EventEmitter {
   static Events = {
     UPDATE: 'E/UPDATE',
   };
@@ -112,5 +112,3 @@ class TodoListController<T = any> extends EventEmitter {
     return this._uniqueKey + 1;
   }
 }
-
-export default TodoListController;
