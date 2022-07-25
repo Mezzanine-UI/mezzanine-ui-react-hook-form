@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": "./packages",
+    "paths": {
+      "@mezzanine-ui/react-hook-form-core/*": ["core/src/*"],
+      "@mezzanine-ui/react-hook-form/*": ["react-hook-form/src/*"]
+    }
+  }
+}
