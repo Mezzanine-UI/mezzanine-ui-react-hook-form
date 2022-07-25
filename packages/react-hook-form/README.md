@@ -1,1 +1,1 @@
-# @mezzanine-form/react-hook-from
+# @mezzanine-ui/react-hook-from
