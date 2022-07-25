@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.2.0...@mezzanine-ui/react-hook-form@0.2.1) (2022-07-25)
+
+### Bug Fixes
+
+- **react-fook-form/todo-list-field:** fixed import problem ([d44453b](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/d44453bba1efc74b4bd031cfa5e6bb91d01271a9))
+
 # [0.2.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.1.3...@mezzanine-ui/react-hook-form@0.2.0) (2022-07-25)
 
 ### Features
