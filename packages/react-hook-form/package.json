@@ -35,6 +35,7 @@
     "@mezzanine-ui/core": "^0.10.5",
     "@mezzanine-ui/icons": "^0.10.2",
     "@mezzanine-ui/react": "^0.10.0",
+    "@mezzanine-ui/react-hook-form-core": "^0.1.0",
     "@mezzanine-ui/system": "^0.7.0",
     "@popperjs/core": "^2.11.5",
     "@types/react-transition-group": "^4.4.5",
