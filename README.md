@@ -1,6 +1,6 @@
-# mezzanine-react-hook-form-demo
+# @mezzanine-ui/react-hook-form
 
-A mezzanine/react-hook-from plugin demo
+A HOC plugin based on @mezzanine-ui/react and react-hook-form
 
 [Storybook](https://62c88066f6fbf46461689ca7-mgkeblmzea.chromatic.com/?path=/story/data-display-autocompletefield--single)
 
