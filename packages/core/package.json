@@ -8,6 +8,11 @@
     "url": "https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form",
     "directory": "packages/core"
   },
+  "keywords": [
+    "@mezzanine-ui/react-hook-form",
+    "@mezzanine-ui",
+    "react"
+  ],
   "license": "MIT",
   "sideEffects": [
     "**/*.scss",
@@ -23,22 +28,10 @@
     "build:clean": "node ../../scripts/cleanBuild.js"
   },
   "peerDependencies": {
-    "dayjs": "^1.10.7",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.1"
-  },
-  "peerDependenciesMeta": {
-    "moment": {
-      "optional": true
-    },
-    "dayjs": {
-      "optional": true
-    }
+    "@mezzanine-ui/icons": "^0.10.2",
+    "@mezzanine-ui/system": "^0.7.0"
   },
   "dependencies": {
-    "@mezzanine-ui/icons": "^0.10.2",
-    "@mezzanine-ui/system": "^0.7.0",
-    "lodash": "^4.17.21",
     "tslib": "^2.1.0"
   }
 }
