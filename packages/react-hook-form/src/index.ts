@@ -17,6 +17,7 @@ export * from './FormFieldsWrapper';
 export * from './InputTagsModeField';
 export * from './RadioGroupField';
 export * from './RangeSliderField';
+export * from './UploadImageField';
 export * from './TodoListField';
 export * from './typings/field';
 export * from './typings/option';
