@@ -16,6 +16,9 @@
 }
 
 @mixin styles($options: ()) {
+  // Mezzanine HOC
+  @include _load-styles($options, cropper-modal);
+
   // Fields
   @include _load-styles($options, base-field);
   @include _load-styles($options, auto-complete);
@@ -27,6 +30,7 @@
   @include _load-styles($options, select-field);
   @include _load-styles($options, tab-input-field);
   @include _load-styles($options, todo-list-field);
+  @include _load-styles($options, upload-image-field);
 
   // Debug
   @include _load-styles($options, form-fields-debug);

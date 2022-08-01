@@ -1,3 +1,4 @@
+export * from './cropper-modal';
 export * from './auto-complete';
 export * from './base-field';
 export * from './checkbox-group';
@@ -9,3 +10,4 @@ export * from './range-slider-field';
 export * from './select-field';
 export * from './tab-input-field';
 export * from './todo-list-field';
+export * from './upload-image-field';
