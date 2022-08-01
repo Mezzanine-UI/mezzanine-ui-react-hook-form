@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.2.1...@mezzanine-ui/react-hook-form@0.3.0) (2022-08-01)
+
+### Features
+
+- **packages/react-hook-form:** add `TreeSelectField` and `UploadImageField` features ([51a934b](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/51a934b9918df32eda21036f11b876d8261d170c))
+
 ## [0.2.1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.2.0...@mezzanine-ui/react-hook-form@0.2.1) (2022-07-25)
 
 ### Bug Fixes
