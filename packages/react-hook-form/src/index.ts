@@ -11,6 +11,7 @@ export * from './SearchInputField';
 export * from './SelectField';
 export * from './TabInputField';
 export * from './TextAreaField';
+export * from './TreeSelectField';
 export * from './FormFieldsDebug';
 export * from './FormFieldsWrapper';
 export * from './InputTagsModeField';
