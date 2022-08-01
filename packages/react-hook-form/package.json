@@ -42,12 +42,12 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-easy-crop": "^4.0.1",
     "react-hook-form": "^7.27.0",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
     "@mezzanine-ui/react-hook-form-core": "^0.2.0",
+    "react-easy-crop": "^4.0.1",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
