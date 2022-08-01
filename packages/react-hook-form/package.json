@@ -29,7 +29,7 @@
     "build:clean": "node ../../scripts/cleanBuild.js",
     "build-storybook": "build-storybook",
     "storybook": "start-storybook -p 6005",
-    "deploy-storybook": "npx chromatic --project-token=d5054e556e66"
+    "deploy-storybook": "npx chromatic --project-token=2b479f0f75cb"
   },
   "peerDependencies": {
     "@hookform/error-message": "^2.0.0",
