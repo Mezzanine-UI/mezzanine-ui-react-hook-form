@@ -2,7 +2,7 @@
 
 A HOC plugin based on @mezzanine-ui/react and react-hook-form
 
-[Storybook](https://62c88066f6fbf46461689ca7-mgkeblmzea.chromatic.com/?path=/story/data-display-autocompletefield--single)
+[Storybook](https://62e79fea3bbda2f3dba8f743-sxtdzvszgt.chromatic.com)
 
 ## Install
 
