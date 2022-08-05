@@ -26,7 +26,6 @@
   @include _load-styles($options, input-field);
   @include _load-styles($options, password-field);
   @include _load-styles($options, radio-group-field);
-  @include _load-styles($options, range-slider-field);
   @include _load-styles($options, select-field);
   @include _load-styles($options, tab-input-field);
   @include _load-styles($options, todo-list-field);
