@@ -18,12 +18,13 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
   options,
   orientation,
   registerName,
+  style,
   size,
   ...props
 }) => {
   const [defaultChecked, setDefaultChecked] = useState<string>();
   const value = useWatch({ name: registerName });
-  const { setValue } = useFormContext();
+  const { setValue, formState: { errors } } = useFormContext();
   const onChange = (e: ChangeEvent<HTMLInputElement>) => setValue(registerName, e.target.value);
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
       key={defaultChecked}
       disabled={disabled}
       name={registerName}
+      errors={errors}
       label={label}
       className={cx(label && radioGroupClasses.label)}
     >

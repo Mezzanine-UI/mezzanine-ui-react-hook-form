@@ -17,7 +17,7 @@ export interface BaseFieldProps {
   className?: string;
   disabled?: boolean;
   disabledErrMsg?: boolean;
-  errors?: FieldErrorsImpl<DeepRequired<any>>;
+  errors: FieldErrorsImpl<DeepRequired<any>>;
   fieldClassName?: string;
   label?: ReactNode;
   labelClassName?: string;

@@ -20,10 +20,7 @@ export const Basic = () => {
         <FormFieldsDebug mode="dev" />
         <RangeSliderField
           label="Label Name"
-          size="large"
           registerName="range-slider-register-name"
-          defaultValueFrom={0}
-          defaultValueTo={100}
         />
       </FormFieldsWrapper>
     </div>

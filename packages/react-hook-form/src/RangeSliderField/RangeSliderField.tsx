@@ -1,45 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Input, InputProps, Slider, SliderProps,
-} from '@mezzanine-ui/react';
+import { Slider, SliderProps } from '@mezzanine-ui/react';
 import { CSSProperties, useEffect, useMemo } from 'react';
-import { FieldValues, useFormContext, useFormState } from 'react-hook-form';
-import { rangeSliderFieldClasses } from '@mezzanine-ui/react-hook-form-core';
-import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import {
+  FieldValues, useFormContext, useFormState, useWatch,
+} from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
-import { useRangeSlider } from './use-range-slider';
+import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 
 export type RangeSliderFieldProps = HookFormFieldProps<
 FieldValues,
-Omit<SliderProps, 'value'>, {
-  defaultValueFrom?: number;
-  defaultValueTo?: number;
-  defaultValue?: number;
+Omit<SliderProps, 'value' | 'defaultValue'>, {
+  defaultValue?: [number, number];
   width?: number;
-  inputWidth?: number;
-  readOnly?: boolean;
-  size?: InputProps['size'];
 }>;
 
 const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
   control,
-  defaultValueFrom = 0,
-  defaultValueTo = 100,
   min = 0,
   max = 100,
-  defaultValue = 0,
   disabled,
   label,
+  withInput = true,
   register,
   registerName,
+  defaultValue,
   remark,
   required,
-  readOnly,
   step = 1,
   style,
-  size,
   width,
-  inputWidth,
   ...props
 }) => {
   const {
@@ -52,6 +41,8 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
+  const watchValue = useWatch({ name: registerName }) || defaultValue || [min, max];
+
   useMemo(() => (register || contextRegister)(
     registerName,
     {
@@ -60,22 +51,9 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
     },
   ), [registerName, required, disabled]);
 
-  const {
-    from,
-    to,
-    value,
-    onFromChange,
-    onToChange,
-    onValueChange,
-  } = useRangeSlider({
-    defaultValueFrom,
-    defaultValueTo,
-    defaultValue,
-  });
-
   useEffect(() => {
-    setValue(registerName, [from, value]);
-  }, [from, value]);
+    setValue(registerName, defaultValue);
+  }, []);
 
   return (
     <BaseField
@@ -91,43 +69,15 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
       required={required}
       width={width}
     >
-      <div
-        className={rangeSliderFieldClasses.host}
-        style={{
-          '--inputWidth': inputWidth
-            ? `${inputWidth}px`
-            : undefined,
-        } as CSSProperties}
-      >
-        <div className={rangeSliderFieldClasses.from}>
-          <Input
-            readOnly={readOnly}
-            inputProps={{ type: 'number', autoComplete: 'off' }}
-            defaultValue={defaultValueFrom.toString()}
-            size={size}
-            value={from.toString()}
-            onChange={onFromChange}
-          />
-        </div>
-        <Slider
-          {...props}
-          min={Math.max(from, min)}
-          max={Math.max(to, max)}
-          step={step}
-          value={value}
-          onChange={onValueChange}
-        />
-        <div className={rangeSliderFieldClasses.to}>
-          <Input
-            readOnly={readOnly}
-            size={size}
-            inputProps={{ type: 'number', autoComplete: 'off' }}
-            defaultValue={defaultValueTo.toString()}
-            value={value.toString()}
-            onChange={onToChange}
-          />
-        </div>
-      </div>
+      <Slider
+        {...props}
+        withInput={withInput}
+        min={min}
+        max={max}
+        step={step}
+        value={watchValue}
+        onChange={(next: any) => setValue(registerName, next)}
+      />
     </BaseField>
   );
 };
