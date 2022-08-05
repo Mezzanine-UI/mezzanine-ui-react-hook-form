@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.3.2...@mezzanine-ui/react-hook-form@0.4.0) (2022-08-05)
+
+### Features
+
+- **react-hook-form:** update `RangeSliderField` ([abe4ece](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/abe4ece0f55c26f45e58144eaff254971faa961b))
+- **react-hook-from:** add `SliderField` ([a5b5371](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/a5b5371d53e3d49e786dd8c66b639a8cba93e6bf))
+
 ## [0.3.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.3.1...@mezzanine-ui/react-hook-form@0.3.2) (2022-08-01)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@mezzanine-ui/react-hook-form",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Form with data binding HOC for mezzanine-ui",
   "author": "mezzanine",
   "repository": {
@@ -46,7 +46,7 @@
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@mezzanine-ui/react-hook-form-core": "^0.2.0",
+    "@mezzanine-ui/react-hook-form-core": "^0.2.1",
     "react-easy-crop": "^4.0.1",
     "tslib": "^2.1.0"
   },
