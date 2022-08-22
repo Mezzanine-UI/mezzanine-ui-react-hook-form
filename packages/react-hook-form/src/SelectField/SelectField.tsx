@@ -26,7 +26,7 @@ export type SelectFieldProps = HookFormFieldProps<FieldValues, SelectProps, {
 
 const SelectField: HookFormFieldComponent<SelectFieldProps> = ({
   className,
-  clearable = true,
+  clearable = false,
   defaultValue,
   disabled,
   fullWidth = false,
@@ -63,7 +63,10 @@ const SelectField: HookFormFieldComponent<SelectFieldProps> = ({
     defaultValue,
   }) || defaultValue;
 
-  const onClear = () => resetField(registerName);
+  const onClear = () => {
+    resetField(registerName);
+    setValue(registerName, undefined);
+  };
 
   const onChange = (newValue: SelectValue) => {
     if (errors?.[registerName]) clearErrors(registerName);
