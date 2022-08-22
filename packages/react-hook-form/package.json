@@ -46,13 +46,14 @@
     "rxjs": "^7.5.5"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.0",
     "@mezzanine-ui/react-hook-form-core": "^0.2.1",
+    "eventemitter3": "^4.0.7",
     "react-easy-crop": "^4.0.1",
+    "rxjs": "^7.5.5",
     "tslib": "^2.1.0"
   },
   "devDependencies": {
-    "@hookform/error-message": "^2.0.0",
-    "@hookform/resolvers": "^2.8.4",
     "@mezzanine-ui/core": "^0.10.5",
     "@mezzanine-ui/icons": "^0.10.2",
     "@mezzanine-ui/react": "^0.10.0",
@@ -67,13 +68,11 @@
     "@types/react-test-renderer": "^18.0.0",
     "axios": "^0.26.0",
     "chromatic": "^6.6.4",
-    "eventemitter3": "^4.0.7",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^4.0.1",
     "react-hook-form": "^7.27.0",
-    "react-test-renderer": "^18.2.0",
-    "rxjs": "^7.5.5"
+    "react-test-renderer": "^18.2.0"
   }
 }
