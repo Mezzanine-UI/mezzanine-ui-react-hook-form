@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useLayoutEffect } from 'react';
 import { SelectValue } from '@mezzanine-ui/react';
 import { EventEmitter } from 'eventemitter3';
+import { useCallback, useEffect, useLayoutEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { debounceTime, Observable, Subscription, tap } from 'rxjs';
+import { isBrowser } from '../utils/type-checker';
 
 class AutoCompleteStore<T extends SelectValue | SelectValue[]> extends EventEmitter {
   static Events = {
@@ -72,6 +73,8 @@ export function useAutoCompleteDebounce({
   }, []);
 
   useEffect(() => {
+    if (!isBrowser()) return;
+
     let inputObservable = autoCompleteStore.watch(registerName);
     let clickAwaySubscription: Subscription | undefined;
     let clickObservable = new Observable<VoidFunction>((subscriber) => {
@@ -93,7 +96,7 @@ export function useAutoCompleteDebounce({
       tap(() => {
         if (!skip) {
           clickAwaySubscription = clickObservable.subscribe(() => {
-            document.body.click(); // to click away list.
+            window.document.body.click(); // to click away list.
           });
         }
       }),

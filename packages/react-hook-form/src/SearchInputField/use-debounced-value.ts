@@ -1,6 +1,7 @@
 import { ChangeEvent, RefObject, useEffect, useState } from 'react';
 import { fromEvent, map } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { isBrowser } from '../utils/type-checker';
 
 export interface UseDebouncedValue {
   debounceMs?: number;
@@ -13,7 +14,9 @@ export function useDebouncedValue({
   inputId,
   inputRef,
 }: UseDebouncedValue) {
-  const [inputRefElement, setInputElement] = useState(inputRef?.current ?? document.getElementById(inputId ?? ''));
+  const [inputRefElement, setInputElement] = useState(() => (
+    inputRef?.current ?? (isBrowser() ? window.document.getElementById(inputId ?? '') : null)
+  ));
   const [value, setValue] = useState<string>();
 
   useEffect(() => {
@@ -34,7 +37,9 @@ export function useDebouncedValue({
   }, [inputRefElement]);
 
   useEffect(() => {
-    setInputElement(inputRef?.current ?? document.getElementById(inputId ?? ''));
+    if (isBrowser()) {
+      setInputElement(inputRef?.current ?? window.document.getElementById(inputId ?? ''));
+    }
   });
 
   return value;

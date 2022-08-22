@@ -1,4 +1,5 @@
 import { Area } from '../typings/file';
+import { isBrowser } from './type-checker';
 
 export function byteToMegaByte(byte: number) {
   return (byte / (1024 * 1024));
@@ -48,6 +49,8 @@ export function createImage(url: string) {
 }
 
 export function blobToUrl(blob: Blob) {
+  if (!isBrowser()) return '';
+
   const URL = window.URL || window.webkitURL;
 
   return URL.createObjectURL(blob);
@@ -71,13 +74,15 @@ export async function createCropImageBlob({
   imageLimit?: number, // 10 * 1024 * 1024,
   rotation?: number,
 }): Promise<Blob | string> {
+  if (!isBrowser()) return Promise.resolve('');
+
   function getRadianAngle(degreeValue: number) {
     return (degreeValue * Math.PI) / 180;
   }
 
   const image = await createImage(src);
 
-  const canvas = document.createElement('canvas');
+  const canvas = window.document.createElement('canvas');
 
   canvas.width = area.width;
   canvas.height = area.height;
