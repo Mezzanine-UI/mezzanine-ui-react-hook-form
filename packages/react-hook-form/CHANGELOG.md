@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.5.0...@mezzanine-ui/react-hook-form@0.6.0) (2022-08-22)
+
+### Features
+
+- **react-hook-form:** set mode = dev as default on `FormFieldsDebug` ([c28a943](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/c28a943a8482c9d9f2266659d5dd716a9407476e))
+
 # [0.5.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.4.0...@mezzanine-ui/react-hook-form@0.5.0) (2022-08-22)
 
 ### Bug Fixes
