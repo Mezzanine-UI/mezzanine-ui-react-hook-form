@@ -17,12 +17,12 @@ const HookformContextConsumer: FC = () => {
 };
 
 interface FormFieldsDebugProps {
-  mode: 'dev' | 'prod';
+  mode?: 'dev' | 'prod';
   title?: string;
 }
 
 const FormFieldsDebug: FC<FormFieldsDebugProps> = ({
-  mode,
+  mode = 'dev',
   title = 'Hook Form State',
 }) => {
   const [hovered, setHovered] = useState(false);
