@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.4.0...@mezzanine-ui/react-hook-form@0.5.0) (2022-08-22)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `SelectField` default clearable and behavior ([cc8d41f](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/cc8d41f331596b4ad156e67fc365696e517b55cc))
+
+### Features
+
+- **react-hook-form:** add `ssr` context pre-check ([6e5cadb](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/6e5cadb06431fba8d571e3e5cf2ae87933f8fa57))
+
 # [0.4.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.3.2...@mezzanine-ui/react-hook-form@0.4.0) (2022-08-05)
 
 ### Features
