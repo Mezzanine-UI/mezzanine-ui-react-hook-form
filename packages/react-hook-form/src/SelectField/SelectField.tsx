@@ -1,12 +1,13 @@
-import { selectFieldClasses } from '@mezzanine-ui/react-hook-form-core';
+/* eslint-disable no-redeclare */
 import {
   Option,
   OptionGroup,
   Select,
-  SelectProps,
   SelectValue,
 } from '@mezzanine-ui/react';
-import { useEffect } from 'react';
+import { selectFieldClasses } from '@mezzanine-ui/react-hook-form-core';
+import { SelectMultipleProps, SelectProps, SelectSingleProps } from '@mezzanine-ui/react/Select/Select';
+import { ReactNode, useEffect } from 'react';
 import {
   FieldValues,
   useFormContext,
@@ -16,39 +17,47 @@ import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { OptionItemGroupsType, OptionItemsType } from '../typings/option';
 
-export type SelectFieldProps = HookFormFieldProps<FieldValues, SelectProps, {
-  defaultValue?: SelectValue;
-  mode?: 'single';
+type CustomSelectFieldProps = {
   optionGroups?: OptionItemGroupsType;
   width?: number;
   options?: OptionItemsType;
-}>;
+};
 
-const SelectField: HookFormFieldComponent<SelectFieldProps> = ({
-  className,
-  clearable = false,
-  defaultValue,
-  disabled,
-  fullWidth = false,
-  width,
-  inputMode,
-  itemScope = false,
-  label,
-  mode = 'single',
-  itemsInView,
-  optionGroups,
-  options,
-  placeholder = '請選擇',
-  popperOptions,
-  registerName,
-  remark,
-  renderValue,
-  required,
-  role,
-  size,
-  style,
-  ...props
-}) => {
+export type SelectSingleFieldProps = HookFormFieldProps<FieldValues, SelectSingleProps, CustomSelectFieldProps>;
+
+export type SelectMultiFieldProps = HookFormFieldProps<FieldValues, SelectMultipleProps, CustomSelectFieldProps>;
+
+export type SelectFieldProps = HookFormFieldProps<FieldValues, SelectProps, CustomSelectFieldProps>;
+
+function SelectField(props: SelectSingleFieldProps): ReactNode;
+function SelectField(props: SelectMultiFieldProps): ReactNode;
+function SelectField(props: SelectFieldProps): ReactNode {
+  const {
+    className,
+    clearable = false,
+    defaultValue,
+    disabled,
+    fullWidth,
+    width,
+    inputMode,
+    itemScope = false,
+    label,
+    mode,
+    itemsInView,
+    optionGroups,
+    options,
+    placeholder = '請選擇',
+    popperOptions,
+    registerName,
+    remark,
+    renderValue,
+    required,
+    role,
+    size,
+    style,
+    ...restProps
+  } = props || {};
+
   const {
     clearErrors,
     formState: { errors },
@@ -97,14 +106,14 @@ const SelectField: HookFormFieldComponent<SelectFieldProps> = ({
       errors={errors}
     >
       <Select
-        {...props}
+        {...restProps}
         role={role}
         inputMode={inputMode}
         itemScope={itemScope}
         fullWidth={fullWidth}
         clearable={clearable}
         itemsInView={itemsInView}
-        mode={mode}
+        mode={mode as any}
         onClear={onClear}
         onChange={onChange}
         placeholder={placeholder}
@@ -141,6 +150,6 @@ const SelectField: HookFormFieldComponent<SelectFieldProps> = ({
       </Select>
     </BaseField>
   );
-};
+}
 
-export default SelectField;
+export default SelectField as HookFormFieldComponent<SelectFieldProps>;
