@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.6.0...@mezzanine-ui/react-hook-form@0.7.0) (2022-09-05)
+
+### Bug Fixes
+
+- **react-hook-form:** update `FormFieldsWrapper` interface ([150e81c](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/150e81cf16d03c48560ba2cd84cb1d235fc40f55))
+
+### Features
+
+- **react-hook-form:** enabled `errorMsgRender` prop ([2886ce6](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/2886ce6f3836642975274070f9823846e7cebc87))
+- **react-hook-form:** implemented `multiple` mode of `SelectField` ([0503b72](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/0503b72a16f24a5e53c545c330e8472000077409))
+
 # [0.6.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.5.0...@mezzanine-ui/react-hook-form@0.6.0) (2022-08-22)
 
 ### Features
