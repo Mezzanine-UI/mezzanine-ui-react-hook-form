@@ -1,4 +1,3 @@
-import { HTMLAttributes } from 'react';
 import {
   FieldValues,
   FormProvider,
@@ -7,7 +6,7 @@ import {
 } from 'react-hook-form';
 
 export interface FormFieldsWrapperProps<T extends FieldValues = FieldValues>
-  extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
+  extends Omit<React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>, 'onSubmit'> {
   methods: UseFormReturn<T>;
   onSubmit?: SubmitHandler<T>;
 }
