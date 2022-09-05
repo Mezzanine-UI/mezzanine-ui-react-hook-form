@@ -35,6 +35,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
   hourPrefix,
   minutePrefix,
   secondPrefix,
+  errorMsgRender,
   ...props
 }) => {
   const {
@@ -81,6 +82,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
       remark={remark}
       required={required}
       width={width}
+      errorMsgRender={errorMsgRender}
     >
       <DateTimePicker
         {...props}

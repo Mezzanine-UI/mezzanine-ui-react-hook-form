@@ -22,3 +22,4 @@ export * from './UploadImageField';
 export * from './TodoListField';
 export * from './typings/field';
 export * from './typings/option';
+export * from './typings/error-message';

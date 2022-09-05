@@ -29,6 +29,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
   withInput = true,
   style,
   width,
+  errorMsgRender,
   ...props
 }) => {
   const {
@@ -68,6 +69,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
       errors={errors}
       required={required}
       width={width}
+      errorMsgRender={errorMsgRender}
     >
       <Slider
         {...props}

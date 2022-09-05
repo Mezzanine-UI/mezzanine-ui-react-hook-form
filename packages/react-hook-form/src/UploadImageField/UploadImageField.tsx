@@ -77,6 +77,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   width = 200,
   annotation,
   icon,
+  errorMsgRender,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -255,6 +256,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       name={registerName}
       required={required}
       remark={remark}
+      errorMsgRender={errorMsgRender}
     >
       <div
         ref={rootRef}

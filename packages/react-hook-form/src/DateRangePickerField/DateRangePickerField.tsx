@@ -28,6 +28,7 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
   required,
   style,
   width,
+  errorMsgRender,
   ...props
 }) => {
   const {
@@ -74,6 +75,7 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
       required={required}
       style={style}
       width={width}
+      errorMsgRender={errorMsgRender}
     >
       <DateRangePicker
         {...props}

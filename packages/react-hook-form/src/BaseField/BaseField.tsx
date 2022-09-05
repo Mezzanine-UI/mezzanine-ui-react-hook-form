@@ -10,7 +10,8 @@ import {
   CSSProperties, FC, memo,
   ReactNode,
 } from 'react';
-import { DeepRequired, FieldErrorsImpl, MultipleFieldErrors } from 'react-hook-form';
+import { DeepRequired, FieldErrorsImpl } from 'react-hook-form';
+import { ErrorMessageFn } from '../typings/error-message';
 
 export interface BaseFieldProps {
   children: ReactNode;
@@ -27,10 +28,7 @@ export interface BaseFieldProps {
   required?: boolean;
   style?: CSSProperties;
   width?: number;
-  errorMsgRender?: (data: {
-    message: string;
-    messages?: MultipleFieldErrors | undefined;
-  }) => ReactNode
+  errorMsgRender?: ErrorMessageFn;
 }
 
 const BaseField: FC<BaseFieldProps> = ({

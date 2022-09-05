@@ -22,6 +22,7 @@ const TreeSelectField: HookFormFieldComponent<TreeSelectFieldProps> = ({
   required,
   style,
   width,
+  errorMsgRender,
   ...props
 }) => {
   const {
@@ -64,6 +65,7 @@ const TreeSelectField: HookFormFieldComponent<TreeSelectFieldProps> = ({
       className={className}
       width={width}
       errors={errors}
+      errorMsgRender={errorMsgRender}
     >
       <TreeSelect
         {...props}

@@ -49,6 +49,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
   value,
   width,
   onInput,
+  errorMsgRender,
   ...props
 }) => {
   const { control: contextControl } = useFormContext();
@@ -77,6 +78,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
       errors={errors}
       required={required}
       width={width}
+      errorMsgRender={errorMsgRender}
       className={cx(
         autoCompleteClasses.host,
         className,

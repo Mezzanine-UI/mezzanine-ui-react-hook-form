@@ -49,6 +49,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   suffix,
   tagsProps,
   type,
+  errorMsgRender,
   ...prop
 }) => {
   const {
@@ -107,6 +108,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       disabled={disabled}
       label={name || label}
       width={width}
+      errorMsgRender={errorMsgRender}
     >
       <Input
         {...prop}

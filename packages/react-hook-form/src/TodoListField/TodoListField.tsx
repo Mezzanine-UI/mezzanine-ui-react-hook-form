@@ -68,6 +68,7 @@ const TodoListField: HookFormFieldComponent<TodoListFieldProps> = ({
   addButton,
   onRemove: removeItem,
   style,
+  errorMsgRender,
   ...props
 }) => {
   const oListRef = useRef<HTMLOListElement | null>(null);
@@ -186,6 +187,7 @@ const TodoListField: HookFormFieldComponent<TodoListFieldProps> = ({
           remark={remark}
           disabled={disabled}
           label={todoItems.length ? label : undefined}
+          errorMsgRender={errorMsgRender}
         >
           <li>
             <Component

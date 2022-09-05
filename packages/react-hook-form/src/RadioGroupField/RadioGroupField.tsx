@@ -20,6 +20,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
   registerName,
   style,
   size,
+  errorMsgRender,
   ...props
 }) => {
   const [defaultChecked, setDefaultChecked] = useState<string>();
@@ -46,6 +47,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
       errors={errors}
       label={label}
       className={cx(label && radioGroupClasses.label)}
+      errorMsgRender={errorMsgRender}
     >
       <RadioGroup
         {...props}

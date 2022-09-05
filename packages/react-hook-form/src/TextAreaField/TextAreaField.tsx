@@ -34,6 +34,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
   required,
   remark,
   style,
+  errorMsgRender,
   ...props
 }) => {
   const {
@@ -72,6 +73,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
       remark={remark}
       required={required}
       width={width}
+      errorMsgRender={errorMsgRender}
     >
       <Textarea
         {...props}

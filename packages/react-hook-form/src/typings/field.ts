@@ -1,15 +1,16 @@
 import {
+  CSSProperties,
+  HTMLInputTypeAttribute,
+  ReactNode,
+} from 'react';
+import {
   Control,
   FieldValues,
   Path,
   RegisterOptions,
   UseFormRegister,
 } from 'react-hook-form';
-import {
-  CSSProperties,
-  HTMLInputTypeAttribute,
-  ReactNode,
-} from 'react';
+import { ErrorMessageFn } from './error-message';
 
 export interface FieldProps<Type extends  FieldValues> extends Omit<RegisterOptions<Type>, 'render'> {
   disabled?: boolean;
@@ -24,6 +25,7 @@ export interface FieldProps<Type extends  FieldValues> extends Omit<RegisterOpti
   style?: CSSProperties;
   className?: string;
   type?: HTMLInputTypeAttribute;
+  errorMsgRender?: ErrorMessageFn;
 }
 
 export interface RegisteredFieldProps<Type extends FieldValues> extends FieldProps<Type> {

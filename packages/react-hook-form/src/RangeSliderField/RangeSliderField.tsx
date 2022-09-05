@@ -29,6 +29,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
   step = 1,
   style,
   width,
+  errorMsgRender,
   ...props
 }) => {
   const {
@@ -68,6 +69,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
       errors={errors}
       required={required}
       width={width}
+      errorMsgRender={errorMsgRender}
     >
       <Slider
         {...props}

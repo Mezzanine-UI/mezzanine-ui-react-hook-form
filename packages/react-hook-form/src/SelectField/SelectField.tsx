@@ -55,6 +55,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
     role,
     size,
     style,
+    errorMsgRender,
     ...restProps
   } = props || {};
 
@@ -104,6 +105,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
       className={className}
       width={width}
       errors={errors}
+      errorMsgRender={errorMsgRender}
     >
       <Select
         {...restProps}

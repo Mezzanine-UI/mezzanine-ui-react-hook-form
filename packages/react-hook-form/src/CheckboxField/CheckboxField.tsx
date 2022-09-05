@@ -29,6 +29,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
   style,
   variant,
   width,
+  errorMsgRender,
   ...props
 }) => {
   const {
@@ -61,6 +62,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
       required={required}
       style={style}
       width={width}
+      errorMsgRender={errorMsgRender}
     >
       <Checkbox
         {...props}
