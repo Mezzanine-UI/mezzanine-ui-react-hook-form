@@ -8,7 +8,11 @@ export default {
 };
 
 export const Basic = () => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      'input-tags-mode-register-name-1': ['123', '234'],
+    },
+  });
 
   return (
     <div
@@ -27,19 +31,26 @@ export const Basic = () => {
         />
         <br />
         <br />
+        <p>
+          maxTagsLength = 8
+        </p>
         <InputTagsModeField
           width={300}
-          label="Label Name"
+          maxTagsLength={8}
+          label="Max Tags Length"
           size="large"
           registerName="input-tags-mode-register-name-2"
         />
         <br />
         <br />
+        <p>
+          maxLength = 2
+        </p>
         <InputTagsModeField
-          valueAsNumber
           width={300}
-          label="Value As Number"
+          label="Max Length"
           size="large"
+          maxLength={2}
           registerName="input-tags-mode-register-name-3"
         />
       </FormFieldsWrapper>

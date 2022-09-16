@@ -1,21 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { isNumber } from 'lodash';
-import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { cx, Input, InputProps } from '@mezzanine-ui/react';
+import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { TagsType } from '@mezzanine-ui/react/Form/useInputWithTagsModeValue';
 import { useCallback, useMemo } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
-import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 
-type OmittedInputProps = Omit<InputProps, 'mode' | 'tagsProps'> & InputProps['tagsProps'];
+type OmittedInputProps = Omit<InputProps, 'mode' | 'tagsProps' | 'defaultValue'> & InputProps['tagsProps'];
 
 export type InputTagsModeFieldProps<
   T extends FieldValues = FieldValues> = HookFormFieldProps<T, OmittedInputProps, {
     maxLength?: number;
     minLength?: number;
+    defaultValue?: string[];
+    inputDefaultValue?: string;
     width?: number;
     inputClassName?: string;
   }>;
@@ -27,6 +28,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
   clearable = true,
   control,
   defaultValue,
+  inputDefaultValue,
   disabled,
   width,
   label,
@@ -50,7 +52,6 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
   maxTagsLength,
   inputClassName,
   inputPosition,
-  type,
   errorMsgRender,
   ...props
 }) => {
@@ -63,8 +64,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
   const watchValue = useWatch({
     control: control || contextControl,
     name: registerName as string,
-    defaultValue,
-  }) || '';
+  }) || defaultValue || [];
 
   const {
     errors,
@@ -84,9 +84,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
   const onTagsChange = useCallback((newTags: TagsType) => {
     setValue(
       registerName,
-      valueAsNumber
-        ? newTags.map((t) => Number(t)).filter(isNumber)
-        : newTags,
+      newTags,
     );
   }, []);
 
@@ -103,7 +101,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
       required={required}
       remark={remark}
       disabled={disabled}
-      label={name || label}
+      label={label}
       width={width}
       errorMsgRender={errorMsgRender}
     >
@@ -114,16 +112,15 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
         className={inputClassName}
         size={size}
         clearable={clearable}
-        defaultValue={defaultValue}
         placeholder={placeholder}
         prefix={prefix}
+        defaultValue={inputDefaultValue}
         disabled={disabled}
-        value={watchValue}
         mode="tags"
         required={required}
         suffix={suffix}
         tagsProps={{
-          initialTagsValue,
+          initialTagsValue: watchValue,
           maxTagsLength,
           inputPosition,
           onTagsChange,
@@ -133,7 +130,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
           autoFocus,
           maxLength,
           minLength,
-          type,
+          type: 'text',
           ...registration,
         }}
       />
