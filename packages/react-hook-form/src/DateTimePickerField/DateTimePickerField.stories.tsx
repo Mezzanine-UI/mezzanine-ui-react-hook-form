@@ -10,7 +10,11 @@ export default {
 };
 
 export const Basic = () => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      'date-time-picker-register-name': '2022-06-03T18:00:00.000Z',
+    },
+  });
 
   return (
     <div

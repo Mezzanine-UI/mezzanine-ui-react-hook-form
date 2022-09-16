@@ -1,6 +1,8 @@
 import { DateTimePicker, DateTimePickerProps } from '@mezzanine-ui/react';
 import { useMemo } from 'react';
-import { FieldValues, useFormContext, useFormState } from 'react-hook-form';
+import {
+  FieldValues, useFormContext, useFormState, useWatch,
+} from 'react-hook-form';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
 
@@ -48,6 +50,8 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
   const {
     errors,
   } = useFormState({ control: control || contextControl });
+
+  const value = useWatch({ name: registerName }) || defaultValue;
 
   const registration = useMemo(() => (register || contextRegister)(
     registerName,
@@ -105,7 +109,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
         placeholder={placeholder}
         readOnly={readOnly}
         referenceDate={referenceDate}
-        value={defaultValue}
+        value={value}
       />
     </BaseField>
   );
