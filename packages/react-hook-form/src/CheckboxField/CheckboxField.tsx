@@ -14,6 +14,7 @@ CheckboxProps,
 Pick<TypographyProps, 'color' | 'variant'> & {
   fieldClassName?: string;
   width?: number;
+  labelSpacing?: boolean;
 }>;
 
 const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
@@ -23,6 +24,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
   disabled,
   fieldClassName,
   label,
+  labelSpacing = false,
   registerName,
   remark,
   required,
@@ -56,7 +58,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
       className={className}
       disabled={disabled}
       errors={errors}
-      label={label ? '' : undefined}
+      label={labelSpacing ? '' : undefined}
       name={registerName}
       remark={remark}
       required={required}

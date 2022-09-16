@@ -20,7 +20,19 @@ export const Basic = () => {
         <FormFieldsDebug mode="dev" />
         <CheckboxField
           label="Label Name"
-          registerName="checkbox-register-name"
+          registerName="checkbox-register-name-1"
+          color="text-secondary"
+        />
+        <br />
+        <br />
+
+        <div>
+          labelSpacing = true
+        </div>
+        <CheckboxField
+          labelSpacing
+          label="For some layouts we need top-spacing."
+          registerName="checkbox-register-name-2"
           color="text-secondary"
         />
       </FormFieldsWrapper>
