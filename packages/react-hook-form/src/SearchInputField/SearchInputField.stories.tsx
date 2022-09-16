@@ -45,12 +45,23 @@ export const Basic = () => {
           Keyword debouncing = 1200ms
         </p>
         <SearchInputField
-          valueAsNumber
           width={300}
           debounceMs={1200}
           label="Value As Number"
           size="large"
           registerName="search-input-register-name-3"
+        />
+        <br />
+        <br />
+        <p>
+          debounced = false
+        </p>
+        <SearchInputField
+          width={300}
+          debounced={false}
+          label="Value As Number"
+          size="large"
+          registerName="search-input-register-name-4"
         />
       </FormFieldsWrapper>
     </div>

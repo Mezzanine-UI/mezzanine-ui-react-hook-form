@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 import { isBrowser } from '../utils/type-checker';
 
 interface UseClearDebouncedSearch {
@@ -12,7 +12,7 @@ export function useClearDebouncedSearch({
 }: UseClearDebouncedSearch) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const onClear = useCallback(() => {
+  const onClear = () => {
     if (!isBrowser()) return;
 
     if (!inputRef.current) {
@@ -23,9 +23,10 @@ export function useClearDebouncedSearch({
 
     if (!target) return;
 
+    target.setAttribute('value', '');
     target.value = '';
-    setValue(registerName, undefined);
-  }, []);
+    setValue(registerName, '');
+  };
 
   return onClear;
 }

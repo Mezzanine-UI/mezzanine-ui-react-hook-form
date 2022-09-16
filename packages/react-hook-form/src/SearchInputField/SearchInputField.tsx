@@ -4,12 +4,11 @@ import { Icon } from '@mezzanine-ui/react';
 import {
   memo,
   useEffect,
-  useMemo,
 } from 'react';
 import { FieldValues, useFormContext } from 'react-hook-form';
-import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import type { InputFieldProps } from '../InputField/InputField';
 import Input from '../Mezzanine/Input';
+import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { useClearDebouncedSearch } from './use-clear-debounced-search';
 import { useDebouncedValue } from './use-debounced-value';
 
@@ -19,16 +18,12 @@ export type SearchInputFieldProps = HookFormFieldProps<FieldValues, InputFieldPr
 }>;
 
 const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
-  autoComplete,
-  autoFocus,
   className,
   clearable = true,
   debounced = true,
-  debounceMs,
+  debounceMs: debounceMsProp,
   defaultValue,
   disabled,
-  maxLength,
-  minLength,
   placeholder = '請輸入關鍵字進行搜尋...',
   prefix,
   register,
@@ -37,43 +32,31 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   size = 'medium',
   style,
   suffix,
+  min,
+  max,
+  pattern,
   ...props
 }) => {
-  const {
-    register: contextRegister,
-    setValue,
-  } = useFormContext();
+  const { setValue } = useFormContext();
 
-  const registration = useMemo(() => (register || contextRegister)(
-    registerName,
-    {
-      disabled,
-      maxLength,
-      minLength,
-      required,
-    },
-  ), [
-    contextRegister,
-    disabled,
-    maxLength,
-    minLength,
-    register,
-    registerName,
-    required,
-  ]);
-
+  const debounceMs = debounced ? debounceMsProp : 0;
   const watchedDebouncedValue = useDebouncedValue({ inputId: registerName, debounceMs });
-  const onClear = useClearDebouncedSearch({ registerName, setValue });
+
+  const onClear = useClearDebouncedSearch({
+    registerName,
+    setValue,
+  });
 
   useEffect(() => {
-    if (debounced && typeof watchedDebouncedValue === 'string') {
+    if (typeof watchedDebouncedValue === 'string') {
       setValue(registerName, watchedDebouncedValue);
+
+      if (watchedDebouncedValue === '') onClear();
     }
   }, [registerName, watchedDebouncedValue]);
 
   return (
     <Input
-      {...props}
       fullWidth
       clearable={clearable}
       style={style}
@@ -87,13 +70,11 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
       suffix={suffix}
       onClear={onClear}
       inputProps={{
+        ...props,
         id: registerName,
-        autoComplete,
-        autoFocus,
-        maxLength,
-        minLength,
         type: 'search',
-        ...(debounced ? undefined : registration),
+        max: max?.toString(),
+        min: min?.toString(),
       }}
     />
   );
