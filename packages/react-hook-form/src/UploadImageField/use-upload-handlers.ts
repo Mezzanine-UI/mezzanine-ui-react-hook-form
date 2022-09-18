@@ -3,7 +3,7 @@ import { Message } from '@mezzanine-ui/react';
 import { useCallback } from 'react';
 import { FieldValues, Path, UseFormSetValue } from 'react-hook-form';
 import { byteToMegaByte, megaByteToByte } from '../utils/file';
-import { UploadResponse, UploadStatus } from './../typings/file';
+import { UploadStatus } from './../typings/file';
 
 function readFile(file: File) {
   return new Promise<string | ArrayBuffer | null>((resolve) => {
@@ -14,33 +14,35 @@ function readFile(file: File) {
   });
 }
 
-export interface UseUploadHandlersProps<Response extends UploadResponse> {
+export interface UseUploadHandlersProps {
   url: string,
   bearerToken?: string;
   fileExtensions: string[];
   registerName: Path<any>;
   sizeLimit?: number;
+  formDataName?: string;
   setCropperOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setImageSrc: React.Dispatch<React.SetStateAction<string>>;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   setStatus: React.Dispatch<React.SetStateAction<UploadStatus>>;
   setValue: UseFormSetValue<FieldValues>;
-  resolve: (res: Response) => any,
+  resolve(res: any): any,
 }
 
-export const useUploadHandlers = <Response extends UploadResponse>({
+export const useUploadHandlers = ({
   url,
   bearerToken,
   fileExtensions,
   registerName,
   sizeLimit,
+  formDataName = 'file',
   resolve,
   setCropperOpen,
   setImageSrc,
   setProgress,
   setStatus,
   setValue,
-}: UseUploadHandlersProps<Response>) => {
+}: UseUploadHandlersProps) => {
   const handleFileGuard = useCallback((file: File): boolean => {
     const checkFileSize = () => {
       Message.info?.(`上傳檔案大小：${byteToMegaByte(file.size).toFixed(1)} Mb`);
@@ -92,7 +94,7 @@ export const useUploadHandlers = <Response extends UploadResponse>({
   const handleCroppedFileUpload = useCallback(
     async (croppedFile: string | Blob) => {
       try {
-        const Authorization = bearerToken
+        const Authorization = bearerToken?.replace(/^Bearer\s/, '')
           ? `Bearer ${bearerToken}`
           : '';
 
@@ -106,9 +108,9 @@ export const useUploadHandlers = <Response extends UploadResponse>({
 
         Message.info?.(`檔案大小: ${byteToMegaByte(uploadFileSize).toFixed(1)} Mb`);
 
-        formData.append('file', croppedFile);
+        formData.append(formDataName, croppedFile);
 
-        const { data } = await axios.post<Response>(
+        const { data } = await axios.post(
           url,
           formData,
           {
@@ -126,16 +128,12 @@ export const useUploadHandlers = <Response extends UploadResponse>({
           },
         );
 
-        if (data?.id) {
-          setValue(registerName, resolve(data));
-          setStatus('success');
+        setValue(registerName, resolve(data));
+        setStatus('success');
+        Message.success?.('上傳成功');
+        handleResetStatus();
 
-          Message.success?.('上傳成功');
-
-          handleResetStatus();
-
-          return true;
-        }
+        return true;
       } catch (e: any) {
         setValue(registerName, null);
         setStatus('error');

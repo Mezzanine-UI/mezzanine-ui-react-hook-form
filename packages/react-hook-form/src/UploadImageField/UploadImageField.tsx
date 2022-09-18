@@ -7,10 +7,11 @@ import {
   IconProps,
   Typography,
 } from '@mezzanine-ui/react';
+import { uploadImageFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { CssVarInterpolations } from '@mezzanine-ui/system/css';
 import { concat, isString, uniq } from 'lodash';
 import {
-  ChangeEventHandler, DragEventHandler,
+  ChangeEventHandler, CSSProperties, DragEventHandler,
   MouseEventHandler, useCallback, useMemo,
   useRef,
   useState,
@@ -21,13 +22,12 @@ import {
   useFormState,
   useWatch,
 } from 'react-hook-form';
-import { uploadImageFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { BaseField } from '../BaseField';
-import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { CropperModal } from '../Mezzanine/CropperModal/CropperModal';
+import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { UploadStatus } from '../typings/file';
-import { useUploadHandlers } from './use-upload-handlers';
 import { fileListToArray } from '../utils';
+import { useUploadHandlers, UseUploadHandlersProps } from './use-upload-handlers';
 
 const BASE_ACCEPT_FILE_EXTENSION = ['.jpg', '.jpeg', '.png'];
 
@@ -41,16 +41,19 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
   typeHint?: boolean;
   small?: boolean;
   size?: number;
+  formDataName?: string;
   width?: number;
   icon?: IconProps;
   text?: string;
   height?: number;
   previewClassName?: string;
-  resolve: (response: any) => any;
+  resolve: UseUploadHandlersProps['resolve'];
   annotation?: {
-    formats: string[],
-    recommendedDimension: [number, number],
-    maximumMb: number,
+    formats?: string[],
+    recommendedDimension?: [number, number],
+    recommendedText?: string;
+    maximumMb?: number,
+    others?: string[],
   },
 }>;
 
@@ -63,7 +66,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   className,
   control,
   disabled,
-  height = 200,
+  height,
   bearerToken,
   label,
   register,
@@ -74,9 +77,11 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   sizeLimitMb,
   small,
   style,
-  width = 200,
+  width,
   annotation,
+  fullWidth,
   icon,
+  formDataName,
   errorMsgRender,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -117,8 +122,9 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   const cssVars: CssVarInterpolations = {
     '--backgroundImage': `url("${preview}")`,
     '--progress': `${progress}%`,
-    '--width': `${width}px`,
-    '--height': `${height}px`,
+    '--width': `${width ? `${width}px` : '100%'}`,
+    '--height': `${height ? `${height}px` : '100%'}`,
+    '--aspect': `${aspect || 'unset'}`,
   };
 
   const handlePreview = (img: string) => setPreview(img);
@@ -141,6 +147,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     fileExtensions: acceptExtensions,
     registerName,
     sizeLimit: sizeLimitMb,
+    formDataName,
     setCropperOpen,
     setImageSrc,
     setProgress,
@@ -228,29 +235,39 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     }
   }, [handleFileToCrop, errors, registerName]);
 
-  const annotationInfo = useMemo(() => {
+  const annotationInfos = useMemo(() => {
     if (!annotation) return null;
 
-    const [w, h] = annotation.recommendedDimension;
-    const lessOne = Math.min(w, h);
-    const wR = Math.round(w / lessOne);
-    const hR = Math.round(h / lessOne);
-    const recommendedText = `建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR})`;
     const maximumMbText = `檔案最大限制：${annotation.maximumMb}MB`;
+    const format = annotation.formats ? `影像格式：${annotation.formats.join(', ')}` : null;
+    const maximumMb = annotation.maximumMb ? maximumMbText : null;
+    const recommendedText = annotation?.recommendedText || (() => {
+      if (!annotation?.recommendedDimension) return null;
+      const [w, h] = annotation.recommendedDimension;
+      const lessOne = Math.min(w, h);
+      const wR = Math.round(w / lessOne);
+      const hR = Math.round(h / lessOne);
+      return `建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR})`;
+    })();
 
-    return {
-      format: `影像格式：${annotation.formats.join(', ')}`,
-      recommendedSize: recommendedText,
-      maximumMb: maximumMbText,
-    };
+    return [
+      format,
+      recommendedText,
+      maximumMb,
+      ...(annotation?.others || []),
+    ].filter((t) => typeof t === 'string');
   }, [annotation]);
 
   return (
     <BaseField
       disabledErrMsg
+      fullWidth={width ? undefined : fullWidth}
       className={className}
       disabled={disabled}
-      style={style}
+      style={{
+        aspectRatio: (!width || !height) && aspect ? `${aspect}` : undefined,
+        ...style,
+      } as CSSProperties}
       label={label}
       errors={errors}
       name={registerName}
@@ -364,17 +381,18 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
           });
         }}
       />
-      {!!annotationInfo && (
+      {!!annotationInfos?.length && (
         <div role="contentinfo" className={uploadImageFieldClasses.annotations}>
-          <Typography color="text-secondary" variant="caption">
-            {annotationInfo.format}
-          </Typography>
-          <Typography color="text-secondary" variant="caption">
-            {annotationInfo.recommendedSize}
-          </Typography>
-          <Typography color="text-secondary" variant="caption">
-            {annotationInfo.maximumMb}
-          </Typography>
+          {annotationInfos.map((info, index) => (
+            <Typography
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${index}`}
+              color="text-secondary"
+              variant="caption"
+            >
+              {info}
+            </Typography>
+          ))}
         </div>
       )}
     </BaseField>

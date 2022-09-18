@@ -25,6 +25,7 @@ export interface FieldProps<Type extends  FieldValues> extends Omit<RegisterOpti
   style?: CSSProperties;
   className?: string;
   type?: HTMLInputTypeAttribute;
+  fullWidth?: boolean;
   errorMsgRender?: ErrorMessageFn;
 }
 

@@ -7,6 +7,3 @@ export type Area = {
 
 export type UploadStatus = 'ready' | 'uploading' | 'success' | 'error';
 
-export type UploadResponse = {
-  id: string;
-};
