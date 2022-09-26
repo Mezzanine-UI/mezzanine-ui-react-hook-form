@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.8.0...@mezzanine-ui/react-hook-form@0.9.0) (2022-09-26)
+
+### Bug Fixes
+
+- **react-hook-form:** fix `UploadImageField` issues and resolved [#11](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/11) ([333ea39](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/333ea39feca2198dfb490032bd0653d156d24eae))
+- **react-hook-form:** fixed `BaseField` issues and resolved [#10](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/10) ([20edaeb](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/20edaeb4bd6cfd20f359283703d29581a62d5ea9))
+
+### Features
+
+- **react-hook-form:** resolved [#1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/1) ([e0cf999](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/e0cf9999bf4fd48d48b1649cb301e8fcefa6445b))
+
 # [0.8.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.7.0...@mezzanine-ui/react-hook-form@0.8.0) (2022-09-18)
 
 ### Bug Fixes
