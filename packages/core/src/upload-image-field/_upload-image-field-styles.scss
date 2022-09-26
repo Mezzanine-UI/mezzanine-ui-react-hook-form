@@ -14,8 +14,8 @@
   flex-direction: column;
   width: $image-width;
   height: $image-height;
-  min-width: 128px;
-  min-height: 128px;
+  min-width: 32px;
+  min-height: 32px;
   justify-content: center;
   position: relative;
   transition: mzn-transition.standard(background-color);
