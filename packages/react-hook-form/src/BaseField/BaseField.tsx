@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { ErrorMessage } from '@hookform/error-message';
 import { baseFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import {
@@ -10,7 +11,7 @@ import {
   CSSProperties, FC, memo,
   ReactNode,
 } from 'react';
-import { DeepRequired, FieldErrorsImpl } from 'react-hook-form';
+import { DeepRequired, FieldErrorsImpl, useFormContext } from 'react-hook-form';
 import { ErrorMessageFn } from '../typings/error-message';
 
 export interface BaseFieldProps {
@@ -19,7 +20,7 @@ export interface BaseFieldProps {
   className?: string;
   disabled?: boolean;
   disabledErrMsg?: boolean;
-  errors: FieldErrorsImpl<DeepRequired<any>>;
+  errors?: FieldErrorsImpl<DeepRequired<any>>;
   fieldClassName?: string;
   label?: ReactNode;
   labelClassName?: string;
@@ -28,6 +29,7 @@ export interface BaseFieldProps {
   remarkIcon?: ReactNode;
   required?: boolean;
   style?: CSSProperties;
+  baseFieldStyle?: CSSProperties;
   width?: number;
   errorMsgRender?: ErrorMessageFn;
 }
@@ -38,7 +40,7 @@ const BaseField: FC<BaseFieldProps> = ({
   disabled,
   fullWidth = false,
   disabledErrMsg = false,
-  errors,
+  errors: errorsProp,
   fieldClassName,
   label,
   labelClassName,
@@ -47,13 +49,19 @@ const BaseField: FC<BaseFieldProps> = ({
   remarkIcon,
   required,
   style,
+  baseFieldStyle,
   width,
   errorMsgRender,
 }) => {
+  const { formState } = useFormContext();
+  const errors = errorsProp || formState.errors;
   const styleVar = {
-    // eslint-disable-next-line no-nested-ternary
     '--width': width ? `${width}px` : (fullWidth ? '100%' : undefined),
     ...style,
+  } as CSSProperties;
+  const baseFieldStyleVar = {
+    '--width': width ? `${width}px` : (fullWidth ? '100%' : undefined),
+    ...baseFieldStyle,
   } as CSSProperties;
 
   return (
@@ -62,7 +70,7 @@ const BaseField: FC<BaseFieldProps> = ({
         baseFieldClasses.host,
         className,
       )}
-      style={styleVar}
+      style={baseFieldStyleVar}
       disabled={disabled}
       required={required}
       severity={errors?.[name] ? 'error' : undefined}
