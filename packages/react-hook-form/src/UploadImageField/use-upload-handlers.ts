@@ -26,7 +26,7 @@ export interface UseUploadHandlersProps {
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   setStatus: React.Dispatch<React.SetStateAction<UploadStatus>>;
   setValue: UseFormSetValue<FieldValues>;
-  resolve(res: any): any,
+  resolve(res: any, originalFile?: File): any,
 }
 
 export const useUploadHandlers = ({
@@ -91,8 +91,8 @@ export const useUploadHandlers = ({
     [handleFileGuard, handleResetStatus, setCropperOpen, setImageSrc, setStatus],
   );
 
-  const handleCroppedFileUpload = useCallback(
-    async (croppedFile: string | Blob) => {
+  const handleFileUpload = useCallback(
+    async (blob: string | Blob) => {
       try {
         const Authorization = bearerToken?.replace(/^Bearer\s/, '')
           ? `Bearer ${bearerToken}`
@@ -100,15 +100,15 @@ export const useUploadHandlers = ({
 
         const formData = new FormData();
 
-        const uploadFileSize = (new File(
-          [croppedFile],
+        const uploadFile = (new File(
+          [blob],
           '',
           { type: 'image/jpeg' },
-        )).size;
+        ));
 
-        Message.info?.(`檔案大小: ${byteToMegaByte(uploadFileSize).toFixed(1)} Mb`);
+        Message.info?.(`檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`);
 
-        formData.append(formDataName, croppedFile);
+        formData.append(formDataName, blob);
 
         const { data } = await axios.post(
           url,
@@ -128,7 +128,7 @@ export const useUploadHandlers = ({
           },
         );
 
-        setValue(registerName, resolve(data));
+        setValue(registerName, resolve(data, uploadFile));
         setStatus('success');
         Message.success?.('上傳成功');
         handleResetStatus();
@@ -147,6 +147,6 @@ export const useUploadHandlers = ({
 
   return {
     handleFileToCrop,
-    handleCroppedFileUpload,
+    handleFileUpload,
   };
 };

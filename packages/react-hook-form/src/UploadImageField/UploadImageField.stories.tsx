@@ -33,8 +33,6 @@ export const Basic = () => {
           registerName="upload-image-register-name-1"
           aspect={1} // To limit the cropped aspect ratio.
         />
-        <br />
-        <br />
         <p>
           fullWidth
           <br />
@@ -50,8 +48,6 @@ export const Basic = () => {
           registerName="upload-image-register-name"
           aspect={16 / 9} // To limit the cropped aspect ratio.
         />
-        <br />
-        <br />
         <p>
           width = 200 (higher priority)
           <br />
@@ -70,8 +66,6 @@ export const Basic = () => {
           registerName="upload-image-register-name"
           aspect={16 / 9} // To limit the cropped aspect ratio.
         />
-        <br />
-        <br />
         <p>
           fullWidth
           <br />
@@ -86,6 +80,33 @@ export const Basic = () => {
           label="Label Name"
           registerName="upload-image-register-name"
           aspect={4 / 3} // To limit the cropped aspect ratio.
+          annotation={{
+            formats: ['jpeg', 'webp'],
+            maximumMb: 10,
+            recommendedText: '建議尺寸：寬度至少 1600px，高度不限',
+          }}
+        />
+        <p>
+          crop = false
+          <br />
+          previewBgSize = cover
+          <br />
+          width = 400
+          <br />
+          aspect = 3/4
+        </p>
+        <UploadImageField
+          fullWidth
+          width={400}
+          bearerToken="your bearer token"
+          crop={false}
+          previewBgSize="cover"
+          formDataName="file"
+          url="http://localhost:3003/file/image/upload"
+          resolve={(res: MockUploadResponse) => res.id + res.whatever} // Will update form filed value
+          label="Label Name"
+          registerName="upload-image-register-name-2"
+          aspect={3 / 4} // To limit the cropped aspect ratio.
           annotation={{
             formats: ['jpeg', 'webp'],
             maximumMb: 10,

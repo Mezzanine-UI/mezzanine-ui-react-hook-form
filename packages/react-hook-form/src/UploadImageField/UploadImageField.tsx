@@ -11,7 +11,7 @@ import { uploadImageFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { CssVarInterpolations } from '@mezzanine-ui/system/css';
 import { concat, isString, uniq } from 'lodash';
 import {
-  ChangeEventHandler, CSSProperties, DragEventHandler,
+  ChangeEventHandler, DragEventHandler,
   MouseEventHandler, useCallback, useMemo,
   useRef,
   useState,
@@ -26,7 +26,7 @@ import { BaseField } from '../BaseField';
 import { CropperModal } from '../Mezzanine/CropperModal/CropperModal';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { UploadStatus } from '../typings/file';
-import { fileListToArray } from '../utils';
+import { blobToUrl, fileListToArray } from '../utils';
 import { useUploadHandlers, UseUploadHandlersProps } from './use-upload-handlers';
 
 const BASE_ACCEPT_FILE_EXTENSION = ['.jpg', '.jpeg', '.png'];
@@ -47,7 +47,9 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
   text?: string;
   height?: number;
   previewClassName?: string;
+  crop?: boolean;
   resolve: UseUploadHandlersProps['resolve'];
+  previewBgSize?: 'auto' | 'contain' | 'cover' | 'initial';
   annotation?: {
     formats?: string[],
     recommendedDimension?: [number, number],
@@ -65,6 +67,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   previewClassName,
   className,
   control,
+  crop = true,
   disabled,
   height,
   bearerToken,
@@ -82,6 +85,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   fullWidth,
   icon,
   formDataName,
+  previewBgSize = 'contain',
   errorMsgRender,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -140,7 +144,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
 
   const {
     handleFileToCrop,
-    handleCroppedFileUpload,
+    handleFileUpload,
   } = useUploadHandlers({
     url,
     bearerToken,
@@ -231,9 +235,22 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     if (target.files?.length) {
       const [file] = fileListToArray(target.files);
 
-      if (file) handleFileToCrop(file);
+      if (!file) return;
+
+      if (crop) {
+        handleFileToCrop(file);
+      } else {
+        const blob = new Blob([file], { type: file.type || 'image/jpeg' });
+
+        handleFileUpload(blob)
+          .then((success) => {
+            if (success) {
+              handlePreview(blobToUrl(blob));
+            }
+          });
+      }
     }
-  }, [handleFileToCrop, errors, registerName]);
+  }, [handleFileToCrop, errors, registerName, crop]);
 
   const annotationInfos = useMemo(() => {
     if (!annotation) return null;
@@ -258,6 +275,8 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     ].filter((t) => typeof t === 'string');
   }, [annotation]);
 
+  const aspectRatio = (!width || !height) && aspect ? `${aspect}` : undefined;
+
   return (
     <BaseField
       disabledErrMsg
@@ -265,9 +284,12 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       className={className}
       disabled={disabled}
       style={{
-        aspectRatio: (!width || !height) && aspect ? `${aspect}` : undefined,
+        aspectRatio,
+        display: 'flex',
+        flexDirection: 'column',
         ...style,
-      } as CSSProperties}
+      }}
+      baseFieldStyle={{ aspectRatio }}
       label={label}
       errors={errors}
       name={registerName}
@@ -315,6 +337,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
         <Fade in={!!preview}>
           <div
             className={uploadImageFieldClasses.preview}
+            style={{ backgroundSize: previewBgSize, color: 'red' }}
           />
         </Fade>
 
@@ -369,12 +392,12 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       />
       <CropperModal
         aspect={aspect}
-        open={cropperOpen}
+        open={crop && cropperOpen}
         image={imageSrc}
         sizeLimitMb={sizeLimitMb}
         onClose={() => setCropperOpen(false)}
         onComplete={(croppedImg, croppedFile) => {
-          handleCroppedFileUpload(croppedFile).then((success) => {
+          handleFileUpload(croppedFile).then((success) => {
             if (success) {
               handlePreview(croppedImg);
             }
