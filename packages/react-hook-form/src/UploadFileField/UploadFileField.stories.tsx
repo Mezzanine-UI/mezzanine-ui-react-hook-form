@@ -33,7 +33,7 @@ export const Basic = () => {
           url="http://localhost:3003/file/image/upload"
           remark="建議尺寸：1920 x 1080以上（圖像比例為 8:5）"
           formDataName="file"
-          size="large"
+          size="small"
           uploadButton={{
             multiple: true,
             variant: 'outlined',

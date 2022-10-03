@@ -10,7 +10,7 @@ import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { UseUploadHandlersProps } from '../UploadImageField';
 import UploadResult from './_UploadResult';
 
-export type UploadFileFieldProps = HookFormFieldProps<FieldValues, Omit<UploadResultProps, 'status'>, {
+export type UploadFileFieldProps = HookFormFieldProps<FieldValues, Omit<UploadResultProps, 'status' | 'name'>, {
   url: string;
   bearerToken?: string;
   small?: boolean;
@@ -38,6 +38,7 @@ const UploadFileField: HookFormFieldComponent<UploadFileFieldProps> = ({
   uploadButton,
   uploadButtonLabel = '上傳',
   remark,
+  size,
   hideUploadButtonAsUploaded = false,
   label,
   errorMsgRender,
@@ -82,6 +83,7 @@ const UploadFileField: HookFormFieldComponent<UploadFileFieldProps> = ({
         !!file && (
           <UploadResult
             {...props}
+            size={size}
             key={file.name}
             resolve={resolve}
             url={url}
@@ -98,18 +100,16 @@ const UploadFileField: HookFormFieldComponent<UploadFileFieldProps> = ({
           />
         )
       ))}
-      {!isNil(remark) && isEmpty && (
-        <>
-          <br />
-          {isString(remark) ? (
-            <Typography
-              color="text-secondary"
-              variant="caption"
-            >
-              {remark}
-            </Typography>
-          ) : remark}
-        </>
+      {!isNil(remark) && (
+        isString(remark) ? (
+          <Typography
+            color="text-secondary"
+            variant="caption"
+            style={{ display: 'block', marginTop: '8px' }}
+          >
+            {remark}
+          </Typography>
+        ) : remark
       )}
     </BaseField>
   );
