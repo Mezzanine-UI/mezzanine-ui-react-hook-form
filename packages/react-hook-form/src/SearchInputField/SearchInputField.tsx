@@ -38,7 +38,6 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   ...props
 }) => {
   const { setValue } = useFormContext();
-
   const debounceMs = debounced ? debounceMsProp : 0;
   const watchedDebouncedValue = useDebouncedValue({ inputId: registerName, debounceMs });
 
@@ -51,7 +50,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
     if (typeof watchedDebouncedValue === 'string') {
       setValue(registerName, watchedDebouncedValue);
 
-      if (watchedDebouncedValue === '') onClear();
+      if (!watchedDebouncedValue) onClear();
     }
   }, [registerName, watchedDebouncedValue]);
 
