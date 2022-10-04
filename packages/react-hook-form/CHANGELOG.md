@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.5](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.9.4...@mezzanine-ui/react-hook-form@0.9.5) (2022-10-04)
+
+### Bug Fixes
+
+- **react-hook-form:** resolved [#15](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/15) ([7c6c1ca](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/7c6c1cae0d3a489414fb0dd03fb725fedd790567))
+- **react-hook-form:** resolved [#17](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/17) ([5923c05](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/5923c05d5aac173dfea95f8964ecd29222765fa0))
+- **react-hook-form:** resolved [#18](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/18) ([abe3786](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/abe3786eaf13b1bc7b15f0864577d3497fb327ac))
+
 ## [0.9.4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.9.3...@mezzanine-ui/react-hook-form@0.9.4) (2022-10-03)
 
 ### Bug Fixes
