@@ -74,6 +74,7 @@ const UploadFileField: HookFormFieldComponent<UploadFileFieldProps> = ({
       {(!hideUploadButtonAsUploaded || isEmpty) && (
         <UploadButton
           {...uploadButton}
+          type="button"
           onUpload={onUpload}
         >
           {uploadButtonLabel}
