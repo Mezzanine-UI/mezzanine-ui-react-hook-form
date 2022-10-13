@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.9.5...@mezzanine-ui/react-hook-form@0.10.0) (2022-10-13)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `CheckBoxField` defaultChecked and label ([f8b6d6a](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/f8b6d6a1ac02679d2c1d463007e7ad0515279afb))
+
+### Features
+
+- **react-hook-form:** add `DefaultValueField` ([49718a3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/49718a379ac2966816f3c56925fee93f43d73b22))
+- **react-hook-form:** add display mode on `UploadFileField` ([20c9be2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/20c9be25fde1a8c70e8f75fe96d72c726c117a4d))
+
 ## [0.9.5](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.9.4...@mezzanine-ui/react-hook-form@0.9.5) (2022-10-04)
 
 ### Bug Fixes
