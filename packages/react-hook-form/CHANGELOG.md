@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.10.0...@mezzanine-ui/react-hook-form@0.10.1) (2022-10-13)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `useDebouncedValue` ([81223c2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/81223c2230faaaa8fd7b03f1383d9e1e9401694f))
+
 # [0.10.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.9.5...@mezzanine-ui/react-hook-form@0.10.0) (2022-10-13)
 
 ### Bug Fixes
