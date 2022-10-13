@@ -35,6 +35,18 @@ export const Basic = () => {
           registerName="checkbox-register-name-2"
           color="text-secondary"
         />
+        <br />
+        <br />
+
+        <div>
+          defaultChecked = true
+          label = undefined
+        </div>
+        <CheckboxField
+          defaultChecked
+          registerName="checkbox-register-name-3"
+          color="text-secondary"
+        />
       </FormFieldsWrapper>
     </div>
   );

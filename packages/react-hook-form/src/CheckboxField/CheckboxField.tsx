@@ -4,6 +4,8 @@ import {
   Typography,
   TypographyProps,
 } from '@mezzanine-ui/react';
+import { isString } from 'lodash';
+import { useEffect } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
@@ -53,6 +55,13 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
     );
   };
 
+  useEffect(() => {
+    if (props.defaultChecked) {
+      setValue(registerName, props.defaultChecked);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <BaseField
       className={className}
@@ -74,12 +83,14 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
         ref={register(registerName).ref}
         value="true"
       >
-        <Typography
-          color={color}
-          variant={variant}
-        >
-          {label}
-        </Typography>
+        {isString(label) && (
+          <Typography
+            color={color}
+            variant={variant}
+          >
+            {label}
+          </Typography>
+        )}
       </Checkbox>
     </BaseField>
   );
