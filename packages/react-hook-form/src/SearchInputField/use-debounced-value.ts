@@ -1,6 +1,6 @@
 import { ChangeEvent, RefObject, useEffect, useState } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { fromEvent, Subject } from 'rxjs';
+import { useWatch } from 'react-hook-form';
+import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { isBrowser } from '../utils/type-checker';
 
@@ -8,7 +8,6 @@ export interface UseDebouncedValue {
   debounceMs?: number;
   inputId?: string;
   inputRef?: RefObject<HTMLInputElement | null>;
-  stopSubject$?: Subject<void>;
 }
 
 export function useDebouncedValue({
@@ -16,8 +15,8 @@ export function useDebouncedValue({
   inputId,
   inputRef,
 }: UseDebouncedValue) {
-  const { setValue } = useFormContext();
   const value = useWatch({ name: inputId || '' });
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
   const [inputRefElement, setInputElement] = useState(() => (
     inputRef?.current ?? (isBrowser() ? window.document.getElementById(inputId ?? '') : null)
@@ -34,14 +33,18 @@ export function useDebouncedValue({
 
     const subscription = fromEvent<ChangeEvent<HTMLInputElement>>(inputRefElement, 'input')
       .pipe(debounceTime(debounceMs ?? 500))
-      .subscribe((e) => {
-        setValue(inputId ?? '', e.target.value);
-      });
+      .subscribe((e) => setDebouncedValue(e.target.value));
 
     return () => {
       subscription?.unsubscribe();
     };
-  }, [inputRefElement, setValue]);
+  }, [inputRefElement]);
 
-  return value;
+  useEffect(() => {
+    if (!value) {
+      setDebouncedValue(value);
+    }
+  }, [value]);
+
+  return debouncedValue;
 }
