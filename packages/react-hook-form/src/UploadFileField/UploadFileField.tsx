@@ -21,6 +21,7 @@ export type UploadFileFieldProps = HookFormFieldProps<FieldValues, Omit<UploadRe
   uploadButton?: UploadButtonProps;
   uploadButtonLabel?: string;
   hideUploadButtonAsUploaded?: boolean;
+  hideUploadResults?: boolean;
   resolve: UseUploadHandlersProps['resolve'];
 }>;
 
@@ -40,6 +41,7 @@ const UploadFileField: HookFormFieldComponent<UploadFileFieldProps> = ({
   remark,
   size,
   hideUploadButtonAsUploaded = false,
+  hideUploadResults = false,
   label,
   errorMsgRender,
   ...props
@@ -84,6 +86,7 @@ const UploadFileField: HookFormFieldComponent<UploadFileFieldProps> = ({
         !!file && (
           <UploadResult
             {...props}
+            hide={hideUploadResults}
             size={size}
             key={file.name}
             resolve={resolve}

@@ -44,6 +44,28 @@ export const Basic = () => {
             originFile,
           })} // Will update form filed value
         />
+        <br />
+        <UploadFileField
+          width={200}
+          hideUploadResults
+          name="123"
+          label="Label Name"
+          registerName="upload-image-register-name-2"
+          bearerToken="your bearer token"
+          url="http://localhost:3003/file/image/upload"
+          remark="建議尺寸：1920 x 1080以上（圖像比例為 8:5）"
+          formDataName="file"
+          size="small"
+          uploadButton={{
+            multiple: true,
+            variant: 'outlined',
+            size: 'large',
+          }}
+          resolve={(res: MockUploadResponse, originFile: File) => ({
+            response: res,
+            originFile,
+          })} // Will update form filed value
+        />
       </FormFieldsWrapper>
     </div>
   );

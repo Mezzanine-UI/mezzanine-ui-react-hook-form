@@ -15,6 +15,7 @@ export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | '
   url: string;
   bearerToken?: string;
   formDataName?: string;
+  hide?: boolean;
   resolve: UseUploadHandlersProps['resolve'];
 }
 
@@ -25,6 +26,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
   bearerToken,
   formDataName = 'file',
   resolve,
+  hide = false,
   onDelete: onDeleteProp,
   ...props
 }) => {
@@ -93,6 +95,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
       status={status}
       percentage={progress}
       onDelete={onDelete}
+      style={hide ? { display: 'none' } : undefined}
     />
   );
 };
