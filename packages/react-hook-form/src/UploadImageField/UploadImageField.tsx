@@ -35,6 +35,7 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
   url: string;
   bearerToken?: string;
   acceptFileExtensions?: string[];
+  border?: boolean;
   aspect?: number;
   dimensionLimit?: number[];
   sizeLimitMb?: number;
@@ -64,6 +65,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   text = '上傳影像',
   acceptFileExtensions = [],
   aspect,
+  border = true,
   previewClassName,
   className,
   control,
@@ -85,7 +87,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   fullWidth,
   icon,
   formDataName,
-  previewBgSize = 'contain',
+  previewBgSize = 'cover',
   errorMsgRender,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -124,9 +126,10 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   const [cropperOpen, setCropperOpen] = useState(false);
 
   const cssVars: CssVarInterpolations = {
+    border: !border ? '0' : undefined,
     '--backgroundImage': `url("${preview}")`,
     '--progress': `${progress}%`,
-    '--width': `${width ? `${width}px` : '100%'}`,
+    '--width': `${width ? `${width + (!border ? 4 : 0)}px` : '100%'}`,
     '--height': `${height ? `${height}px` : '100%'}`,
     '--aspect': `${aspect || 'unset'}`,
   };
