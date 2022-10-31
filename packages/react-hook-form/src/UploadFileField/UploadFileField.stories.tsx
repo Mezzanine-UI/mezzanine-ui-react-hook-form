@@ -156,6 +156,7 @@ export const Basic = () => {
             response: data,
             originFile,
           })}
+          fileRegisterName={(file, key) => `客製的Key:${file.name}:${key}`}
           resolve={(res: MockUploadResponse, originFile: File) => ({
             response: res,
             originFile,

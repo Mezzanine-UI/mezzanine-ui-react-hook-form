@@ -1,3 +1,5 @@
+/* eslint-disable no-unsafe-optional-chaining */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-redeclare */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
@@ -17,6 +19,8 @@ import { srcToFile } from '../utils';
 import UploadResult from './_UploadResult';
 
 export type UploadFileDefaultInput = { name: string, url: string };
+
+function isUploadFileDefaultInput(value: any): value is UploadFileDefaultInput { return typeof value?.name === 'string' && typeof value?.url === 'string'; }
 
 export type UploadFileDefault = UploadFileDefaultInput | string | File;
 
@@ -41,27 +45,13 @@ export type UploadFileOptions<T> = {
 
 export type UploadFileFieldProps<
   Default extends UploadFileDefault = UploadFileDefaultInput | string | File,
-  DefaultValue extends Default | undefined = Default | undefined> = HookFormFieldProps<FieldValues, Omit<UploadResultProps, 'status' | 'name' | 'defaultValue'>, {
-    url: string;
-    bearerToken?: string;
-    small?: boolean;
-    formDataName?: string;
-    gap?: number;
-    width?: number;
-    height?: number;
-    uploadButton?: UploadButtonProps;
-    uploadButtonLabel?: string;
-    hideUploadButtonAsUploaded?: boolean;
-    hideUploadResults?: boolean;
+  DefaultValue extends Default | undefined = Default | undefined> = HookFormFieldProps<FieldValues, Omit<UploadResultProps, 'status' | 'name' | 'defaultValue'>, UploadFileOptions<{
     /**
-   * `src` or `file`
-   */
+    * `src` or `file`
+    */
     defaultValue?: DefaultValue[];
     defaultResolve?: (data: DefaultValue, originFile: File) => any;
-    fileRegisterName?: (file: File, virtualDomKey?: number) => string;
-    resolve: UseUploadHandlersProps['resolve'];
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  } & DefaultValue extends undefined ? UploadFileOptions<{
+  }> & DefaultValue extends undefined ? UploadFileOptions<{
       defaultValue?: DefaultValue[];
       defaultResolve?: (data: DefaultValue, originFile: File) => any;
     }> : UploadFileOptions<{
@@ -104,19 +94,19 @@ export function UploadFileField({
   ...props
 }: UploadFileFieldProps<any, any>): JSX.Element {
   const { formState, setValue } = useFormContext();
-  const currentKey = useRef(0);
+  const currentKey = useRef(-1);
   const initialValue = useRef(defaultValue?.map((file) => {
+    currentKey.current += 1;
+
     const _v = (() => {
       if (file instanceof File) return { key: currentKey.current, file };
       if (typeof file === 'string') return { key: currentKey.current, file: srcToFile(file, file) };
 
       const fileAny: any = file;
 
-      if (fileAny) {
+      if (isUploadFileDefaultInput(file)) {
         return { key: currentKey.current, file: srcToFile(fileAny.url, fileAny.name) };
       }
-
-      currentKey.current += 1;
 
       return undefined;
     })();
@@ -144,7 +134,14 @@ export function UploadFileField({
   const isEmpty = files.length === 0;
 
   useEffect(() => {
-    const init = initialValue.current?.map((f) => f?.resolvedValue);
+    const init = initialValue.current?.reduce((total, f) => {
+      if (!f) return total;
+
+      const fileName = (fileRegisterName?.(f?.file.file, f.file.key) || f?.file.file.name).replaceAll('.', '-') || '';
+      total[fileName] = f?.resolvedValue;
+
+      return total;
+    }, {} as any);
 
     if (init) setValue(registerName, init);
   }, []);
@@ -187,7 +184,7 @@ export function UploadFileField({
             bearerToken={bearerToken}
             file={file.file}
             disabledUpload={initialValueMap.has(file.key)}
-            registerName={`${registerName}.${fileRegisterName?.(file.file, file.key) || file.file.name.replaceAll('.', '-')}`}
+            registerName={`${registerName}.${(fileRegisterName?.(file.file, file.key) || file.file.name).replaceAll('.', '-')}`}
             onDelete={() => onDelete(file.file)}
             style={{
               marginTop: index ? `${gap}px` : props.style?.marginTop,
