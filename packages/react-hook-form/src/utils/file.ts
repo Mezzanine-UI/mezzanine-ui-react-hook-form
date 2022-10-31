@@ -22,8 +22,8 @@ export function readFile(file: File) {
   });
 }
 
-export function blobToFile(blob: Blob, name: string): File {
-  return new File([blob], name);
+export function blobToFile(blob: Blob, name: string, options?: FilePropertyBag): File {
+  return new File([blob], name, options);
 }
 
 export function createImageBlob(url: string) {
@@ -33,8 +33,8 @@ export function createImageBlob(url: string) {
   );
 }
 
-export function srcToFile(src: string, name: string) {
-  return blobToFile(createImageBlob(src), name);
+export function srcToFile(src: string, name: string, options?: BlobPropertyBag) {
+  return blobToFile(new Blob([src], options || { type: 'image/jpeg' }), name, options);
 }
 
 export function createImage(url: string) {
