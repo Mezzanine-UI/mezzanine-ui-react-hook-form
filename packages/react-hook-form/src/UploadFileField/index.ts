@@ -1,2 +1,8 @@
-export { default as UploadFileField } from './UploadFileField';
-export type { UploadFileFieldProps } from './UploadFileField';
+export { UploadFileField } from './UploadFileField';
+export type {
+  UploadFileDefaultInput,
+  UploadFile,
+  UploadFileFieldProps,
+  UploadFileDefault,
+  UploadFileOptions,
+} from './UploadFileField';

@@ -16,25 +16,29 @@ export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | '
   bearerToken?: string;
   formDataName?: string;
   hide?: boolean;
+  disabledUpload?: boolean;
   resolve: UseUploadHandlersProps['resolve'];
 }
 
 const _UploadResult: FC<_UploadResultProps> = ({
   url,
   file,
-  registerName: registerNameProp,
+  registerName,
   bearerToken,
   formDataName = 'file',
   resolve,
   hide = false,
   onDelete: onDeleteProp,
+  disabledUpload = false,
+  style,
   ...props
 }) => {
   const { setValue } = useFormContext();
-  const registerName = `${registerNameProp}.${file.name.split('.')?.[0]}`;
   const value = useWatch({ name: registerName });
-  const [status, setStatus] = useState<UploadResultProps['status']>(typeof value === 'undefined' ? 'loading' : 'done');
   const [progress, setProgress] = useState(0);
+  const [status, setStatus] = useState<UploadResultProps['status']>(
+    typeof value === 'undefined' && !disabledUpload ? 'loading' : 'done',
+  );
 
   const doUpload = useCallback(
     async () => {
@@ -83,7 +87,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
   };
 
   useEffect(() => {
-    if (typeof value === 'undefined') {
+    if (typeof value === 'undefined' && !disabledUpload) {
       doUpload();
     }
   }, [value]);
@@ -95,7 +99,10 @@ const _UploadResult: FC<_UploadResultProps> = ({
       status={status}
       percentage={progress}
       onDelete={onDelete}
-      style={hide ? { display: 'none' } : undefined}
+      style={{
+        ...style,
+        ...(hide ? { display: 'none' } : undefined),
+      }}
     />
   );
 };
