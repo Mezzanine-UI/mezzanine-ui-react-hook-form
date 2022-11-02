@@ -15,6 +15,7 @@ export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | '
   url: string;
   bearerToken?: string;
   formDataName?: string;
+  formDataFileName?: string;
   hide?: boolean;
   disabledUpload?: boolean;
   resolve: UseUploadHandlersProps['resolve'];
@@ -26,6 +27,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
   registerName,
   bearerToken,
   formDataName = 'file',
+  formDataFileName = 'fileName',
   resolve,
   hide = false,
   onDelete: onDeleteProp,
@@ -50,6 +52,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
 
         const formData = new FormData();
 
+        formData.append(formDataFileName, name || file.name);
         formData.append(formDataName, new Blob([file], { type: file.type }));
 
         const { data } = await axios.post(

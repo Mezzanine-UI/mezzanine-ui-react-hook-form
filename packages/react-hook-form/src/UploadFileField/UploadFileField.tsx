@@ -29,6 +29,7 @@ export type UploadFileOptions<T> = {
   bearerToken?: string;
   small?: boolean;
   formDataName?: string;
+  formDataFileName?: string;
   gap?: number;
   width?: number;
   height?: number;
@@ -76,6 +77,7 @@ export function UploadFileField({
   bearerToken,
   width,
   formDataName = 'file',
+  formDataFileName = 'fileName',
   fullWidth,
   className,
   gap = 16,
@@ -179,6 +181,7 @@ export function UploadFileField({
             url={url}
             name={file.file.name}
             formDataName={formDataName}
+            formDataFileName={formDataFileName}
             bearerToken={bearerToken}
             file={file.file}
             disabledUpload={initialValueMap.has(file.key)}
