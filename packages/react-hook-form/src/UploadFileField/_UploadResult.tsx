@@ -31,6 +31,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
   onDelete: onDeleteProp,
   disabledUpload = false,
   style,
+  name,
   ...props
 }) => {
   const { setValue } = useFormContext();
@@ -95,7 +96,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
   return (
     <UploadResult
       {...props}
-      name={file.name}
+      name={name || file.name}
       status={status}
       percentage={progress}
       onDelete={onDelete}

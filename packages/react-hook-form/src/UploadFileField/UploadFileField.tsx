@@ -44,7 +44,7 @@ export type UploadFileOptions<T> = {
 } & T;
 
 export type UploadFileFieldProps<
-  Default extends UploadFileDefault = UploadFileDefaultInput | string | File,
+  Default extends UploadFileDefault = UploadFileDefault,
   DefaultValue extends Default | undefined = Default | undefined> = HookFormFieldProps<FieldValues, Omit<UploadResultProps, 'status' | 'name' | 'defaultValue'>, UploadFileOptions<{
     /**
     * `src` or `file`
@@ -102,10 +102,8 @@ export function UploadFileField({
       if (file instanceof File) return { key: currentKey.current, file };
       if (typeof file === 'string') return { key: currentKey.current, file: srcToFile(file, file) };
 
-      const fileAny: any = file;
-
       if (isUploadFileDefaultInput(file)) {
-        return { key: currentKey.current, file: srcToFile(fileAny.url, fileAny.name) };
+        return { key: currentKey.current, file: srcToFile(file.url, file.name) };
       }
 
       return undefined;
@@ -207,5 +205,3 @@ export function UploadFileField({
     </BaseField>
   );
 }
-
-// export default UploadFileField as HookFormFieldComponent<UploadFileFieldProps<UploadFileDefaultInput, any>>;
