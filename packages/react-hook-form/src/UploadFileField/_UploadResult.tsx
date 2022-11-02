@@ -53,7 +53,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
         const formData = new FormData();
 
         formData.append(formDataFileName, name || file.name);
-        formData.append(formDataName, new Blob([file], { type: file.type }));
+        formData.append(formDataName, new Blob([file], { type: file.type }), name || file.name);
 
         const { data } = await axios.post(
           url,

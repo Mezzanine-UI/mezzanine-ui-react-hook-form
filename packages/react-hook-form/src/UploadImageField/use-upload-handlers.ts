@@ -92,7 +92,7 @@ export const useUploadHandlers = ({
   );
 
   const handleFileUpload = useCallback(
-    async (blob: string | Blob) => {
+    async (blob: string | Blob, fileName?: string) => {
       try {
         const Authorization = bearerToken?.replace(/^Bearer\s/, '')
           ? `Bearer ${bearerToken}`
@@ -102,13 +102,13 @@ export const useUploadHandlers = ({
 
         const uploadFile = (new File(
           [blob],
-          '',
+          fileName || '',
           { type: 'image/jpeg' },
         ));
 
         Message.info?.(`檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`);
 
-        formData.append(formDataName, blob);
+        formData.append(formDataName, blob, fileName);
 
         const { data } = await axios.post(
           url,

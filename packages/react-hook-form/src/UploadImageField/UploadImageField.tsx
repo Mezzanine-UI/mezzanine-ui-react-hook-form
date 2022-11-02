@@ -117,6 +117,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     },
   ), [registerName, required, disabled]);
 
+  const fileName = useRef('');
   const [dragActive, setDragActive] = useState(false);
   const [hover, setHover] = useState(false);
   const [imageSrc, setImageSrc] = useState<string>(isString(watchValue) ? watchValue : watchValue?.name || '');
@@ -240,12 +241,14 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
 
       if (!file) return;
 
+      fileName.current = file.name;
+
       if (crop) {
         handleFileToCrop(file);
       } else {
         const blob = new Blob([file], { type: file.type || 'image/jpeg' });
 
-        handleFileUpload(blob)
+        handleFileUpload(blob, fileName.current)
           .then((success) => {
             if (success) {
               handlePreview(blobToUrl(blob));
@@ -400,7 +403,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
         sizeLimitMb={sizeLimitMb}
         onClose={() => setCropperOpen(false)}
         onComplete={(croppedImg, croppedFile) => {
-          handleFileUpload(croppedFile).then((success) => {
+          handleFileUpload(croppedFile, fileName.current).then((success) => {
             if (success) {
               handlePreview(croppedImg);
             }
