@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.12.0...@mezzanine-ui/react-hook-form@0.12.1) (2022-11-02)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `UploadFileField` filename ([bacccac](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/bacccacbb4c740e2a9b38d4518cfb3ec3cc0ca21))
+
 # [0.12.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.11.1...@mezzanine-ui/react-hook-form@0.12.0) (2022-11-02)
 
 ### Bug Fixes
