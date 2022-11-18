@@ -75,7 +75,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
 
   const onClear = () => {
     resetField(registerName);
-    setValue(registerName, undefined);
+    setValue(registerName, undefined, { shouldValidate: true });
   };
 
   const onChange = (newValue: SelectValue) => {
@@ -84,12 +84,13 @@ function SelectField(props: SelectFieldProps): ReactNode {
     setValue(
       registerName,
       newValue,
+      { shouldValidate: true },
     );
   };
 
   useEffect(() => {
     if (defaultValue) {
-      setValue(registerName, defaultValue);
+      setValue(registerName, defaultValue, { shouldValidate: true });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
