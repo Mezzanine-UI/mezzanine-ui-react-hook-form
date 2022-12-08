@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.13.2...@mezzanine-ui/react-hook-form@0.14.0) (2022-12-08)
+
+### Bug Fixes
+
+- **storybook:** correct `storybook` demo codes ([d721f61](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/d721f61718c6c94be8132e6bef4a15bcca6ab4eb))
+
+### Features
+
+- **react-hook-form:** add `defaultValue` hook logic ([622b5ba](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/622b5bad67acc91e74553e2fa94b9bc3fa27fe66))
+
 ## [0.13.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.13.1...@mezzanine-ui/react-hook-form@0.13.2) (2022-12-08)
 
 ### Bug Fixes
