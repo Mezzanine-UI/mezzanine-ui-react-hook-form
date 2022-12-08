@@ -9,6 +9,7 @@ import {
 } from 'react-hook-form';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type DateRangePickerFieldProps = HookFormFieldProps<FieldValues, DateRangePickerProps, {
   width?: number;
@@ -68,6 +69,8 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
     );
     onChangeProp?.(newDate);
   };
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

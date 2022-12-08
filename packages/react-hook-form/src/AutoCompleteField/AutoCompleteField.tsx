@@ -8,6 +8,7 @@ import { AutoCompleteSingleProps } from '@mezzanine-ui/react/Select/AutoComplete
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
 import { useAutoCompleteDebounce } from './use-auto-complete-debounce';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type AutoCompleteFieldProps = HookFormFieldProps<
 Omit<FieldValues, 'defaultValue' | 'onInput' | 'onChange'>,
@@ -53,6 +54,8 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
     skip: !debounceMs,
     onChange,
   }, 'single');
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import {
   cx, InputProps,
 } from '@mezzanine-ui/react';
+import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import {
-  useCallback, useEffect, useMemo, useRef,
+  useCallback, useMemo,
 } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
@@ -12,6 +12,7 @@ import {
 import BaseField from '../BaseField/BaseField';
 import Input from '../Mezzanine/Input';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { useDefaultValue } from '../utils/use-default-value';
 
 /** -------------------------------------------------------------------------------- */
 
@@ -55,12 +56,10 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   onChange: onChangeProp,
   ...prop
 }) => {
-  const defaultValueRef = useRef<string | undefined>();
   const {
     control: contextControl,
     register: contextRegister,
     resetField,
-    setValue,
   } = useFormContext();
 
   const watchValue = useWatch({
@@ -91,12 +90,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     resetField(registerName);
   }, []);
 
-  useEffect(() => {
-    if (typeof defaultValue !== 'undefined' && typeof defaultValueRef.current === 'undefined') {
-      setValue(registerName, defaultValue);
-      defaultValueRef.current = defaultValue;
-    }
-  }, [defaultValue]);
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

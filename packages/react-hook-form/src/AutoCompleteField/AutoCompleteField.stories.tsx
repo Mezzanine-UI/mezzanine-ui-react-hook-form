@@ -212,6 +212,24 @@ export const Multi = () => {
           })) || []}
         />
         <DispatchValue3After3s5s />
+        <br />
+        <br />
+        <p>Test defaultValue</p>
+        <AutoCompleteMultiField
+          debounceMs={1400}
+          autoClickAwayDebounceMs={1000}
+          label="Test defaultValue"
+          onInput={onInput}
+          registerName="multi-auto-complete-register-name-4"
+          size="large"
+          width={400}
+          defaultValue={data?.[0] ? [{ id: data?.[0] || '', name: data?.[0] || '' }] : undefined}
+          onChange={(next) => Message.success(JSON.stringify(next))}
+          options={data?.map((value) => ({
+            id: value,
+            name: value,
+          })) || []}
+        />
       </FormFieldsWrapper>
     </div>
   );

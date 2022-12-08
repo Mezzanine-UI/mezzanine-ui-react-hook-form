@@ -8,6 +8,7 @@ import {
 } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { useDefaultValue } from '../utils/use-default-value';
 
 type OmittedInputProps = Omit<InputProps, 'mode' | 'tagsProps' | 'defaultValue' | 'onChange'> & InputProps['tagsProps'];
 
@@ -65,7 +66,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
   const watchValue = useWatch({
     control: control || contextControl,
     name: registerName as string,
-  }) || defaultValue || [];
+  });
 
   const {
     errors,
@@ -89,6 +90,8 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
     );
     onTagsChangeProp?.(newTags);
   }, []);
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField
@@ -122,7 +125,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
         required={required}
         suffix={suffix}
         tagsProps={{
-          initialTagsValue: watchValue,
+          initialTagsValue: watchValue || defaultValue || [],
           maxTagsLength,
           inputPosition,
           onTagsChange,

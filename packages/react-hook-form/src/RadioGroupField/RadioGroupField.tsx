@@ -3,11 +3,12 @@ import {
   RadioGroup,
   RadioGroupProps,
 } from '@mezzanine-ui/react';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { radioGroupClasses } from '@mezzanine-ui/react-hook-form-core';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type RadioGroupFieldProps = HookFormFieldProps<FieldValues, RadioGroupProps>;
 
@@ -32,12 +33,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
     onChangeProp?.(e);
   };
 
-  useEffect(() => {
-    if (defaultValue) {
-      setValue(registerName, defaultValue);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

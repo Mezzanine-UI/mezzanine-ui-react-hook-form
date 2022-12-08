@@ -14,6 +14,7 @@ import {
 import { checkboxGroupClasses } from '@mezzanine-ui/react-hook-form-core';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type CheckboxGroupFieldProps = HookFormFieldProps<FieldValues, Omit<CheckboxGroupProps, 'defaultValue'>, {
   options: CheckboxGroupOption[];
@@ -46,7 +47,7 @@ const CheckboxGroupField: HookFormFieldComponent<CheckboxGroupFieldProps> = ({
     clearErrors,
   } = useFormContext();
 
-  const watchValue = useWatch({ name: registerName });
+  const watchValue = useWatch({ name: registerName, defaultValue });
 
   const {
     errors,
@@ -57,6 +58,8 @@ const CheckboxGroupField: HookFormFieldComponent<CheckboxGroupFieldProps> = ({
     setValue(registerName, newValues);
     onChangeProp?.(newValues, e);
   };
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

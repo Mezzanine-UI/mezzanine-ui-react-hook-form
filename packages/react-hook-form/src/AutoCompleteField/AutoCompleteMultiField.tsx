@@ -15,11 +15,18 @@ import { AutoCompleteMultipleProps } from '@mezzanine-ui/react/Select/AutoComple
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { useAutoCompleteDebounce } from './use-auto-complete-debounce';
 import BaseField from '../BaseField/BaseField';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type AutoCompleteMultiFieldProps = HookFormFieldProps<
-Omit<FieldValues, 'defaultValues'>,
+Omit<FieldValues, 'defaultValues' | 'defaultValue'>,
 Omit<AutoCompleteMultipleProps, 'mode' | 'onChange'>, {
+  /**
+   * @description use defaultValue
+   *
+   * @deprecated
+  */
   defaultValues?: SelectValue[];
+  defaultValue?: SelectValue[];
   debounce?: boolean;
   debounceMs?: number;
   autoClickAwayDebounceMs?: number;
@@ -35,6 +42,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
   debounce = true,
   debounceMs,
   defaultValues,
+  defaultValue,
   autoClickAwayDebounceMs,
   disabledAutoClickAway,
   disabled,
@@ -54,14 +62,14 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
   onChange,
   ...props
 }) => {
-  const [data, setData] = useState(defaultValues || []);
+  const [data, setData] = useState(defaultValue || defaultValues || []);
   const { control: contextControl } = useFormContext();
 
   const {
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const watchingValue = useWatch({ name: registerName });
+  const watchingValue = useWatch({ name: registerName, defaultValue: defaultValue || defaultValues });
 
   const onDebounceChange = useAutoCompleteDebounce({
     registerName,
@@ -75,6 +83,8 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
   useEffect(() => {
     setData(watchingValue || []);
   }, [watchingValue]);
+
+  useDefaultValue(registerName, defaultValue || defaultValues);
 
   return (
     <BaseField
@@ -102,7 +112,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
         fullWidth={width ? false : fullWidth}
         options={options}
         placeholder={placeholder}
-        defaultValue={defaultValues || watchingValue}
+        defaultValue={defaultValue || defaultValues || watchingValue}
         inputProps={{ onInput }}
         value={data}
         onChange={(newData) => {

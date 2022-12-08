@@ -11,6 +11,7 @@ import {
 } from 'react-hook-form';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type TextAreaFieldProps = HookFormFieldProps<FieldValues, TextareaProps, {
   width?: number;
@@ -48,6 +49,8 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
     name: registerName as string,
     defaultValue,
   });
+
+  useDefaultValue(registerName, defaultValue);
 
   const {
     errors,

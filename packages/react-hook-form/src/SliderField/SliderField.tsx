@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Slider, SliderProps } from '@mezzanine-ui/react';
-import { CSSProperties, useEffect, useMemo } from 'react';
+import { CSSProperties, useMemo } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type SliderFieldProps = HookFormFieldProps<
 FieldValues,
@@ -45,7 +46,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const watchValue = useWatch({ name: registerName }) || defaultValue || 100;
+  const watchValue = useWatch({ name: registerName, defaultValue }) || defaultValue || 100;
 
   const onChange = (v: number) => {
     setValue(registerName, v);
@@ -60,9 +61,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
     },
   ), [registerName, required, disabled]);
 
-  useEffect(() => {
-    setValue(registerName, defaultValue);
-  }, []);
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

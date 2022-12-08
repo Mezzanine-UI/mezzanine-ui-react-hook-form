@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import type { InputFieldProps } from '../InputField/InputField';
 import Input from '../Mezzanine/Input';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { useDefaultValue } from '../utils/use-default-value';
 import { useClearDebouncedSearch } from './use-clear-debounced-search';
 import { useDebouncedValue } from './use-debounced-value';
 
@@ -63,6 +64,8 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
       if (!watchedDebouncedValue) onClear();
     }
   }, [registerName, watchedDebouncedValue]);
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <Input

@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { RangeSliderValue, Slider, SliderProps } from '@mezzanine-ui/react';
-import { CSSProperties, useEffect, useMemo } from 'react';
+import { CSSProperties, useMemo } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type RangeSliderFieldProps = HookFormFieldProps<
 FieldValues,
@@ -60,9 +61,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
     },
   ), [registerName, required, disabled]);
 
-  useEffect(() => {
-    setValue(registerName, defaultValue);
-  }, []);
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

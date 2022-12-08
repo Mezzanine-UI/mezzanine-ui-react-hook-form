@@ -6,7 +6,7 @@ import {
 } from '@mezzanine-ui/react';
 import { selectFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { SelectMultipleProps, SelectProps, SelectSingleProps } from '@mezzanine-ui/react/Select/Select';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import {
   FieldValues,
   useFormContext,
@@ -15,6 +15,7 @@ import {
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { OptionItemGroupsType, OptionItemsType } from '../typings/option';
+import { useDefaultValue } from '../utils/use-default-value';
 
 type CustomSelectFieldProps = {
   optionGroups?: OptionItemGroupsType;
@@ -89,12 +90,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
     onChangeProp?.(newValue);
   };
 
-  useEffect(() => {
-    if (defaultValue) {
-      setValue(registerName, defaultValue, { shouldValidate: true });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useDefaultValue(registerName, defaultValue, { shouldValidate: true });
 
   return (
     <BaseField

@@ -5,14 +5,14 @@ import {
   TypographyProps,
 } from '@mezzanine-ui/react';
 import { isString } from 'lodash';
-import { useEffect } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type CheckboxFieldProps = HookFormFieldProps<
 FieldValues,
-CheckboxProps,
+Omit<CheckboxProps, 'defaultValue'>,
 Pick<TypographyProps, 'color' | 'variant'> & {
   fieldClassName?: string;
   width?: number;
@@ -35,6 +35,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
   width,
   errorMsgRender,
   onChange: onChangeProp,
+  defaultChecked,
   ...props
 }) => {
   const {
@@ -47,22 +48,21 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
   const checked = useWatch({
     name: registerName,
     control: control || contextControl,
+    defaultValue: defaultChecked,
   });
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const next = !checked;
     setValue(
       registerName,
-      !checked,
+      next,
     );
+    e.target.setAttribute('checked', `${next}`);
+    e.target.setAttribute('value', `${next}`);
     onChangeProp?.(e);
   };
 
-  useEffect(() => {
-    if (props.defaultChecked) {
-      setValue(registerName, props.defaultChecked);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useDefaultValue(registerName, defaultChecked);
 
   return (
     <BaseField
@@ -79,6 +79,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
     >
       <Checkbox
         {...props}
+        defaultChecked={defaultChecked}
         checked={checked}
         className={fieldClassName}
         onChange={onChange}

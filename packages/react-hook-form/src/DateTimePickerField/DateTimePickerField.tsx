@@ -5,6 +5,7 @@ import {
 } from 'react-hook-form';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type DateTimePickerFieldProps = HookFormFieldProps<FieldValues, DateTimePickerProps> & {
   width?: number;
@@ -52,7 +53,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const value = useWatch({ name: registerName }) || defaultValue;
+  const value = useWatch({ name: registerName, defaultValue }) || defaultValue;
 
   const registration = useMemo(() => (register || contextRegister)(
     registerName,
@@ -77,6 +78,8 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
     );
     onChangeProp?.(newDate);
   };
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

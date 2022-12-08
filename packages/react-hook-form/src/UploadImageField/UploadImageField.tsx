@@ -30,6 +30,7 @@ import { CropperModal } from '../Mezzanine/CropperModal/CropperModal';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { UploadStatus } from '../typings/file';
 import { blobToUrl, byteToMegaByte, fileListToArray } from '../utils';
+import { useDefaultValue } from '../utils/use-default-value';
 import { useUploadHandlers, UseUploadHandlersProps } from './use-upload-handlers';
 
 const BASE_ACCEPT_FILE_EXTENSION = ['.jpg', '.jpeg', '.png'];
@@ -331,6 +332,8 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       ...(annotation?.others || []),
     ].filter((t) => typeof t === 'string');
   }, [annotation]);
+
+  useDefaultValue(registerName, defaultValue);
 
   const aspectRatio = (!width || !height) && aspect ? `${aspect}` : undefined;
 

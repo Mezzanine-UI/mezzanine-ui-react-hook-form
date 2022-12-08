@@ -10,6 +10,7 @@ import {
 import { tabInputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { OptionItemsType } from '../typings/option';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type TabInputFieldProps = HookFormFieldProps<
 FieldValues,
@@ -51,6 +52,8 @@ const TabInputField: HookFormFieldComponent<TabInputFieldProps> = ({
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   ), [registerName, required, disabled]);
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <Tabs

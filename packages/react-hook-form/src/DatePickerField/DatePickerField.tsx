@@ -8,6 +8,7 @@ import {
 } from 'react-hook-form';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type DatePickerFieldProps = HookFormFieldProps<FieldValues, DatePickerProps, {
   width?: number;
@@ -30,6 +31,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
   remark,
   required,
   style,
+  defaultValue,
   size,
   width,
   errorMsgRender,
@@ -43,7 +45,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
     clearErrors,
   } = useFormContext();
 
-  const watchingValue = useWatch({ name: registerName });
+  const watchingValue = useWatch({ name: registerName, defaultValue });
 
   const {
     errors,
@@ -71,6 +73,8 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
     autoComplete: 'off',
     ...registration,
   };
+
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

@@ -1,8 +1,8 @@
 import { TreeSelect, TreeSelectOption, TreeSelectProps } from '@mezzanine-ui/react';
-import { useEffect } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { BaseField } from '../BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { useDefaultValue } from '../utils/use-default-value';
 
 export type TreeSelectFieldProps = HookFormFieldProps<FieldValues, TreeSelectProps, {
   width?: number;
@@ -47,12 +47,7 @@ const TreeSelectField: HookFormFieldComponent<TreeSelectFieldProps> = ({
     onChangeProp?.(newValue);
   };
 
-  useEffect(() => {
-    if (defaultValue) {
-      setValue(registerName, defaultValue);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField
