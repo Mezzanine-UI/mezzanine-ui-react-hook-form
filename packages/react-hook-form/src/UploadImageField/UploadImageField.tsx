@@ -15,7 +15,7 @@ import axios from 'axios';
 import { concat, isString, uniq } from 'lodash';
 import {
   ChangeEventHandler, DragEventHandler,
-  MouseEventHandler, useCallback, useMemo,
+  MouseEventHandler, useCallback, useEffect, useMemo,
   useRef,
   useState,
 } from 'react';
@@ -52,6 +52,7 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
   height?: number;
   previewClassName?: string;
   crop?: boolean;
+  defaultValue?: string;
   resolve: UseUploadHandlersProps['resolve'];
   upload?(blob: string | Blob, fileName?: string): Promise<any>;
   previewBgSize?: 'auto' | 'contain' | 'cover' | 'initial';
@@ -92,6 +93,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   icon,
   formDataName = 'file',
   previewBgSize = 'cover',
+  defaultValue,
   upload: uploadProp,
   errorMsgRender,
 }) => {
@@ -328,6 +330,11 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       ...(annotation?.others || []),
     ].filter((t) => typeof t === 'string');
   }, [annotation]);
+
+  // sync default value.
+  useEffect(() => {
+    if (defaultValue) setValue(registerName, defaultValue);
+  }, []);
 
   const aspectRatio = (!width || !height) && aspect ? `${aspect}` : undefined;
 
