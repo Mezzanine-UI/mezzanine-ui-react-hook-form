@@ -15,7 +15,7 @@ import axios from 'axios';
 import { concat, isString, uniq } from 'lodash';
 import {
   ChangeEventHandler, DragEventHandler,
-  MouseEventHandler, useCallback, useEffect, useMemo,
+  MouseEventHandler, useCallback, useMemo,
   useRef,
   useState,
 } from 'react';
@@ -110,6 +110,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   const watchValue: File | string = useWatch({
     control: contextControl,
     name: registerName as any,
+    defaultValue,
   });
 
   const {
@@ -330,11 +331,6 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       ...(annotation?.others || []),
     ].filter((t) => typeof t === 'string');
   }, [annotation]);
-
-  // sync default value.
-  useEffect(() => {
-    if (defaultValue) setValue(registerName, defaultValue);
-  }, []);
 
   const aspectRatio = (!width || !height) && aspect ? `${aspect}` : undefined;
 

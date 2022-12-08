@@ -1,6 +1,8 @@
 import { Message } from '@mezzanine-ui/react';
-import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import {
+  FC, useEffect, useMemo, useRef, useState,
+} from 'react';
+import { useForm, useFormContext } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
 import AutoCompleteField from './AutoCompleteField';
@@ -113,6 +115,32 @@ export const Multi = () => {
     },
   });
 
+  const DispatchValue3After3s5s: FC = useMemo(() => () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { setValue } = useFormContext();
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      if (data) {
+        const mock = data.map((option) => ({
+          id: option,
+          name: option,
+        }));
+        setTimeout(() => {
+          setValue('multi-auto-complete-register-name-3', mock);
+        }, 3000);
+        setTimeout(() => {
+          setValue('multi-auto-complete-register-name-3', undefined);
+        }, 5000);
+        setTimeout(() => {
+          setValue('multi-auto-complete-register-name-3', mock);
+        }, 7000);
+      }
+    }, [setValue]);
+
+    return null;
+  }, [data]);
+
   return (
     <div
       style={{ width: '100%', maxWidth: '680px' }}
@@ -165,6 +193,24 @@ export const Multi = () => {
             name: value,
           })) || []}
         />
+        <br />
+        <br />
+        <p>Will Dispatch after 3s and 5s</p>
+        <AutoCompleteMultiField
+          // debounceMs={1400}
+          // autoClickAwayDebounceMs={1000}
+          label="Test setValue"
+          onInput={onInput}
+          registerName="multi-auto-complete-register-name-3"
+          size="large"
+          width={400}
+          onChange={(next) => Message.success(JSON.stringify(next))}
+          options={data?.map((value) => ({
+            id: value,
+            name: value,
+          })) || []}
+        />
+        <DispatchValue3After3s5s />
       </FormFieldsWrapper>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { debounceTime, distinctUntilChanged, fromEvent, share, tap } from 'rxjs';
+import { debounceTime, fromEvent, map, tap } from 'rxjs';
 
 type UseAutoCompleteInputPrams = {
   debounceMs?: number;
@@ -13,13 +13,11 @@ export function useAutoCompleteInput(props?: UseAutoCompleteInputPrams) {
   useEffect(() => {
     if (!debounceMs || !inputEle) return () => {};
 
-    const input$ = fromEvent<ChangeEvent<HTMLInputElement>>(inputEle, 'input');
-    const subscription = input$
+    const subscription = fromEvent<ChangeEvent<HTMLInputElement>>(inputEle, 'input')
       .pipe(
-        share(),
         debounceTime(debounceMs ?? 500),
-        distinctUntilChanged(),
-        tap((e) => setInput(e.target.value)),
+        map((e) => e.target.value),
+        tap((value) => setInput(value)),
       ).subscribe();
 
     return () => {

@@ -3,7 +3,9 @@ import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import {
   cx, InputProps,
 } from '@mezzanine-ui/react';
-import { useCallback, useEffect, useMemo } from 'react';
+import {
+  useCallback, useEffect, useMemo, useRef,
+} from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
@@ -53,6 +55,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   onChange: onChangeProp,
   ...prop
 }) => {
+  const defaultValueRef = useRef<string | undefined>();
   const {
     control: contextControl,
     register: contextRegister,
@@ -64,7 +67,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     control: control || contextControl,
     name: registerName as string,
     defaultValue,
-  }) || '';
+  });
 
   const {
     errors,
@@ -82,17 +85,18 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       valueAsNumber: prop.valueAsNumber,
       onChange: onChangeProp,
     },
-  ), [registerName, required, disabled, maxLength, minLength, onChangeProp]);
+  ), [registerName, required, disabled, maxLength, minLength]);
 
   const onClear = useCallback(() => {
     resetField(registerName);
   }, []);
 
   useEffect(() => {
-    if (defaultValue) {
+    if (typeof defaultValue !== 'undefined' && typeof defaultValueRef.current === 'undefined') {
       setValue(registerName, defaultValue);
+      defaultValueRef.current = defaultValue;
     }
-  }, []);
+  }, [defaultValue]);
 
   return (
     <BaseField
@@ -123,7 +127,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
         placeholder={placeholder}
         prefix={prefix}
         disabled={disabled}
-        value={watchValue}
+        value={watchValue || ''}
         required={required}
         suffix={suffix}
         onClear={onClear}

@@ -1,5 +1,6 @@
 import { Message } from '@mezzanine-ui/react';
-import { useForm } from 'react-hook-form';
+import { FC, useEffect, useMemo } from 'react';
+import { useForm, useFormContext } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
 import InputField from './InputField';
@@ -10,6 +11,23 @@ export default {
 
 export const Basic = () => {
   const methods = useForm();
+
+  const DispatchValue5After3s5s: FC = useMemo(() => () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { setValue } = useFormContext();
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      setTimeout(() => {
+        setValue('dispatch-input-register-name-5', '123');
+      }, 3000);
+      setTimeout(() => {
+        setValue('dispatch-input-register-name-5', '456');
+      }, 5000);
+    }, [setValue]);
+
+    return null;
+  }, []);
 
   return (
     <div
@@ -51,6 +69,27 @@ export const Basic = () => {
           registerName="input-register-name-4"
           onChange={(e) => Message.success(e.target.value)}
         />
+        <br />
+        <br />
+        <p>Will Dispatch after 3s and 5s</p>
+        <InputField
+          width={300}
+          label="Test setValue"
+          size="large"
+          registerName="dispatch-input-register-name-5"
+        />
+        <DispatchValue5After3s5s />
+        <br />
+        <br />
+        <p>Test defaultValue</p>
+        <InputField
+          width={300}
+          label="Test defaultValue"
+          size="large"
+          registerName="dispatch-input-register-name-6"
+          defaultValue="defaultValue"
+        />
+        <DispatchValue5After3s5s />
       </FormFieldsWrapper>
     </div>
   );

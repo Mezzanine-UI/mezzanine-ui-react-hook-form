@@ -47,7 +47,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
     control: control || contextControl,
     name: registerName as string,
     defaultValue,
-  }) || '';
+  });
 
   const {
     errors,
@@ -96,7 +96,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
         className={className}
         onChange={onChange}
         placeholder={placeholder}
-        value={watchValue}
+        value={watchValue || ''}
       />
     </BaseField>
   );

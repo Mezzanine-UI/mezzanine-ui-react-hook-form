@@ -125,6 +125,9 @@ export const Basic = () => {
           <br />
           border = false
         </p>
+        <br />
+        <br />
+        <p>Test defaultValue</p>
         <UploadImageField
           fullWidth
           width={400}
@@ -138,6 +141,7 @@ export const Basic = () => {
           label="Label Name"
           registerName="upload-image-register-name-2"
           aspect={3 / 4} // To limit the cropped aspect ratio.
+          defaultValue="https://static-tast.rytass.info/e192dd70f4d28a8ca735e3236a50e57bf5d947b2.jpeg"
           annotation={{
             formats: ['jpeg', 'webp'],
             maximumMb: 10,

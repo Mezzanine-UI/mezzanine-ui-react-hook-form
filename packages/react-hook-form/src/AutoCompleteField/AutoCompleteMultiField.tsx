@@ -3,7 +3,7 @@ import {
   cx,
   SelectValue,
 } from '@mezzanine-ui/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import {
   FieldValues,
   useFormContext,
@@ -54,6 +54,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
   onChange,
   ...props
 }) => {
+  const [data, setData] = useState(defaultValues || []);
   const { control: contextControl } = useFormContext();
 
   const {
@@ -70,6 +71,10 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
     skip: !debounce,
     onChange,
   }, 'multiple');
+
+  useEffect(() => {
+    setData(watchingValue || []);
+  }, [watchingValue]);
 
   return (
     <BaseField
@@ -95,12 +100,15 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
         itemsInView={10}
         size={size}
         fullWidth={width ? false : fullWidth}
-        onChange={onDebounceChange}
         options={options}
         placeholder={placeholder}
         defaultValue={defaultValues || watchingValue}
         inputProps={{ onInput }}
-        value={value}
+        value={data}
+        onChange={(newData) => {
+          setData(newData);
+          onDebounceChange?.(newData);
+        }}
       />
     </BaseField>
   );
