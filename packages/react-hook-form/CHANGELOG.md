@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.12.2...@mezzanine-ui/react-hook-form@0.13.0) (2022-12-08)
+
+### Features
+
+- **react-hook-form:** add `defaultValue` on `UploadImageField` ([24ace2a](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/24ace2ad952d23e3ca09d364684fec95f20b6e7f))
+- **react-hook-form:** open props on upload-related components ([87b5304](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/87b5304c4cd426631495398da3932c7002f9158c))
+- **react-hook-form:** resolved [#24](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/24) ([5d61108](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/5d61108ac263dae2383515eedb377768feffd148))
+
 ## [0.12.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.12.1...@mezzanine-ui/react-hook-form@0.12.2) (2022-11-18)
 
 ### Bug Fixes
