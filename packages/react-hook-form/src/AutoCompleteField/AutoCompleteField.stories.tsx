@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Message } from '@mezzanine-ui/react';
 import {
   FC, useEffect, useMemo, useRef, useState,
@@ -136,7 +137,7 @@ export const Multi = () => {
           setValue('multi-auto-complete-register-name-3', mock);
         }, 7000);
       }
-    }, [setValue]);
+    }, []);
 
     return null;
   }, [data]);
@@ -197,8 +198,8 @@ export const Multi = () => {
         <br />
         <p>Will Dispatch after 3s and 5s</p>
         <AutoCompleteMultiField
-          // debounceMs={1400}
-          // autoClickAwayDebounceMs={1000}
+          debounceMs={1400}
+          autoClickAwayDebounceMs={1000}
           label="Test setValue"
           onInput={onInput}
           registerName="multi-auto-complete-register-name-3"

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Message } from '@mezzanine-ui/react';
 import { FC, useEffect, useMemo } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
@@ -24,7 +25,7 @@ export const Basic = () => {
       setTimeout(() => {
         setValue('dispatch-input-register-name-5', '456');
       }, 5000);
-    }, [setValue]);
+    }, []);
 
     return null;
   }, []);
