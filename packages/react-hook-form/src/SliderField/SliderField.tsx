@@ -9,9 +9,10 @@ import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 
 export type SliderFieldProps = HookFormFieldProps<
 FieldValues,
-Omit<SliderProps, 'value' | 'defaultValue'>, {
+Omit<SliderProps, 'value' | 'defaultValue' | 'onChange'>, {
   defaultValue?: number;
   width?: number;
+  onChange?: (value: number) => void;
 }>;
 
 const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
@@ -30,6 +31,8 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
   style,
   width,
   errorMsgRender,
+  onChange: onChangeProp,
+  fullWidth = true,
   ...props
 }) => {
   const {
@@ -43,6 +46,11 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
   } = useFormState({ control: control || contextControl });
 
   const watchValue = useWatch({ name: registerName }) || defaultValue || 100;
+
+  const onChange = (v: number) => {
+    setValue(registerName, v);
+    onChangeProp?.(v);
+  };
 
   useMemo(() => (register || contextRegister)(
     registerName,
@@ -69,6 +77,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
       errors={errors}
       required={required}
       width={width}
+      fullWidth={fullWidth}
       errorMsgRender={errorMsgRender}
     >
       <Slider
@@ -78,7 +87,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
         max={max}
         step={step}
         value={watchValue}
-        onChange={(next: any) => setValue(registerName, next)}
+        onChange={onChange}
       />
     </BaseField>
   );

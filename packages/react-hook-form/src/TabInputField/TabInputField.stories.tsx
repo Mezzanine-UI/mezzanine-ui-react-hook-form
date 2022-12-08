@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -24,6 +25,27 @@ export const Basic = () => {
         <TabInputField
           label="Label Name"
           registerName="tab-input-register-name"
+          options={[
+            {
+              id: '1',
+              name: '1-name',
+            },
+            {
+              id: '2',
+              name: '2-name',
+            },
+            {
+              id: '3',
+              name: '3-name',
+            },
+          ]}
+        />
+        <br />
+        <br />
+        <TabInputField
+          label="Test onChange"
+          registerName="tab-input-register-name-2"
+          onChange={(nextKey) => Message?.success(nextKey)}
           options={[
             {
               id: '1',

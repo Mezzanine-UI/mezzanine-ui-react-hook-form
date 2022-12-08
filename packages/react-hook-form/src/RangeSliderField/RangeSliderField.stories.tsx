@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -21,6 +22,13 @@ export const Basic = () => {
         <RangeSliderField
           label="Label Name"
           registerName="range-slider-register-name"
+        />
+        <br />
+        <br />
+        <RangeSliderField
+          label="Test onChange"
+          registerName="range-slider-register-name-2"
+          onChange={(next) => Message.success(JSON.stringify(next))}
         />
       </FormFieldsWrapper>
     </div>

@@ -38,6 +38,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
   minutePrefix,
   secondPrefix,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const {
@@ -74,6 +75,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
       registerName,
       newDate,
     );
+    onChangeProp?.(newDate);
   };
 
   return (

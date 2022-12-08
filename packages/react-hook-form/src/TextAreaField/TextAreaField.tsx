@@ -35,6 +35,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
   remark,
   style,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const {
@@ -63,6 +64,11 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   ), [registerName, required, disabled, maxLength, minLength]);
 
+  const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    registration.onChange?.(e);
+    onChangeProp?.(e);
+  };
+
   return (
     <BaseField
       disabled={disabled}
@@ -88,7 +94,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
         }}
         {...registration}
         className={className}
-        onChange={registration.onChange}
+        onChange={onChange}
         placeholder={placeholder}
         value={watchValue}
       />

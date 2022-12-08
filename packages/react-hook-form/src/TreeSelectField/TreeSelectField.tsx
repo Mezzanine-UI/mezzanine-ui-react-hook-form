@@ -23,28 +23,28 @@ const TreeSelectField: HookFormFieldComponent<TreeSelectFieldProps> = ({
   style,
   width,
   errorMsgRender,
+  onChange: onChangeProp,
+  value,
   ...props
 }) => {
   const {
     clearErrors,
     formState: { errors },
-    control,
     setValue,
   } = useFormContext();
 
   const watchValue = useWatch({
-    control,
     name: registerName as string,
     defaultValue,
-  }) || defaultValue;
+  });
 
   const onChange = (newValue: TreeSelectOption[]) => {
     if (errors?.[registerName]) clearErrors(registerName);
-
     setValue(
       registerName,
       newValue,
     );
+    onChangeProp?.(newValue);
   };
 
   useEffect(() => {

@@ -12,7 +12,8 @@ import {
 } from 'react-hook-form';
 import { ErrorMessageFn } from './error-message';
 
-export interface FieldProps<Type extends  FieldValues> extends Omit<RegisterOptions<Type>, 'render'> {
+export interface FieldProps<Type extends  FieldValues> extends Omit<
+RegisterOptions<Type>, 'render' | 'onChange' | 'onBlur'> {
   disabled?: boolean;
   disabledErrMsg?: boolean;
   label?: string;

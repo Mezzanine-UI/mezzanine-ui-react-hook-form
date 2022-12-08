@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { SearchIcon } from '@mezzanine-ui/icons';
 import { Icon } from '@mezzanine-ui/react';
-import {
-  memo,
-  useEffect,
-} from 'react';
+import { useEffect, useMemo } from 'react';
 import { FieldValues, useFormContext } from 'react-hook-form';
+import { Subject } from 'rxjs';
 import type { InputFieldProps } from '../InputField/InputField';
 import Input from '../Mezzanine/Input';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
@@ -35,16 +33,28 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   min,
   max,
   pattern,
+  onChange: onChangeProp,
   ...props
 }) => {
+  const cancelDebounce$ = useMemo(() => new Subject<void>(), []);
   const { setValue } = useFormContext();
   const debounceMs = debounced ? debounceMsProp : 0;
-  const watchedDebouncedValue = useDebouncedValue({ inputId: registerName, debounceMs });
+  const watchedDebouncedValue = useDebouncedValue({
+    cancel$: cancelDebounce$,
+    inputId: registerName,
+    debounceMs,
+    onChange: onChangeProp,
+  });
 
-  const onClear = useClearDebouncedSearch({
+  const clearInput = useClearDebouncedSearch({
     registerName,
     setValue,
   });
+
+  const onClear = () => {
+    cancelDebounce$.next();
+    clearInput();
+  };
 
   useEffect(() => {
     if (typeof watchedDebouncedValue === 'string') {
@@ -79,4 +89,4 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   );
 };
 
-export default memo(SearchInputField) as typeof SearchInputField;
+export default SearchInputField;

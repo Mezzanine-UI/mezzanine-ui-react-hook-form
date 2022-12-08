@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -46,6 +47,17 @@ export const Basic = () => {
           defaultChecked
           registerName="checkbox-register-name-3"
           color="text-secondary"
+        />
+        <br />
+        <br />
+
+        <div>
+          Test onChange
+        </div>
+        <CheckboxField
+          registerName="checkbox-register-name-4"
+          color="text-secondary"
+          onChange={(e) => Message.success(e.target.value)}
         />
       </FormFieldsWrapper>
     </div>

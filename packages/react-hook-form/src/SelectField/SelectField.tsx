@@ -3,7 +3,6 @@ import {
   Option,
   OptionGroup,
   Select,
-  SelectValue,
 } from '@mezzanine-ui/react';
 import { selectFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { SelectMultipleProps, SelectProps, SelectSingleProps } from '@mezzanine-ui/react/Select/Select';
@@ -56,6 +55,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
     size,
     style,
     errorMsgRender,
+    onChange: onChangeProp,
     ...restProps
   } = props || {};
 
@@ -78,7 +78,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
     setValue(registerName, undefined, { shouldValidate: true });
   };
 
-  const onChange = (newValue: SelectValue) => {
+  const onChange = (newValue: any) => {
     if (errors?.[registerName]) clearErrors(registerName);
 
     setValue(
@@ -86,6 +86,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
       newValue,
       { shouldValidate: true },
     );
+    onChangeProp?.(newValue);
   };
 
   useEffect(() => {

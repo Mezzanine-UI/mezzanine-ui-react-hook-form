@@ -29,6 +29,7 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
   style,
   width,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const {
@@ -60,10 +61,13 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
     ...registration,
   };
 
-  const onChange = (newDate?: RangePickerValue) => setValue(
-    registerName,
-    newDate,
-  );
+  const onChange = (newDate?: RangePickerValue) => {
+    setValue(
+      registerName,
+      newDate,
+    );
+    onChangeProp?.(newDate);
+  };
 
   return (
     <BaseField

@@ -9,7 +9,7 @@ import {
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 
-type OmittedInputProps = Omit<InputProps, 'mode' | 'tagsProps' | 'defaultValue'> & InputProps['tagsProps'];
+type OmittedInputProps = Omit<InputProps, 'mode' | 'tagsProps' | 'defaultValue' | 'onChange'> & InputProps['tagsProps'];
 
 export type InputTagsModeFieldProps<
   T extends FieldValues = FieldValues> = HookFormFieldProps<T, OmittedInputProps, {
@@ -53,6 +53,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
   inputClassName,
   inputPosition,
   errorMsgRender,
+  onTagsChange: onTagsChangeProp,
   ...props
 }) => {
   const {
@@ -86,6 +87,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
       registerName,
       newTags,
     );
+    onTagsChangeProp?.(newTags);
   }, []);
 
   return (

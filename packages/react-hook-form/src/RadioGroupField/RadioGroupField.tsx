@@ -21,12 +21,16 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
   style,
   size,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const value = useWatch({ name: registerName });
   const defaultValue = defaultValueProp || value;
   const { setValue, formState: { errors } } = useFormContext();
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => setValue(registerName, e.target.value);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(registerName, e.target.value);
+    onChangeProp?.(e);
+  };
 
   useEffect(() => {
     if (defaultValue) {

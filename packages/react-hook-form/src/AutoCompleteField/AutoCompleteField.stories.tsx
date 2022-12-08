@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
@@ -83,6 +84,20 @@ export const Single = () => {
             name: value,
           })) || []}
         />
+        <br />
+        <br />
+        <AutoCompleteField
+          width={400}
+          debounceMs={0}
+          label="Test onChange"
+          registerName="single-auto-complete-register-name-2"
+          onInput={onInput}
+          onChange={(next) => Message.success(JSON.stringify(next))}
+          options={data?.map((value) => ({
+            id: value,
+            name: value,
+          })) || []}
+        />
       </FormFieldsWrapper>
     </div>
   );
@@ -129,6 +144,22 @@ export const Multi = () => {
           registerName="multi-auto-complete-register-name"
           size="large"
           width={400}
+          options={data?.map((value) => ({
+            id: value,
+            name: value,
+          })) || []}
+        />
+        <br />
+        <br />
+        <AutoCompleteMultiField
+          debounceMs={1400}
+          autoClickAwayDebounceMs={1000}
+          label="Test onChange"
+          onInput={onInput}
+          registerName="multi-auto-complete-register-name-2"
+          size="large"
+          width={400}
+          onChange={(next) => Message.success(JSON.stringify(next))}
           options={data?.map((value) => ({
             id: value,
             name: value,

@@ -33,6 +33,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
   size,
   width,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const {
@@ -59,11 +60,11 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
 
   const onChange = (newDate?: string) => {
     if (errors?.[registerName]) clearErrors(registerName);
-
     contextSetValue(
       registerName,
       newDate,
     );
+    onChangeProp?.(newDate);
   };
 
   const inputProps = {

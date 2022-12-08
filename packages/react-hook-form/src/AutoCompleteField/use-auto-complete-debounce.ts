@@ -37,24 +37,30 @@ class AutoCompleteStore<T extends SelectValue | SelectValue[]> extends EventEmit
 
 let autoCompleteStore: AutoCompleteStore<SelectValue | SelectValue[]>;
 
-interface UseAutoCompleteDebounceParams {
+interface UseAutoCompleteDebounceParams<Mode extends 'single' | 'multiple' = 'single' | 'multiple'> {
   registerName: string;
   debounceMs?: number;
   skip?: boolean;
+  onChange?: Mode extends 'single' ? (value: SelectValue) => void
+    : Mode extends 'multiple' ? (value: SelectValue[]) => void
+      : (value: SelectValue | SelectValue[]) => void;
 }
 
-interface UseAutoCompleteMultiDebounceParams extends UseAutoCompleteDebounceParams {
+interface UseAutoCompleteMultiDebounceParams<
+  Mode extends 'single' | 'multiple' = 'single' | 'multiple'> extends UseAutoCompleteDebounceParams<Mode> {
   disabledAutoClickAway?: boolean;
   autoClickAwayDebounceMs?: number;
 }
 
-export function useAutoCompleteDebounce(v: UseAutoCompleteDebounceParams, mode: 'single'): (value: SelectValue) => void;
 export function useAutoCompleteDebounce(
-  v: UseAutoCompleteMultiDebounceParams, mode: 'multiple'
+  v: UseAutoCompleteDebounceParams<'single'>, mode: 'single'
+): (value: SelectValue) => void;
+export function useAutoCompleteDebounce(
+  v: UseAutoCompleteMultiDebounceParams<'multiple'>, mode: 'multiple'
 ): (value: SelectValue[]) => void;
 export function useAutoCompleteDebounce<
   T extends 'single' | 'multiple'>(
-  v: UseAutoCompleteDebounceParams | UseAutoCompleteMultiDebounceParams,
+  v: UseAutoCompleteDebounceParams<'single'> | UseAutoCompleteMultiDebounceParams,
   mode: T
 ): (value: T extends 'single' ? SelectValue : SelectValue[]) => void;
 export function useAutoCompleteDebounce({
@@ -63,6 +69,7 @@ export function useAutoCompleteDebounce({
   disabledAutoClickAway = false,
   autoClickAwayDebounceMs = 1500,
   skip = false,
+  onChange: onChangeProp,
 }: UseAutoCompleteMultiDebounceParams, mode: 'multiple' | 'single'): any {
   const { setValue } = useFormContext();
 
@@ -100,7 +107,10 @@ export function useAutoCompleteDebounce({
           });
         }
       }),
-    ).subscribe((val) => setValue(registerName, val));
+    ).subscribe((val: any) => {
+      setValue(registerName, val);
+      onChangeProp?.(val);
+    });
 
     return () => {
       inputSubscription.unsubscribe();

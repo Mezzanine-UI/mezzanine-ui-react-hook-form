@@ -11,9 +11,12 @@ import { tabInputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { OptionItemsType } from '../typings/option';
 
-export type TabInputFieldProps = HookFormFieldProps<FieldValues, Pick<SelectProps, 'required' | 'disabled' | 'style' | 'className'>, {
+export type TabInputFieldProps = HookFormFieldProps<
+FieldValues,
+Pick<SelectProps, 'required' | 'disabled' | 'style' | 'className'>, {
   options?: OptionItemsType;
   defaultValue?: SelectValue;
+  onChange?: (newTab: Key) => void;
 }>;
 
 const TabInputField: HookFormFieldComponent<TabInputFieldProps> = ({
@@ -24,6 +27,7 @@ const TabInputField: HookFormFieldComponent<TabInputFieldProps> = ({
   registerName,
   required,
   style,
+  onChange: onChangeProp,
 }) => {
   const [tabKey, setTabKey] = useState<Key>(defaultValue?.id || '');
 
@@ -32,9 +36,10 @@ const TabInputField: HookFormFieldComponent<TabInputFieldProps> = ({
     setValue,
   } = useFormContext();
 
-  const onChangeHandler = (key: Key) => {
+  const onChange = (key: Key) => {
     setTabKey(key);
     setValue(registerName, key);
+    onChangeProp?.(key);
   };
 
   useMemo(() => register(
@@ -51,7 +56,7 @@ const TabInputField: HookFormFieldComponent<TabInputFieldProps> = ({
     <Tabs
       activeKey={tabKey}
       className={className}
-      onChange={onChangeHandler}
+      onChange={onChange}
       style={style}
     >
       {options?.map((option) => (

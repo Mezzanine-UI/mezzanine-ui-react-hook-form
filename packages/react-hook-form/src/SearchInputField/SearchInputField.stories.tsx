@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -62,6 +63,16 @@ export const Basic = () => {
           label="Value As Number"
           size="large"
           registerName="search-input-register-name-4"
+        />
+        <p>
+          Test onChange
+        </p>
+        <SearchInputField
+          width={300}
+          label="Test onChange"
+          size="large"
+          registerName="search-input-register-name-5"
+          onChange={(e) => Message.success?.(e.target.value)}
         />
       </FormFieldsWrapper>
     </div>

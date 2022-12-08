@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
@@ -53,6 +54,16 @@ export const Basic = () => {
           registerName="select-register-name"
           mode="multiple"
           options={treeSelectOptions}
+        />
+        <br />
+        <br />
+        <TreeSelectField
+          clearable
+          label="Test onChange"
+          registerName="select-register-name-2"
+          mode="multiple"
+          options={treeSelectOptions}
+          onChange={(next) => Message?.success(JSON.stringify(next, null, 2))}
         />
       </FormFieldsWrapper>
     </div>

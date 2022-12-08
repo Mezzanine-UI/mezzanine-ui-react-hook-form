@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, ChangeEvent } from 'react';
+import React, { useCallback, useEffect, useState, ChangeEvent } from 'react';
 import { debounceTime, fromEvent, map } from 'rxjs';
 
 type UseAutoCompleteInputPrams = {
@@ -24,7 +24,7 @@ export function useAutoCompleteInput(props?: UseAutoCompleteInputPrams) {
     };
   }, [inputEle]);
 
-  const onInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const onInput: React.ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
     if (!inputEle || e.nativeEvent.srcElement !== inputEle) {
       setInputEle(e.nativeEvent.srcElement as HTMLInputElement);
       setInput(e.target.value);

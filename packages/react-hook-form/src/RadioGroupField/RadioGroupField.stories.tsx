@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { FC, useEffect, useMemo } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
@@ -86,6 +87,29 @@ export const Basic = () => {
           size="large"
           registerName="radio-group-register-name-3"
           defaultValue="value 1"
+          options={[
+            {
+              value: 'value 1',
+              label: 'label 1',
+            },
+            {
+              value: 'value 2',
+              label: 'label 2',
+            },
+            {
+              value: 'value 3',
+              label: 'label 3',
+            },
+          ]}
+        />
+        <br />
+        <br />
+        <RadioGroupField
+          label="Test onChange"
+          size="large"
+          registerName="radio-group-register-name-4"
+          defaultValue="value 1"
+          onChange={(e) => Message.success(e.target.value)}
           options={[
             {
               value: 'value 1',

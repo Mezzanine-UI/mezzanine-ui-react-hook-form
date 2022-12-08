@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Slider, SliderProps } from '@mezzanine-ui/react';
+import { RangeSliderValue, Slider, SliderProps } from '@mezzanine-ui/react';
 import { CSSProperties, useEffect, useMemo } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
@@ -9,9 +9,10 @@ import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 
 export type RangeSliderFieldProps = HookFormFieldProps<
 FieldValues,
-Omit<SliderProps, 'value' | 'defaultValue'>, {
+Omit<SliderProps, 'value' | 'defaultValue' | 'onChange'>, {
   defaultValue?: [number, number];
   width?: number;
+  onChange?: (value: RangeSliderValue) => void
 }>;
 
 const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
@@ -29,7 +30,9 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
   step = 1,
   style,
   width,
+  fullWidth = true,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const {
@@ -43,6 +46,11 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
   } = useFormState({ control: control || contextControl });
 
   const watchValue = useWatch({ name: registerName }) || defaultValue || [min, max];
+
+  const onChange = (v: RangeSliderValue) => {
+    setValue(registerName, v);
+    onChangeProp?.(v);
+  };
 
   useMemo(() => (register || contextRegister)(
     registerName,
@@ -68,6 +76,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
       remark={remark}
       errors={errors}
       required={required}
+      fullWidth={fullWidth}
       width={width}
       errorMsgRender={errorMsgRender}
     >
@@ -78,7 +87,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
         max={max}
         step={step}
         value={watchValue}
-        onChange={(next: any) => setValue(registerName, next)}
+        onChange={onChange}
       />
     </BaseField>
   );

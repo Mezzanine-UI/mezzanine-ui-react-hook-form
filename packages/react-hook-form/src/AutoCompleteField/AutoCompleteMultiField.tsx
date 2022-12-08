@@ -1,6 +1,5 @@
 import {
   AutoComplete,
-  AutoCompleteProps,
   cx,
   SelectValue,
 } from '@mezzanine-ui/react';
@@ -12,13 +11,14 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { autoCompleteClasses } from '@mezzanine-ui/react-hook-form-core';
+import { AutoCompleteMultipleProps } from '@mezzanine-ui/react/Select/AutoComplete';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { useAutoCompleteDebounce } from './use-auto-complete-debounce';
 import BaseField from '../BaseField/BaseField';
 
 export type AutoCompleteMultiFieldProps = HookFormFieldProps<
 Omit<FieldValues, 'defaultValues'>,
-Omit<AutoCompleteProps, 'mode'>, {
+Omit<AutoCompleteMultipleProps, 'mode' | 'onChange'>, {
   defaultValues?: SelectValue[];
   debounce?: boolean;
   debounceMs?: number;
@@ -26,6 +26,7 @@ Omit<AutoCompleteProps, 'mode'>, {
   disabledAutoClickAway?: boolean;
   width?: number;
   onInput?: FormEventHandler<HTMLInputElement>;
+  onChange?: (newOptions?: SelectValue[]) => void;
 }>;
 
 const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps> = ({
@@ -50,6 +51,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
   width,
   onInput,
   errorMsgRender,
+  onChange,
   ...props
 }) => {
   const { control: contextControl } = useFormContext();
@@ -60,12 +62,13 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
 
   const watchingValue = useWatch({ name: registerName });
 
-  const onChange = useAutoCompleteDebounce({
+  const onDebounceChange = useAutoCompleteDebounce({
     registerName,
     debounceMs,
     autoClickAwayDebounceMs,
     disabledAutoClickAway,
     skip: !debounce,
+    onChange,
   }, 'multiple');
 
   return (
@@ -92,7 +95,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
         itemsInView={10}
         size={size}
         fullWidth={width ? false : fullWidth}
-        onChange={onChange}
+        onChange={onDebounceChange}
         options={options}
         placeholder={placeholder}
         defaultValue={defaultValues || watchingValue}

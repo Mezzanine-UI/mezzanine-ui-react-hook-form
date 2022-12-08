@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -52,6 +53,16 @@ export const Basic = () => {
           size="large"
           maxLength={2}
           registerName="input-tags-mode-register-name-3"
+        />
+        <br />
+        <br />
+        <InputTagsModeField
+          width={300}
+          label="Test onChange"
+          size="large"
+          maxLength={2}
+          registerName="input-tags-mode-register-name-4"
+          onTagsChange={(newTags) => Message.success(JSON.stringify(newTags))}
         />
       </FormFieldsWrapper>
     </div>

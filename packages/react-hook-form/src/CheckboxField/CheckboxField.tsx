@@ -34,6 +34,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
   variant,
   width,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const {
@@ -48,11 +49,12 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
     control: control || contextControl,
   });
 
-  const onChange = () => {
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(
       registerName,
       !checked,
     );
+    onChangeProp?.(e);
   };
 
   useEffect(() => {

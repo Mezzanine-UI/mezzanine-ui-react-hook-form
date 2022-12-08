@@ -50,6 +50,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   tagsProps,
   type,
   errorMsgRender,
+  onChange: onChangeProp,
   ...prop
 }) => {
   const {
@@ -79,8 +80,9 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       minLength,
       valueAsDate: prop.valueAsDate,
       valueAsNumber: prop.valueAsNumber,
+      onChange: onChangeProp,
     },
-  ), [registerName, required, disabled, maxLength, minLength]);
+  ), [registerName, required, disabled, maxLength, minLength, onChangeProp]);
 
   const onClear = useCallback(() => {
     resetField(registerName);

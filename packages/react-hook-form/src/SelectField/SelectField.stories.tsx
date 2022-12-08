@@ -1,3 +1,4 @@
+import { Message } from '@mezzanine-ui/react';
 import { useForm } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -107,6 +108,31 @@ export const Multiple = () => {
           mode="multiple"
           label="Multiple Group Select Label Name"
           registerName="multiple-group-select-register-name"
+          optionGroups={[
+            {
+              label: '1',
+              options: [{
+                id: '1',
+                name: '2',
+              }],
+            },
+            {
+              label: '2',
+              options: [{
+                id: '2',
+                name: '3',
+              }],
+            },
+          ]}
+        />
+        <br />
+        <br />
+        <SelectField
+          width={300}
+          mode="multiple"
+          label="Test onChange"
+          registerName="multiple-group-select-register-nam-2"
+          onChange={(nextOptions) => Message?.success(JSON.stringify(nextOptions))}
           optionGroups={[
             {
               label: '1',

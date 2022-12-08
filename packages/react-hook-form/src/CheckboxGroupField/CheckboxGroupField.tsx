@@ -37,6 +37,7 @@ const CheckboxGroupField: HookFormFieldComponent<CheckboxGroupFieldProps> = ({
   remark,
   style,
   errorMsgRender,
+  onChange: onChangeProp,
   ...props
 }) => {
   const {
@@ -51,9 +52,10 @@ const CheckboxGroupField: HookFormFieldComponent<CheckboxGroupFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const onChange = (newValue: string[]) => {
+  const onChange: (value: string[], event: React.ChangeEvent<HTMLInputElement>) => void = (newValues, e) => {
     if (errors?.[registerName]) clearErrors(registerName);
-    setValue(registerName, newValue);
+    setValue(registerName, newValues);
+    onChangeProp?.(newValues, e);
   };
 
   return (

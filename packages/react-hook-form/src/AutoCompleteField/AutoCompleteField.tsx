@@ -1,20 +1,22 @@
 import {
-  AutoComplete, AutoCompleteProps, cx, SelectValue,
+  AutoComplete, cx, SelectValue,
 } from '@mezzanine-ui/react';
 import { FormEventHandler } from 'react';
 import { FieldValues, useFormContext, useFormState } from 'react-hook-form';
 import { autoCompleteClasses } from '@mezzanine-ui/react-hook-form-core';
+import { AutoCompleteSingleProps } from '@mezzanine-ui/react/Select/AutoComplete';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
 import { useAutoCompleteDebounce } from './use-auto-complete-debounce';
 
 export type AutoCompleteFieldProps = HookFormFieldProps<
-Omit<FieldValues, 'defaultValue' | 'onInput'>,
-Omit<AutoCompleteProps, 'mode'>, {
+Omit<FieldValues, 'defaultValue' | 'onInput' | 'onChange'>,
+Omit<AutoCompleteSingleProps, 'mode'>, {
   defaultValue?: SelectValue;
   debounceMs?: number;
   width?: number;
   onInput?: FormEventHandler<HTMLInputElement>;
+  onChange?: (newOption: SelectValue) => void;
 }>;
 
 const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
@@ -36,6 +38,7 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
   value,
   width,
   errorMsgRender,
+  onChange,
   ...props
 }) => {
   const { control: contextControl } = useFormContext();
@@ -44,10 +47,11 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const onChange = useAutoCompleteDebounce({
+  const onDebounceChange = useAutoCompleteDebounce({
     registerName,
     debounceMs,
     skip: !debounceMs,
+    onChange,
   }, 'single');
 
   return (
@@ -74,7 +78,7 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
         itemsInView={10}
         size={size}
         fullWidth={width ? false : fullWidth}
-        onChange={onChange}
+        onChange={onDebounceChange}
         inputProps={{ onInput }}
         placeholder={placeholder}
         defaultValue={defaultValue}

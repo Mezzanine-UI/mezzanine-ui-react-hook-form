@@ -1,19 +1,23 @@
 import { ChangeEvent, RefObject, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { fromEvent, of, Subject } from 'rxjs';
+import { debounceTime, repeatWhen, takeUntil } from 'rxjs/operators';
 import { isBrowser } from '../utils/type-checker';
 
 export interface UseDebouncedValue {
+  cancel$?: Subject<void>;
   debounceMs?: number;
   inputId?: string;
   inputRef?: RefObject<HTMLInputElement | null>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 export function useDebouncedValue({
   debounceMs,
   inputId,
   inputRef,
+  cancel$,
+  onChange,
 }: UseDebouncedValue) {
   const value = useWatch({ name: inputId || '' });
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -31,14 +35,22 @@ export function useDebouncedValue({
   useEffect(() => {
     if (!inputRefElement) return () => {};
 
-    const subscription = fromEvent<ChangeEvent<HTMLInputElement>>(inputRefElement, 'input')
+    const input$ = fromEvent<ChangeEvent<HTMLInputElement>>(inputRefElement, 'input');
+    const subscription = input$
       .pipe(debounceTime(debounceMs ?? 500))
-      .subscribe((e) => setDebouncedValue(e.target.value));
+      .pipe(
+        takeUntil(cancel$ || of(null)),
+        repeatWhen(() => input$),
+      )
+      .subscribe((e) => {
+        onChange?.(e);
+        setDebouncedValue(e.target.value);
+      });
 
     return () => {
       subscription?.unsubscribe();
     };
-  }, [inputRefElement]);
+  }, [inputRefElement, onChange]);
 
   useEffect(() => {
     if (!value) {
