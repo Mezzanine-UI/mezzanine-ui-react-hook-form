@@ -138,8 +138,8 @@ export const Basic = () => {
           formDataName="file"
           url="http://localhost:3003/file/image/upload"
           resolve={(res: MockUploadResponse) => res.id + res.whatever} // Will update form filed value
-          label="Label Name"
-          registerName="upload-image-register-name-2"
+          label="Test defaultValue"
+          registerName="upload-image-register-name-3"
           aspect={3 / 4} // To limit the cropped aspect ratio.
           defaultValue="https://static-tast.rytass.info/e192dd70f4d28a8ca735e3236a50e57bf5d947b2.jpeg"
           annotation={{
