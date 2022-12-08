@@ -1,12 +1,13 @@
 import {
   FC,
+  ReactNode,
   useState,
 } from 'react';
 import { Area, Point } from 'react-easy-crop/types';
 import Cropper, { CropperProps } from 'react-easy-crop';
 import {
   Icon,
-  Modal, ModalActions, ModalProps, Slider, Typography,
+  Modal, ModalActions, ModalActionsProps, ModalProps, Slider, Typography,
 } from '@mezzanine-ui/react';
 import { TimesIcon } from '@mezzanine-ui/icons';
 import { cropperModalClasses } from '@mezzanine-ui/react-hook-form-core';
@@ -19,6 +20,8 @@ export interface CropperModalProps extends Omit<ModalProps, 'children'> {
   aspect?: number;
   image?: CropperProps['image'];
   sizeLimitMb?: number;
+  header?: ReactNode;
+  modalActionProps?: Omit<ModalActionsProps, 'onClose' | 'onConfirm'>;
   onComplete?: (croppedImg: string, croppedFile: string | Blob) => void;
 }
 
@@ -27,7 +30,9 @@ export const CropperModal: FC<CropperModalProps> = ({
   image,
   open,
   sizeLimitMb = 10,
+  header,
   onClose = () => {},
+  modalActionProps,
   onComplete,
 }) => {
   const [zoom, setZoom] = useState(1);
@@ -69,12 +74,14 @@ export const CropperModal: FC<CropperModalProps> = ({
       className={cropperModalClasses.host}
     >
       <div className={cropperModalClasses.header}>
-        <Typography
-          color="text-primary"
-          variant="h3"
-        >
-          拆切影像
-        </Typography>
+        {header || (
+          <Typography
+            color="text-primary"
+            variant="h3"
+          >
+            拆切影像
+          </Typography>
+        )}
         <button
           type="button"
           onClick={onClose}
@@ -124,6 +131,7 @@ export const CropperModal: FC<CropperModalProps> = ({
           type: 'button',
           size: 'large',
         }}
+        {...modalActionProps}
         onCancel={onClose}
         onConfirm={onConfirm}
       />

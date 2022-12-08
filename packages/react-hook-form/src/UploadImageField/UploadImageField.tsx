@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -5,10 +6,12 @@ import { CheckIcon, TimesIcon, UploadIcon } from '@mezzanine-ui/icons';
 import {
   cx, Fade, Icon,
   IconProps,
+  Message,
   Typography,
 } from '@mezzanine-ui/react';
 import { uploadImageFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { CssVarInterpolations } from '@mezzanine-ui/system/css';
+import axios from 'axios';
 import { concat, isString, uniq } from 'lodash';
 import {
   ChangeEventHandler, DragEventHandler,
@@ -26,7 +29,7 @@ import { BaseField } from '../BaseField';
 import { CropperModal } from '../Mezzanine/CropperModal/CropperModal';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { UploadStatus } from '../typings/file';
-import { blobToUrl, fileListToArray } from '../utils';
+import { blobToUrl, byteToMegaByte, fileListToArray } from '../utils';
 import { useUploadHandlers, UseUploadHandlersProps } from './use-upload-handlers';
 
 const BASE_ACCEPT_FILE_EXTENSION = ['.jpg', '.jpeg', '.png'];
@@ -50,6 +53,7 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
   previewClassName?: string;
   crop?: boolean;
   resolve: UseUploadHandlersProps['resolve'];
+  upload?(blob: string | Blob, fileName?: string): Promise<any>;
   previewBgSize?: 'auto' | 'contain' | 'cover' | 'initial';
   annotation?: {
     formats?: string[],
@@ -86,8 +90,9 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   annotation,
   fullWidth,
   icon,
-  formDataName,
+  formDataName = 'file',
   previewBgSize = 'cover',
+  upload: uploadProp,
   errorMsgRender,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -146,6 +151,48 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     )
   ), [acceptFileExtensions]);
 
+  const upload: UseUploadHandlersProps['upload'] = useMemo(() => uploadProp || ((b, f) => new Promise(async (_resolve, _reject) => {
+    try {
+      const Authorization = bearerToken?.replace(/^Bearer\s/, '')
+        ? `Bearer ${bearerToken}`
+        : '';
+
+      const formData = new FormData();
+
+      const uploadFile = (new File(
+        [b],
+        f || '',
+        { type: 'image/jpeg' },
+      ));
+
+      Message.info?.(`檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`);
+
+      formData.append(formDataName, b, f);
+
+      const { data } = await axios.post(
+        url,
+        formData,
+        {
+          headers: {
+            Authorization,
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress: (progressEvent: any) => {
+            const progressPercentage = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total,
+            );
+
+            setProgress(progressPercentage);
+          },
+        },
+      );
+
+      _resolve(resolve(data, uploadFile));
+    } catch (e: any) {
+      _reject(e);
+    }
+  })), [setProgress, bearerToken, formDataName]);
+
   const {
     handleFileToCrop,
     handleFileUpload,
@@ -162,6 +209,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     setStatus,
     setValue,
     resolve,
+    upload,
   });
 
   const onDragEnter: DragEventHandler<HTMLDivElement> = useCallback((e) => {

@@ -1,13 +1,15 @@
+/* eslint-disable no-async-promise-executor */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { UploadResult, UploadResultProps } from '@mezzanine-ui/react';
+import { Message, UploadResult, UploadResultProps } from '@mezzanine-ui/react';
 import axios from 'axios';
 import React, {
-  FC, useCallback, useEffect, useState,
+  FC, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { UseUploadHandlersProps } from '../UploadImageField';
+import { of, switchMap } from 'rxjs';
+import { useUploadHandlers, UseUploadHandlersProps } from '../UploadImageField';
 
 export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | 'percentage'> {
   file: File;
@@ -19,6 +21,7 @@ export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | '
   hide?: boolean;
   disabledUpload?: boolean;
   resolve: UseUploadHandlersProps['resolve'];
+  upload?(): Promise<any>;
 }
 
 const _UploadResult: FC<_UploadResultProps> = ({
@@ -33,6 +36,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
   onDelete: onDeleteProp,
   disabledUpload = false,
   style,
+  upload: uploadProp,
   name,
   ...props
 }) => {
@@ -43,46 +47,73 @@ const _UploadResult: FC<_UploadResultProps> = ({
     typeof value === 'undefined' && !disabledUpload ? 'loading' : 'done',
   );
 
+  const upload: _UploadResultProps['upload'] = useMemo(() => uploadProp || (() => new Promise(async (_resolve, _reject) => {
+    try {
+      const Authorization = bearerToken?.replace(/^Bearer\s/, '')
+        ? `Bearer ${bearerToken}`
+        : '';
+
+      const formData = new FormData();
+
+      formData.append(formDataFileName, name || file.name);
+      formData.append(formDataName, new Blob([file], { type: file.type }), name || file.name);
+
+      const { data } = await axios.post(
+        url,
+        formData,
+        {
+          headers: {
+            Authorization,
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress: (progressEvent: any) => {
+            const progressPercentage = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total,
+            );
+
+            setProgress(progressPercentage);
+          },
+        },
+      );
+
+      _resolve(resolve(data, file));
+    } catch (e: any) {
+      _reject(e);
+    }
+  })), [uploadProp, url]);
+
+  const { handleFileUpload } = useUploadHandlers({
+    url,
+    bearerToken,
+    registerName,
+    formDataName,
+    setProgress,
+    setValue,
+    resolve,
+    upload,
+  });
+
   const doUpload = useCallback(
     async () => {
-      try {
-        const Authorization = bearerToken?.replace(/^Bearer\s/, '')
-          ? `Bearer ${bearerToken}`
-          : '';
+      const upload$ = of(null).pipe(switchMap(() => handleFileUpload()));
 
-        const formData = new FormData();
-
-        formData.append(formDataFileName, name || file.name);
-        formData.append(formDataName, new Blob([file], { type: file.type }), name || file.name);
-
-        const { data } = await axios.post(
-          url,
-          formData,
-          {
-            headers: {
-              Authorization,
-              'Content-Type': 'multipart/form-data',
-            },
-            onUploadProgress: (progressEvent: any) => {
-              const progressPercentage = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total,
-              );
-
-              setProgress(progressPercentage);
-            },
+      return new Promise((__resolve) => {
+        upload$.subscribe({
+          next: (resolvedValue) => {
+            setValue(registerName, resolve(resolvedValue, file));
+            setStatus('done');
+            __resolve(true);
           },
-        );
-
-        setValue(registerName, resolve(data, file));
-        setStatus('done');
-        return true;
-      } catch (e: any) {
-        setValue(registerName, null);
-        setStatus('error');
-        return false;
-      }
+          error: (ex) => {
+            setValue(registerName, null);
+            setStatus('error');
+            Message.error(`[${ex?.message}] 上傳失敗`);
+            __resolve(false);
+          },
+        });
+      });
     },
-    [url],
+    [handleFileUpload],
   );
 
   const onDelete = (e: React.MouseEvent) => {

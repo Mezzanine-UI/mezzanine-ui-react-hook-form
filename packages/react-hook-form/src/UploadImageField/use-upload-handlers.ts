@@ -1,42 +1,32 @@
-import axios from 'axios';
 import { Message } from '@mezzanine-ui/react';
 import { useCallback } from 'react';
+import { of, switchMap } from 'rxjs';
 import { FieldValues, Path, UseFormSetValue } from 'react-hook-form';
-import { byteToMegaByte, megaByteToByte } from '../utils/file';
+import { byteToMegaByte, megaByteToByte, readFile } from '../utils/file';
 import { UploadStatus } from './../typings/file';
 
-function readFile(file: File) {
-  return new Promise<string | ArrayBuffer | null>((resolve) => {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', () => resolve(reader.result), false);
-    reader.readAsDataURL(file);
-  });
-}
-
-export interface UseUploadHandlersProps {
+type AsyncAnyFunction = (...args: any[]) => Promise<any>;
+export interface UseUploadHandlersProps<U extends AsyncAnyFunction = AsyncAnyFunction> {
   url: string,
   bearerToken?: string;
-  fileExtensions: string[];
+  fileExtensions?: string[];
   registerName: Path<any>;
   sizeLimit?: number;
   formDataName?: string;
-  setCropperOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setImageSrc: React.Dispatch<React.SetStateAction<string>>;
+  upload: U;
+  setCropperOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setImageSrc?: React.Dispatch<React.SetStateAction<string>>;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
-  setStatus: React.Dispatch<React.SetStateAction<UploadStatus>>;
+  setStatus?: React.Dispatch<React.SetStateAction<UploadStatus>>;
   setValue: UseFormSetValue<FieldValues>;
   resolve(res: any, originalFile?: File): any,
 }
 
 export const useUploadHandlers = ({
-  url,
-  bearerToken,
   fileExtensions,
   registerName,
   sizeLimit,
-  formDataName = 'file',
-  resolve,
+  upload,
   setCropperOpen,
   setImageSrc,
   setProgress,
@@ -55,13 +45,17 @@ export const useUploadHandlers = ({
     };
 
     const checkFileExtension = () => {
-      const someFileAcceptExtension = fileExtensions.some((ext) => file.name.toLowerCase().endsWith(ext));
+      if (Array.isArray(fileExtensions)) {
+        const someFileAcceptExtension = fileExtensions.some((ext) => file.name.toLowerCase().endsWith(ext));
 
-      if (someFileAcceptExtension) return true;
+        if (someFileAcceptExtension) return true;
 
-      Message.error?.('檔案格式不支援');
+        Message.error?.('檔案格式不支援');
 
-      return false;
+        return false;
+      }
+
+      return true;
     };
 
     return (checkFileSize() && checkFileExtension());
@@ -70,7 +64,7 @@ export const useUploadHandlers = ({
   const handleResetStatus = useCallback(() => {
     setTimeout(() => {
       setProgress(0);
-      setStatus('ready');
+      setStatus?.('ready');
     }, 1000);
   }, [setProgress, setStatus]);
 
@@ -80,69 +74,40 @@ export const useUploadHandlers = ({
         if (!handleFileGuard(file)) return;
         const imageDataUrl = await readFile(file);
 
-        setCropperOpen(true);
-        setStatus('uploading');
-        setImageSrc(String(imageDataUrl));
+        setCropperOpen?.(true);
+        setStatus?.('uploading');
+        setImageSrc?.(String(imageDataUrl));
       } catch (e) {
-        setStatus('error');
+        setStatus?.('error');
         handleResetStatus();
       }
     },
     [handleFileGuard, handleResetStatus, setCropperOpen, setImageSrc, setStatus],
   );
 
-  const handleFileUpload = useCallback(
-    async (blob: string | Blob, fileName?: string) => {
-      try {
-        const Authorization = bearerToken?.replace(/^Bearer\s/, '')
-          ? `Bearer ${bearerToken}`
-          : '';
+  const handleFileUpload: typeof upload = useCallback(
+    async (...args) => {
+      const upload$ = of(null).pipe(switchMap(() => upload(...args)));
 
-        const formData = new FormData();
-
-        const uploadFile = (new File(
-          [blob],
-          fileName || '',
-          { type: 'image/jpeg' },
-        ));
-
-        Message.info?.(`檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`);
-
-        formData.append(formDataName, blob, fileName);
-
-        const { data } = await axios.post(
-          url,
-          formData,
-          {
-            headers: {
-              Authorization,
-              'Content-Type': 'multipart/form-data',
-            },
-            onUploadProgress: (progressEvent: any) => {
-              const progressPercentage = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total,
-              );
-
-              setProgress(progressPercentage);
-            },
+      return new Promise((__resolve) => {
+        upload$.subscribe({
+          next: (resolvedValue) => {
+            setValue(registerName, resolvedValue);
+            setStatus?.('success');
+            Message.success?.('上傳成功');
+            handleResetStatus();
+            __resolve(true);
           },
-        );
-
-        setValue(registerName, resolve(data, uploadFile));
-        setStatus('success');
-        Message.success?.('上傳成功');
-        handleResetStatus();
-
-        return true;
-      } catch (e: any) {
-        setValue(registerName, null);
-        setStatus('error');
-        Message.error(`[${e?.message}] 上傳失敗`);
-
-        return false;
-      }
+          error: (ex) => {
+            setValue(registerName, null);
+            setStatus?.('error');
+            Message.error(`[${ex?.message}] 上傳失敗`);
+            __resolve(false);
+          },
+        });
+      });
     },
-    [handleResetStatus, setValue, setProgress, setStatus],
+    [handleResetStatus, setValue, setStatus, upload],
   );
 
   return {

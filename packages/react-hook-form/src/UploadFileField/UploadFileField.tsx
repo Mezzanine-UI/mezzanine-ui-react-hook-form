@@ -16,7 +16,7 @@ import { BaseField } from '../BaseField';
 import { HookFormFieldProps } from '../typings/field';
 import { UseUploadHandlersProps } from '../UploadImageField';
 import { srcToFile } from '../utils';
-import UploadResult from './_UploadResult';
+import UploadResult, { _UploadResultProps } from './_UploadResult';
 
 export type UploadFileDefaultInput = { name: string, url: string };
 
@@ -42,6 +42,7 @@ export type UploadFileOptions<T> = {
    */
   fileRegisterName?: (file: File, virtualDomKey?: number) => string;
   resolve: UseUploadHandlersProps['resolve'];
+  upload?: _UploadResultProps['upload'];
 } & T;
 
 export type UploadFileFieldProps<
@@ -93,6 +94,7 @@ export function UploadFileField({
   fileRegisterName,
   errorMsgRender,
   defaultResolve,
+  upload,
   ...props
 }: UploadFileFieldProps<any, any>): JSX.Element {
   const { formState, setValue } = useFormContext();
@@ -187,6 +189,7 @@ export function UploadFileField({
             disabledUpload={initialValueMap.has(file.key)}
             registerName={`${registerName}.${(fileRegisterName?.(file.file, file.key) || file.file.name).replaceAll('.', '-')}`}
             onDelete={() => onDelete(file.file)}
+            upload={upload}
             style={{
               marginTop: index ? `${gap}px` : props.style?.marginTop,
               ...props.style,

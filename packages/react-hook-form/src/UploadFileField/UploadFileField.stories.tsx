@@ -167,6 +167,36 @@ export const Basic = () => {
             originFile,
           })} // Will update form filed value
         />
+        <br />
+        <br />
+        <UploadFileField
+          width={200}
+          name="123"
+          label="Test custom upload function"
+          registerName="upload-image-register-name-8"
+          bearerToken="your bearer token"
+          url="http://localhost:3003/file/image/upload"
+          remark="建議尺寸：1920 x 1080以上（圖像比例為 8:5）"
+          formDataName="file"
+          formDataFileName="fileName"
+          size="small"
+          uploadButton={{
+            multiple: true,
+            variant: 'outlined',
+            size: 'large',
+          }}
+          upload={async () => {
+            // eslint-disable-next-line no-promise-executor-return
+            await new Promise((res) => setTimeout(res, 2000));
+            // do upload task
+            // return response from api.
+            return { id: '123', whatever: 'depends on your server dto' } as MockUploadResponse;
+          }}
+          resolve={(res: MockUploadResponse, originFile: File) => ({
+            response: res,
+            originFile,
+          })} // Will update form filed value
+        />
       </FormFieldsWrapper>
     </div>
   );
