@@ -49,7 +49,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
   const watchValue = useWatch({ name: registerName, defaultValue }) || defaultValue || 100;
 
   const onChange = (v: number) => {
-    setValue(registerName, v);
+    setValue(registerName, v, { shouldValidate: true });
     onChangeProp?.(v);
   };
 

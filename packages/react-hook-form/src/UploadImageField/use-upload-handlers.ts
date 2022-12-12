@@ -92,14 +92,14 @@ export const useUploadHandlers = ({
       return new Promise((__resolve) => {
         upload$.subscribe({
           next: (resolvedValue) => {
-            setValue(registerName, resolvedValue);
+            setValue(registerName, resolvedValue, { shouldValidate: true });
             setStatus?.('success');
             Message.success?.('上傳成功');
             handleResetStatus();
             __resolve(true);
           },
           error: (ex) => {
-            setValue(registerName, null);
+            setValue(registerName, null, { shouldValidate: true });
             setStatus?.('error');
             Message.error(`[${ex?.message}] 上傳失敗`);
             __resolve(false);

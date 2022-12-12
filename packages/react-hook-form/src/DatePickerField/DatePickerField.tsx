@@ -65,6 +65,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
     contextSetValue(
       registerName,
       newDate,
+      { shouldValidate: true },
     );
     onChangeProp?.(newDate);
   };

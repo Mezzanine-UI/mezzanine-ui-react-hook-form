@@ -1,9 +1,10 @@
 import { useRef } from 'react';
+import { UseFormReturn } from 'react-hook-form';
 import { isBrowser } from '../utils/type-checker';
 
 interface UseClearDebouncedSearch {
   registerName: string;
-  setValue: (name: any, value: any) => void;
+  setValue: UseFormReturn['setValue'];
 }
 
 export function useClearDebouncedSearch({
@@ -25,7 +26,7 @@ export function useClearDebouncedSearch({
 
     target.setAttribute('value', '');
     target.value = '';
-    setValue(registerName, '');
+    setValue(registerName, '', { shouldValidate: true });
   };
 
   return onClear;

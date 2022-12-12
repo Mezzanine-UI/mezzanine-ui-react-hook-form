@@ -87,6 +87,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
     setValue(
       registerName,
       newTags,
+      { shouldValidate: true },
     );
     onTagsChangeProp?.(newTags);
   }, []);

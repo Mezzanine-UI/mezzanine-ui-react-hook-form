@@ -90,7 +90,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
     onChangeProp?.(newValue);
   };
 
-  useDefaultValue(registerName, defaultValue, { shouldValidate: true });
+  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

@@ -29,7 +29,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
   const defaultValue = defaultValueProp || value;
   const { setValue, formState: { errors } } = useFormContext();
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(registerName, e.target.value);
+    setValue(registerName, e.target.value, { shouldValidate: true });
     onChangeProp?.(e);
   };
 

@@ -66,6 +66,7 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
     setValue(
       registerName,
       newDate,
+      { shouldValidate: true },
     );
     onChangeProp?.(newDate);
   };

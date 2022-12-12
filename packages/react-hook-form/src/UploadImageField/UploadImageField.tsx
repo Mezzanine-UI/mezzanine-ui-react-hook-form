@@ -261,7 +261,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     setPreview('');
     setStatus('ready');
     setProgress(0);
-    setValue(registerName, undefined);
+    setValue(registerName, undefined, { shouldValidate: true });
   }, []);
 
   const onClick: MouseEventHandler<HTMLDivElement> = useCallback((e) => {

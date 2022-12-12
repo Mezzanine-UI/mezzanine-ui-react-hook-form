@@ -108,7 +108,7 @@ export function useAutoCompleteDebounce({
         }
       }),
     ).subscribe((val: any) => {
-      setValue(registerName, val);
+      setValue(registerName, val, { shouldValidate: true });
       onChangeProp?.(val);
     });
 

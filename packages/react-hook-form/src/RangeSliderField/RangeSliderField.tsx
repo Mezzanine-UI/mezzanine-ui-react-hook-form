@@ -49,7 +49,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
   const watchValue = useWatch({ name: registerName }) || defaultValue || [min, max];
 
   const onChange = (v: RangeSliderValue) => {
-    setValue(registerName, v);
+    setValue(registerName, v, { shouldValidate: true });
     onChangeProp?.(v);
   };
 

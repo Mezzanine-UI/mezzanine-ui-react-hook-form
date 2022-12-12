@@ -55,7 +55,7 @@ const CheckboxGroupField: HookFormFieldComponent<CheckboxGroupFieldProps> = ({
 
   const onChange: (value: string[], event: React.ChangeEvent<HTMLInputElement>) => void = (newValues, e) => {
     if (errors?.[registerName]) clearErrors(registerName);
-    setValue(registerName, newValues);
+    setValue(registerName, newValues, { shouldValidate: true });
     onChangeProp?.(newValues, e);
   };
 

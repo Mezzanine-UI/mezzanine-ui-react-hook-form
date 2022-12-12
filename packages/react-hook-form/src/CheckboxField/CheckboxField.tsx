@@ -53,12 +53,13 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const next = !checked;
+    e.target.setAttribute('checked', `${next}`);
+    e.target.setAttribute('value', `${next}`);
     setValue(
       registerName,
       next,
+      { shouldValidate: true },
     );
-    e.target.setAttribute('checked', `${next}`);
-    e.target.setAttribute('value', `${next}`);
     onChangeProp?.(e);
   };
 

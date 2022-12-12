@@ -18,7 +18,12 @@ export function useDefaultValue<V>(
   useEffect(() => {
     if (typeof defaultValue !== 'undefined' &&  typeof defaultValueRef.current === 'undefined') {
       defaultValueRef.current = defaultValue;
-      setValue(registerName, defaultValue, options);
+      setValue(registerName, defaultValue, {
+        shouldDirty: false,
+        shouldTouch: false,
+        shouldValidate: false,
+        ...(options || {}),
+      });
     }
   }, [defaultValue]);
 

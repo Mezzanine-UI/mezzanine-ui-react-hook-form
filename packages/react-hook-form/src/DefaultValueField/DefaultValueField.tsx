@@ -13,7 +13,7 @@ const DefaultValueField: HookFormFieldComponent<DefaultValueFieldProps> = ({
   const { setValue } = useFormContext();
 
   useEffect(() => {
-    setValue(registerName, defaultValue);
+    setValue(registerName, defaultValue, { shouldDirty: false, shouldTouch: false, shouldValidate: false });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

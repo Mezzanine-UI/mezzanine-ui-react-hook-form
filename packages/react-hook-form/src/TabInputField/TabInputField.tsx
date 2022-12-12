@@ -39,7 +39,7 @@ const TabInputField: HookFormFieldComponent<TabInputFieldProps> = ({
 
   const onChange = (key: Key) => {
     setTabKey(key);
-    setValue(registerName, key);
+    setValue(registerName, key, { shouldValidate: true });
     onChangeProp?.(key);
   };
 

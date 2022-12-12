@@ -59,7 +59,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
 
   useEffect(() => {
     if (typeof watchedDebouncedValue === 'string') {
-      setValue(registerName, watchedDebouncedValue);
+      setValue(registerName, watchedDebouncedValue, { shouldValidate: true });
 
       if (!watchedDebouncedValue) onClear();
     }

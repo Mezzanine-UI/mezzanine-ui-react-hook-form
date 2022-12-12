@@ -43,6 +43,7 @@ const TreeSelectField: HookFormFieldComponent<TreeSelectFieldProps> = ({
     setValue(
       registerName,
       newValue,
+      { shouldValidate: true },
     );
     onChangeProp?.(newValue);
   };
