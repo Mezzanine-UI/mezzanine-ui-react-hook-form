@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { SearchIcon } from '@mezzanine-ui/icons';
 import { Icon } from '@mezzanine-ui/react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, useFormContext } from 'react-hook-form';
 import { Subject } from 'rxjs';
 import type { InputFieldProps } from '../InputField/InputField';
@@ -37,6 +37,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   onChange: onChangeProp,
   ...props
 }) => {
+  const [key, setKey] = useState(0);
   const cancelDebounce$ = useMemo(() => new Subject<void>(), []);
   const { setValue } = useFormContext();
   const debounceMs = debounced ? debounceMsProp : 0;
@@ -54,6 +55,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
 
   const onClear = () => {
     cancelDebounce$.next();
+    setKey((prev) => prev + 1);
     clearInput();
   };
 
@@ -69,6 +71,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
 
   return (
     <Input
+      key={key}
       fullWidth
       clearable={clearable}
       style={style}

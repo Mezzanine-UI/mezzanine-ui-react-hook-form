@@ -1,5 +1,6 @@
 import { Message } from '@mezzanine-ui/react';
-import { useForm } from 'react-hook-form';
+import { FC, useMemo } from 'react';
+import { useForm, useFormContext } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
 import SearchInputField from './SearchInputField';
@@ -10,6 +11,13 @@ export default {
 
 export const Basic = () => {
   const methods = useForm();
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const Watcher = useMemo<FC>(() => () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { watch } = useFormContext();
+    return <p>{watch('search-watcher')}</p>;
+  }, []);
 
   return (
     <div
@@ -74,6 +82,16 @@ export const Basic = () => {
           registerName="search-input-register-name-5"
           onChange={(e) => Message.success?.(e.target.value)}
         />
+        <p>
+          Test Watcher
+        </p>
+        <SearchInputField
+          width={300}
+          label="Test onChange"
+          size="large"
+          registerName="search-watcher"
+        />
+        <Watcher />
       </FormFieldsWrapper>
     </div>
   );
