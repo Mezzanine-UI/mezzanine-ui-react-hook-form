@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.2...@mezzanine-ui/react-hook-form@0.14.3) (2022-12-19)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `SearchInputField` onClear behavior ([35251ef](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/35251ef20a9ceb46c861050236154ee23997e346))
+
 ## [0.14.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.1...@mezzanine-ui/react-hook-form@0.14.2) (2022-12-12)
 
 ### Bug Fixes
