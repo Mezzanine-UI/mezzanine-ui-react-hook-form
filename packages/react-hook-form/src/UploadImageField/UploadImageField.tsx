@@ -240,11 +240,24 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     if (e.dataTransfer) {
       const [file] = fileListToArray(e.dataTransfer.files);
 
-      if (file) {
+      if (!file) return;
+
+      fileName.current = file.name;
+
+      if (crop) {
         handleFileToCrop(file);
+      } else {
+        const blob = new Blob([file], { type: file.type || 'image/jpeg' });
+
+        handleFileUpload(blob, fileName.current)
+          .then((success) => {
+            if (success) {
+              handlePreview(blobToUrl(blob));
+            }
+          });
       }
     }
-  }, [handleFileToCrop]);
+  }, [handleFileToCrop, errors, registerName, crop]);
 
   const onMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback((e) => {
     e.preventDefault();
