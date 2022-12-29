@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.3...@mezzanine-ui/react-hook-form@0.14.4) (2022-12-29)
+
+### Bug Fixes
+
+- **react-hook-form:** sync `onDrop` logic ([057a79c](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/057a79ca08ea059ad9c68cd3aa318d46602a9878))
+
 ## [0.14.3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.2...@mezzanine-ui/react-hook-form@0.14.3) (2022-12-19)
 
 ### Bug Fixes
