@@ -2,13 +2,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Message, UploadResult, UploadResultProps } from '@mezzanine-ui/react';
+import { UploadResult, UploadResultProps } from '@mezzanine-ui/react';
 import axios from 'axios';
 import React, {
   FC, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { of, switchMap } from 'rxjs';
+import { lastValueFrom, of, switchMap } from 'rxjs';
 import { useUploadHandlers, UseUploadHandlersProps } from '../UploadImageField';
 
 export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | 'percentage'> {
@@ -80,7 +80,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
     } catch (e: any) {
       _reject(e);
     }
-  })), [uploadProp, url]);
+  })), [url]);
 
   const { handleFileUpload } = useUploadHandlers({
     url,
@@ -93,27 +93,13 @@ const _UploadResult: FC<_UploadResultProps> = ({
     upload,
   });
 
-  const doUpload = useCallback(
-    async () => {
-      const upload$ = of(null).pipe(switchMap(() => handleFileUpload()));
+  const upload$ = useMemo(() => (
+    of(null).pipe(switchMap(() => handleFileUpload()))
+  ), [handleFileUpload]);
 
-      return new Promise((__resolve) => {
-        upload$.subscribe({
-          next: (resolvedValue) => {
-            setValue(registerName, resolve(resolvedValue, file));
-            setStatus('done');
-            __resolve(true);
-          },
-          error: (ex) => {
-            setValue(registerName, null);
-            setStatus('error');
-            Message.error(`[${ex?.message}] 上傳失敗`);
-            __resolve(false);
-          },
-        });
-      });
-    },
-    [handleFileUpload],
+  const doUpload = useCallback(
+    () => lastValueFrom(upload$).then(() => setStatus('done')).catch(() => setStatus('error')),
+    [upload$],
   );
 
   const onDelete = (e: React.MouseEvent) => {
