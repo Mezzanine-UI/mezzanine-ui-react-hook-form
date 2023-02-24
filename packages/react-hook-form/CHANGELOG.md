@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.6](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.5...@mezzanine-ui/react-hook-form@0.14.6) (2023-02-24)
+
+### Bug Fixes
+
+- **react-hook-form:** correct `useDefaultValue` ([154e32c](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/154e32ca72d93da292de22cc26310cca91419c81))
+- **react-hook-form:** fixed `onChange` prop on `InputField` ([2b2e1e2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/2b2e1e26bc085d0f9999329306be2ca15ebc2020))
+- **react-hook-form:** fixed `UploadImageField` hover style ([f21dd62](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/f21dd62f3a130370ae2da82691e1653b18ff420d))
+- **react-hook-form:** replace custom `Input` with official one ([125f120](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/125f120b129538c0e1d195991458d403cba3d0f1))
+- **react-hook-form:** resolved [#27](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/27) ([02c9e38](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/02c9e3828b24620816e8b954b2d3d8f6bdd43df3))
+- **react-hook-form:** resolved [#28](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/28) ([98b9b9a](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/98b9b9a883cf4fd7c8b4ef623f0cfc61f4ed502a))
+- **react-hook-form:** resolved [#29](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/29) ([e7383c4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/e7383c479c2389e7585813e6322bb471ce57fffe))
+
 ## [0.14.5](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.4...@mezzanine-ui/react-hook-form@0.14.5) (2023-01-10)
 
 ### Bug Fixes
