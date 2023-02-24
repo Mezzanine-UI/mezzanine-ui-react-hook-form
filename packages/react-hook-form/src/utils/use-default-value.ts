@@ -19,7 +19,7 @@ export function useDefaultValue<V>(
   options?: UseDefaultValueOptions,
 ) {
   const defaultValueRef = useRef<V | undefined>();
-  const { resetField } = useFormContext();
+  const { setValue, resetField } = useFormContext();
 
   useEffect(() => {
     if (typeof defaultValue !== 'undefined' &&  typeof defaultValueRef.current === 'undefined') {
@@ -29,6 +29,11 @@ export function useDefaultValue<V>(
         keepError: options?.keepError || false,
         keepTouched: options?.keepTouched || false,
         defaultValue: defaultValue,
+      });
+      setValue(registerName, defaultValue, {
+        shouldDirty: false,
+        shouldTouch: false,
+        shouldValidate: false,
       });
     }
   }, [defaultValue]);
