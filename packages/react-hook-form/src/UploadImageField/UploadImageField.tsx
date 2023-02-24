@@ -2,7 +2,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { CheckIcon, TimesIcon, UploadIcon } from '@mezzanine-ui/icons';
+import {
+  CheckIcon, TimesIcon, TrashIcon, UploadIcon,
+} from '@mezzanine-ui/icons';
 import {
   cx, Fade, Icon,
   IconProps,
@@ -449,8 +451,8 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
           >
             <Icon
               className={uploadImageFieldClasses.icon}
-              color="primary"
-              icon={TimesIcon}
+              color={status === 'error' ? 'error' : 'primary'}
+              icon={TrashIcon}
             />
           </div>
         </Fade>
