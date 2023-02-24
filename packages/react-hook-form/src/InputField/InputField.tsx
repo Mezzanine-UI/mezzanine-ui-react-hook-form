@@ -89,6 +89,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.type === 'change') {
       setValue(registerName, e.target.value);
+      onChangeProp?.(e);
     } else {
       resetField(registerName);
     }
