@@ -11,7 +11,11 @@ export default {
 };
 
 export const Basic = () => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      'reset-testing': 'reset-testing',
+    },
+  });
 
   const DispatchValue5After3s5s: FC = useMemo(() => () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -110,7 +114,6 @@ export const Basic = () => {
           label="Test reset logic"
           size="large"
           registerName="reset-testing"
-          defaultValue="defaultValue"
         />
         <button type="button" onClick={() => methods.reset()}>
           reset

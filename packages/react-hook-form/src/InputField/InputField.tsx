@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  cx, InputProps,
+  Input,
+  InputProps,
+  cx,
 } from '@mezzanine-ui/react';
 import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
-import { useCallback } from 'react';
+import { ChangeEventHandler } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
-import Input from '../Mezzanine/Input';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { useDefaultValue } from '../utils/use-default-value';
 
@@ -58,6 +59,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     control: contextControl,
     register: contextRegister,
     resetField,
+    setValue,
   } = useFormContext();
 
   const watchValue = useWatch({
@@ -84,9 +86,13 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     },
   );
 
-  const onClear = useCallback(() => {
-    resetField(registerName);
-  }, []);
+  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (e.type === 'change') {
+      setValue(registerName, e.target.value);
+    } else {
+      resetField(registerName);
+    }
+  };
 
   useDefaultValue(registerName, defaultValue);
 
@@ -122,7 +128,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
         value={watchValue || ''}
         required={required}
         suffix={suffix}
-        onClear={onClear}
+        onChange={onChange}
         tagsProps={tagsProps}
         inputProps={{
           autoComplete,

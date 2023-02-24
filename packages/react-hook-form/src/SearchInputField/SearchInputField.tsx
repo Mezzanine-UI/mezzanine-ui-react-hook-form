@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { SearchIcon } from '@mezzanine-ui/icons';
-import { Icon } from '@mezzanine-ui/react';
-import { useEffect, useMemo, useState } from 'react';
+import { Icon, Input } from '@mezzanine-ui/react';
+import {
+  ChangeEventHandler, useEffect, useMemo, useState,
+} from 'react';
 import { FieldValues, useFormContext } from 'react-hook-form';
 import { Subject } from 'rxjs';
 import type { InputFieldProps } from '../InputField/InputField';
-import Input from '../Mezzanine/Input';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { useDefaultValue } from '../utils/use-default-value';
 import { useClearDebouncedSearch } from './use-clear-debounced-search';
@@ -59,6 +60,13 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
     clearInput();
   };
 
+  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (e.type !== 'change') {
+      // clearable
+      onClear();
+    }
+  };
+
   useEffect(() => {
     if (typeof watchedDebouncedValue === 'string') {
       setValue(registerName, watchedDebouncedValue, { shouldValidate: true });
@@ -83,7 +91,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
       disabled={disabled}
       required={required}
       suffix={suffix}
-      onClear={onClear}
+      onChange={onChange}
       inputProps={{
         ...props,
         id: registerName,

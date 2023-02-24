@@ -15,7 +15,6 @@ const PasswordField: HookFormFieldComponent<PassWordFieldProps> = ({
   register,
   remark,
   remarkText,
-  // onChange,
   ...props
 }) => {
   const [passwordMasking, setPasswordMasking] = useState(true);
