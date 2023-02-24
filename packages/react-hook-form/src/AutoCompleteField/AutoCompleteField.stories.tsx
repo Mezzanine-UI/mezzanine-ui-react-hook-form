@@ -48,7 +48,14 @@ function useQuery({ variables }: QueryConfig) {
 }
 
 export const Single = () => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      testDefaultValueFromContext: {
+        id: 'someValue',
+        name: 'testDefaultValueFromContext',
+      },
+    },
+  });
   const { input, onInput } = useAutoCompleteInput({ debounceMs: 900 }); // debouncing on keyword input.
 
   const { data, loading } = useQuery({
@@ -94,6 +101,21 @@ export const Single = () => {
           debounceMs={0}
           label="Test onChange"
           registerName="single-auto-complete-register-name-2"
+          onInput={onInput}
+          onChange={(next) => Message.success(JSON.stringify(next))}
+          options={data?.map((value) => ({
+            id: value,
+            name: value,
+          })) || []}
+        />
+        <br />
+        <br />
+        <p>Test defaultValueFromContext</p>
+        <AutoCompleteField
+          width={400}
+          debounceMs={0}
+          label="Test defaultValueFromContext"
+          registerName="testDefaultValueFromContext"
           onInput={onInput}
           onChange={(next) => Message.success(JSON.stringify(next))}
           options={data?.map((value) => ({

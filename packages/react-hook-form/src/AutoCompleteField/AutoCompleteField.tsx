@@ -1,14 +1,16 @@
 import {
   AutoComplete, cx, SelectValue,
 } from '@mezzanine-ui/react';
-import { FormEventHandler } from 'react';
-import { FieldValues, useFormContext, useFormState } from 'react-hook-form';
 import { autoCompleteClasses } from '@mezzanine-ui/react-hook-form-core';
 import { AutoCompleteSingleProps } from '@mezzanine-ui/react/Select/AutoComplete';
-import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
+import { FormEventHandler } from 'react';
+import {
+  FieldValues, useFormContext, useFormState, useWatch,
+} from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
-import { useAutoCompleteDebounce } from './use-auto-complete-debounce';
+import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { useDefaultValue } from '../utils/use-default-value';
+import { useAutoCompleteDebounce } from './use-auto-complete-debounce';
 
 export type AutoCompleteFieldProps = HookFormFieldProps<
 Omit<FieldValues, 'defaultValue' | 'onInput' | 'onChange'>,
@@ -43,6 +45,8 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
   ...props
 }) => {
   const { control: contextControl } = useFormContext();
+
+  const watchValue = useWatch({ name: registerName, defaultValue });
 
   const {
     errors,
@@ -86,7 +90,7 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
         placeholder={placeholder}
         defaultValue={defaultValue}
         options={options}
-        value={value}
+        value={watchValue}
       />
     </BaseField>
   );
