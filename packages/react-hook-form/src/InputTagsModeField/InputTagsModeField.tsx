@@ -2,7 +2,7 @@
 import { cx, Input, InputProps } from '@mezzanine-ui/react';
 import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { TagsType } from '@mezzanine-ui/react/Form/useInputWithTagsModeValue';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
@@ -72,7 +72,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const registration = useMemo(() => (register || contextRegister)(
+  const registration = (register || contextRegister)(
     registerName,
     {
       required,
@@ -81,7 +81,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
       min,
       minLength,
     },
-  ), [registerName, required, disabled, maxLength, minLength]);
+  );
 
   const onTagsChange = useCallback((newTags: TagsType) => {
     setValue(

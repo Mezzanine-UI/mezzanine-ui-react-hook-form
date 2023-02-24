@@ -3,9 +3,7 @@ import {
   cx, InputProps,
 } from '@mezzanine-ui/react';
 import { inputFieldClasses } from '@mezzanine-ui/react-hook-form-core';
-import {
-  useCallback, useMemo,
-} from 'react';
+import { useCallback } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
@@ -72,7 +70,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const registration = useMemo(() => (register || contextRegister)(
+  const registration = (register || contextRegister)(
     registerName,
     {
       required,
@@ -84,7 +82,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       valueAsNumber: prop.valueAsNumber,
       onChange: onChangeProp,
     },
-  ), [registerName, required, disabled, maxLength, minLength]);
+  );
 
   const onClear = useCallback(() => {
     resetField(registerName);

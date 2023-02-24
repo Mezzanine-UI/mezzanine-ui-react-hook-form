@@ -91,6 +91,19 @@ export const Basic = () => {
           defaultValue="defaultValue"
         />
         <DispatchValue5After3s5s />
+        <br />
+        <br />
+        <p>Test reset</p>
+        <InputField
+          width={300}
+          label="Test reset logic"
+          size="large"
+          registerName="reset-testing"
+          defaultValue="defaultValue"
+        />
+        <button type="button" onClick={() => methods.reset()}>
+          reset
+        </button>
       </FormFieldsWrapper>
     </div>
   );

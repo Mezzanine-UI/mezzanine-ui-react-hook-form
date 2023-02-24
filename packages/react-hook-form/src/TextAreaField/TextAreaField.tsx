@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import {
   Textarea,
   TextareaProps,
@@ -9,8 +8,8 @@ import {
   useFormState,
   useWatch,
 } from 'react-hook-form';
-import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
+import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { useDefaultValue } from '../utils/use-default-value';
 
 export type TextAreaFieldProps = HookFormFieldProps<FieldValues, TextareaProps, {
@@ -56,7 +55,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const registration = useMemo(() => (register || contextRegister)(
+  const registration = (register || contextRegister)(
     registerName,
     {
       required,
@@ -64,8 +63,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
       maxLength,
       minLength,
     },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [registerName, required, disabled, maxLength, minLength]);
+  );
 
   const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     registration.onChange?.(e);
