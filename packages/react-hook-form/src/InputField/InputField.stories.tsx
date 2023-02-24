@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Message } from '@mezzanine-ui/react';
 import { FC, useEffect, useMemo } from 'react';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useForm, useFormContext, useFormState } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
 import InputField from './InputField';
@@ -29,6 +29,17 @@ export const Basic = () => {
 
     return null;
   }, []);
+
+  const methods2 = useForm({
+    defaultValues: {
+      nameA: 'hihi',
+      nameB: 'hihi',
+    },
+  });
+
+  const { control } = methods;
+
+  const { isDirty } = useFormState({ control });
 
   return (
     <div
@@ -104,6 +115,16 @@ export const Basic = () => {
         <button type="button" onClick={() => methods.reset()}>
           reset
         </button>
+      </FormFieldsWrapper>
+
+      <br />
+      <br />
+      <p>Test default disabled</p>
+      <FormFieldsWrapper methods={methods2}>
+        <div style={{ color: 'black' }}>{`${isDirty}`}</div>
+        <div style={{ color: 'black' }}>{`${methods2.formState.isDirty}`}</div>
+        <InputField registerName="nameA" />
+        <InputField registerName="nameB" disabled />
       </FormFieldsWrapper>
     </div>
   );
