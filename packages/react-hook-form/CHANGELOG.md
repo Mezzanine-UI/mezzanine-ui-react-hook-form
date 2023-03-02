@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.8](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.7...@mezzanine-ui/react-hook-form@0.14.8) (2023-03-02)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `InputField` -> `isDirty` story ([0e6b950](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/0e6b950eea662c41a28e076a134b2bbd4bb2a102))
+- **react-hook-form:** resolved [#30](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/30) ([79bbd02](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/79bbd0277b86975af69e18a0e761ed24e225809b))
+- **react-hook-form:** resolved [#31](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/31) ([b2dce63](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/b2dce635e36350af35a4948b7d2e1cdc763621e7))
+
 ## [0.14.7](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.6...@mezzanine-ui/react-hook-form@0.14.7) (2023-02-24)
 
 ### Bug Fixes
