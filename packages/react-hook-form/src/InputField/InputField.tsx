@@ -81,7 +81,6 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       minLength,
       valueAsDate: prop.valueAsDate,
       valueAsNumber: prop.valueAsNumber,
-      onChange: onChangeProp,
     },
   );
 
