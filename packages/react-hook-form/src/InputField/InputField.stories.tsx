@@ -41,7 +41,7 @@ export const Basic = () => {
     },
   });
 
-  const { control } = methods;
+  const { control } = methods2;
 
   const { isDirty } = useFormState({ control });
 
