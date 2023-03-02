@@ -126,9 +126,8 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     registerName,
     {
       required,
-      disabled,
     },
-  ), [registerName, required, disabled]);
+  ), [registerName, required]);
 
   const fileName = useRef('');
   const [dragActive, setDragActive] = useState(false);

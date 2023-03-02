@@ -58,9 +58,8 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
     registerName,
     {
       required,
-      disabled,
     },
-  ), [registerName, required, disabled]);
+  ), [registerName, required]);
 
   useDefaultValue(registerName, defaultValue);
 

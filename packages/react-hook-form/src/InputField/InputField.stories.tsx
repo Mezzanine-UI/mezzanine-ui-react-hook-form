@@ -1,7 +1,10 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Message } from '@mezzanine-ui/react';
 import { FC, useEffect, useMemo } from 'react';
-import { useForm, useFormContext, useFormState } from 'react-hook-form';
+import {
+  useForm, useFormContext,
+} from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
 import InputField from './InputField';
@@ -40,10 +43,6 @@ export const Basic = () => {
       nameB: 'hihi',
     },
   });
-
-  const { control } = methods2;
-
-  const { isDirty } = useFormState({ control });
 
   return (
     <div
@@ -124,8 +123,10 @@ export const Basic = () => {
       <br />
       <p>Test default disabled</p>
       <FormFieldsWrapper methods={methods2}>
-        <div style={{ color: 'black' }}>{`${isDirty}`}</div>
         <div style={{ color: 'black' }}>{`${methods2.formState.isDirty}`}</div>
+        <div style={{ color: 'black' }}>{`${methods2.formState.isDirty}`}</div>
+        <div style={{ color: 'black' }}>{`${JSON.stringify(methods2.formState.touchedFields, null, 2)}`}</div>
+        <div style={{ color: 'black' }}>{`${JSON.stringify(methods2.formState.dirtyFields, null, 2)}`}</div>
         <InputField registerName="nameA" />
         <InputField registerName="nameB" disabled />
       </FormFieldsWrapper>

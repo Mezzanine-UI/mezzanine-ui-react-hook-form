@@ -77,23 +77,26 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
     registerName,
     {
       required,
-      disabled,
       maxLength,
       min,
       minLength,
     },
   );
 
+  const bindDefaultValueRef = useDefaultValue(registerName, defaultValue);
+
   const onTagsChange = useCallback((newTags: TagsType) => {
     setValue(
       registerName,
       newTags,
-      { shouldValidate: true },
+      {
+        shouldDirty: JSON.stringify(newTags) !== JSON.stringify(bindDefaultValueRef.current),
+        shouldTouch: true,
+        shouldValidate: true,
+      },
     );
     onTagsChangeProp?.(newTags);
   }, []);
-
-  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField

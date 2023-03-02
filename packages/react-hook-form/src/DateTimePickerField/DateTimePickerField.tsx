@@ -59,7 +59,6 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
     registerName,
     {
       required,
-      disabled,
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   );

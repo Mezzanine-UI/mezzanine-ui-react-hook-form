@@ -67,15 +67,19 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
     }
   };
 
+  const bindDefaultValueRef = useDefaultValue(registerName, defaultValue);
+
   useEffect(() => {
     if (typeof watchedDebouncedValue === 'string') {
-      setValue(registerName, watchedDebouncedValue, { shouldValidate: true });
+      setValue(registerName, watchedDebouncedValue, {
+        shouldDirty: watchedDebouncedValue !== bindDefaultValueRef.current,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
 
       if (!watchedDebouncedValue) onClear();
     }
   }, [registerName, watchedDebouncedValue]);
-
-  useDefaultValue(registerName, defaultValue);
 
   return (
     <Input

@@ -58,9 +58,8 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
     registerName,
     {
       required,
-      disabled,
     },
-  ), [registerName, required, disabled]);
+  ), [registerName, required]);
 
   useDefaultValue(registerName, defaultValue);
 

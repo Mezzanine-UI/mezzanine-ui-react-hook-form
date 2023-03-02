@@ -1,14 +1,14 @@
 /* eslint-disable no-nested-ternary */
 import { ErrorMessage } from '@hookform/error-message';
-import { baseFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import {
   FormField,
   FormLabel,
   FormMessage,
   cx,
 } from '@mezzanine-ui/react';
+import { baseFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import {
-  CSSProperties, FC, memo,
+  CSSProperties, FC,
   ReactNode,
 } from 'react';
 import { DeepRequired, FieldErrorsImpl, useFormContext } from 'react-hook-form';
@@ -110,4 +110,4 @@ const BaseField: FC<BaseFieldProps> = ({
   );
 };
 
-export default memo(BaseField) as FC<BaseFieldProps>;
+export default BaseField as FC<BaseFieldProps>;

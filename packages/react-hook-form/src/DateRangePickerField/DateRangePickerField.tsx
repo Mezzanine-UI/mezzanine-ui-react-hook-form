@@ -53,7 +53,6 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
     registerName,
     {
       required,
-      disabled,
     },
   );
 

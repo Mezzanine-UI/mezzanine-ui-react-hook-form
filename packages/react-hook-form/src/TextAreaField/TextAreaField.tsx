@@ -60,7 +60,6 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
     registerName,
     {
       required,
-      disabled,
       maxLength,
       minLength,
     },

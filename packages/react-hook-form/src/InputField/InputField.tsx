@@ -76,7 +76,6 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     registerName,
     {
       required,
-      disabled,
       maxLength,
       min,
       minLength,
@@ -86,16 +85,23 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     },
   );
 
+  const bindDefaultValueRef = useDefaultValue(registerName, defaultValue);
+
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.type === 'change') {
-      setValue(registerName, e.target.value);
+      setValue(registerName, e.target.value, {
+        shouldDirty: e.target.value !== bindDefaultValueRef.current,
+        shouldTouch: true,
+      });
       onChangeProp?.(e);
     } else {
-      resetField(registerName);
+      resetField(registerName, {
+        keepDirty: false,
+        keepError: false,
+        keepTouched: false,
+      });
     }
   };
-
-  useDefaultValue(registerName, defaultValue);
 
   return (
     <BaseField
@@ -117,6 +123,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     >
       <Input
         {...prop}
+        {...registration}
         fullWidth
         role={role}
         className={inputClassName}
