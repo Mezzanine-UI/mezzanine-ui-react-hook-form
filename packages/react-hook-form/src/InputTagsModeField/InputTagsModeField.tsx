@@ -53,6 +53,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
   maxTagsLength,
   inputClassName,
   inputPosition,
+  disabledErrMsg,
   errorMsgRender,
   onTagsChange: onTagsChangeProp,
   ...props
@@ -109,6 +110,7 @@ const InputTagsModeField: HookFormFieldComponent<InputTagsModeFieldProps> = ({
       disabled={disabled}
       label={label}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <Input

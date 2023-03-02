@@ -1,5 +1,4 @@
 import { DatePicker, DatePickerProps } from '@mezzanine-ui/react';
-import { useMemo } from 'react';
 import {
   FieldValues,
   useFormContext,
@@ -35,6 +34,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
   size,
   width,
   errorMsgRender,
+  disabledErrMsg,
   onChange: onChangeProp,
   ...props
 }) => {
@@ -51,14 +51,14 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const registration = useMemo(() => (register || contextRegister)(
+  const registration = (register || contextRegister)(
     registerName,
     {
       required,
       disabled,
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [registerName, required]);
+  );
 
   const onChange = (newDate?: string) => {
     if (errors?.[registerName]) clearErrors(registerName);
@@ -87,6 +87,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
       remark={remark}
       required={required}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <DatePicker

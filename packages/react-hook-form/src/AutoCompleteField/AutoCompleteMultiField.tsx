@@ -57,6 +57,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
   style,
   value,
   width,
+  disabledErrMsg,
   onInput,
   errorMsgRender,
   onChange,
@@ -96,6 +97,7 @@ const AutoCompleteMultiField: HookFormFieldComponent<AutoCompleteMultiFieldProps
       errors={errors}
       required={required}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
       className={cx(
         autoCompleteClasses.host,

@@ -32,6 +32,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
   style,
   width,
   fullWidth = true,
+  disabledErrMsg,
   errorMsgRender,
   onChange: onChangeProp,
   ...props
@@ -77,6 +78,7 @@ const RangeSliderField: HookFormFieldComponent<RangeSliderFieldProps> = ({
       required={required}
       fullWidth={fullWidth}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <Slider

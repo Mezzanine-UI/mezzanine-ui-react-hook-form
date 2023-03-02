@@ -63,6 +63,7 @@ const BaseField: FC<BaseFieldProps> = ({
     '--width': width ? `${width}px` : (fullWidth ? '100%' : undefined),
     ...baseFieldStyle,
   } as CSSProperties;
+  const isError = !disabledErrMsg && errors?.[name];
 
   return (
     <FormField
@@ -73,7 +74,7 @@ const BaseField: FC<BaseFieldProps> = ({
       style={baseFieldStyleVar}
       disabled={disabled}
       required={required}
-      severity={errors?.[name] ? 'error' : undefined}
+      severity={isError ? 'error' : undefined}
     >
       {(typeof label !== 'undefined') && (
         <FormLabel

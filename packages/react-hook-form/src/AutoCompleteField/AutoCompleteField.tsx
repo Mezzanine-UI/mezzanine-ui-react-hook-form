@@ -40,6 +40,7 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
   className,
   value,
   width,
+  disabledErrMsg,
   errorMsgRender,
   onChange,
   ...props
@@ -71,6 +72,7 @@ const AutoCompleteField: HookFormFieldComponent<AutoCompleteFieldProps> = ({
       errors={errors}
       required={required}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
       className={cx(
         autoCompleteClasses.host,

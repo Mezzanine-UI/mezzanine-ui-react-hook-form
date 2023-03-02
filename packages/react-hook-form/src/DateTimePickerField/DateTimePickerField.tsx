@@ -1,5 +1,4 @@
 import { DateTimePicker, DateTimePickerProps } from '@mezzanine-ui/react';
-import { useMemo } from 'react';
 import {
   FieldValues, useFormContext, useFormState, useWatch,
 } from 'react-hook-form';
@@ -38,6 +37,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
   hourPrefix,
   minutePrefix,
   secondPrefix,
+  disabledErrMsg,
   errorMsgRender,
   onChange: onChangeProp,
   ...props
@@ -55,14 +55,14 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
 
   const value = useWatch({ name: registerName, defaultValue }) || defaultValue;
 
-  const registration = useMemo(() => (register || contextRegister)(
+  const registration = (register || contextRegister)(
     registerName,
     {
       required,
       disabled,
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [registerName, required]);
+  );
 
   const inputProps = {
     autoComplete: 'off',
@@ -92,6 +92,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
       remark={remark}
       required={required}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <DateTimePicker

@@ -1,6 +1,5 @@
 import { RangePickerValue } from '@mezzanine-ui/core/picker';
 import { DateRangePicker, DateRangePickerProps } from '@mezzanine-ui/react';
-import { useMemo } from 'react';
 import {
   FieldValues,
   useFormContext,
@@ -30,6 +29,7 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
   style,
   width,
   errorMsgRender,
+  disabledErrMsg,
   onChange: onChangeProp,
   ...props
 }) => {
@@ -49,13 +49,13 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
     errors,
   } = useFormState({ control: control || contextControl });
 
-  const registration = useMemo(() => (register || contextRegister)(
+  const registration = (register || contextRegister)(
     registerName,
     {
       required,
       disabled,
     },
-  ), [register, contextRegister, registerName, required, disabled]);
+  );
 
   const inputProps = {
     autoComplete: 'off',
@@ -83,6 +83,7 @@ const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = 
       required={required}
       style={style}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <DateRangePicker

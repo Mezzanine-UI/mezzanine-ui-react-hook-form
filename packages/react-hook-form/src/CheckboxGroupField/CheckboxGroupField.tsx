@@ -37,6 +37,7 @@ const CheckboxGroupField: HookFormFieldComponent<CheckboxGroupFieldProps> = ({
   registerName,
   remark,
   style,
+  disabledErrMsg,
   errorMsgRender,
   onChange: onChangeProp,
   ...props
@@ -71,6 +72,7 @@ const CheckboxGroupField: HookFormFieldComponent<CheckboxGroupFieldProps> = ({
       style={style}
       className={className}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <CheckboxGroup

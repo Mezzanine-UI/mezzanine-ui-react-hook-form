@@ -31,6 +31,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
   withInput = true,
   style,
   width,
+  disabledErrMsg,
   errorMsgRender,
   onChange: onChangeProp,
   fullWidth = true,
@@ -77,6 +78,7 @@ const SliderField: HookFormFieldComponent<SliderFieldProps> = ({
       required={required}
       width={width}
       fullWidth={fullWidth}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <Slider

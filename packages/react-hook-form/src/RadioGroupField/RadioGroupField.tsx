@@ -21,6 +21,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
   registerName,
   style,
   size,
+  disabledErrMsg,
   errorMsgRender,
   onChange: onChangeProp,
   ...props
@@ -42,6 +43,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
       errors={errors}
       label={label}
       className={cx(label && radioGroupClasses.label)}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <RadioGroup

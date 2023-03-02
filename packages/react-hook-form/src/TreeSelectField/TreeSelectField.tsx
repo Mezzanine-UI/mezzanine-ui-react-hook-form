@@ -22,6 +22,7 @@ const TreeSelectField: HookFormFieldComponent<TreeSelectFieldProps> = ({
   required,
   style,
   width,
+  disabledErrMsg,
   errorMsgRender,
   onChange: onChangeProp,
   value,
@@ -61,6 +62,7 @@ const TreeSelectField: HookFormFieldComponent<TreeSelectFieldProps> = ({
       className={className}
       width={width}
       errors={errors}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <TreeSelect

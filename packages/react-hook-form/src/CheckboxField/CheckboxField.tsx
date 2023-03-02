@@ -36,6 +36,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
   errorMsgRender,
   onChange: onChangeProp,
   defaultChecked,
+  disabledErrMsg,
   ...props
 }) => {
   const {
@@ -76,6 +77,7 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
       required={required}
       style={style}
       width={width}
+      disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
       <Checkbox
