@@ -53,6 +53,7 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
   icon?: IconProps;
   text?: string;
   height?: number;
+  mimeType?: string;
   previewClassName?: string;
   crop?: boolean;
   defaultValue?: string;
@@ -77,6 +78,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   previewClassName,
   className,
   control,
+  mimeType,
   crop = true,
   disabled,
   height,
@@ -466,6 +468,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
         onChange={onInputChange}
       />
       <CropperModal
+        mimeType={mimeType}
         aspect={aspect}
         open={crop && cropperOpen}
         image={imageSrc}

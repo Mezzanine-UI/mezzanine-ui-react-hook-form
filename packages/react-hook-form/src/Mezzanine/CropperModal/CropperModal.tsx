@@ -17,6 +17,7 @@ import CropperMinusIcon from './CropperMinusIcon';
 import CropperPlusIcon from './CropperPlusIcon';
 
 export interface CropperModalProps extends Omit<ModalProps, 'children'> {
+  mimeType?: string;
   aspect?: number;
   image?: CropperProps['image'];
   sizeLimitMb?: number;
@@ -26,6 +27,7 @@ export interface CropperModalProps extends Omit<ModalProps, 'children'> {
 }
 
 export const CropperModal: FC<CropperModalProps> = ({
+  mimeType,
   aspect,
   image,
   open,
@@ -52,6 +54,7 @@ export const CropperModal: FC<CropperModalProps> = ({
 
   const onConfirm = image && onComplete && croppedAreaPixels ? async () => {
     const croppedBlob = await createCropImageBlob({
+      mimeType,
       src: image,
       area: croppedAreaPixels,
       imageLimit: sizeLimitMb * 1024 * 1024,

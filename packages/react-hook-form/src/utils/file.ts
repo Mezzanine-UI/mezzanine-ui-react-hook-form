@@ -63,12 +63,30 @@ export function createVideoBlob(url: string) {
   );
 }
 
+export function base64MimeType(base64String: string) {
+  let result = null;
+
+  if (typeof base64String !== 'string') {
+    return result;
+  }
+
+  const mime = base64String.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
+
+  if (mime && mime.length) {
+    result = mime[1];
+  }
+
+  return result;
+}
+
 export async function createCropImageBlob({
+  mimeType,
   src,
   area,
   imageLimit = 10 * 1024 * 1024,
   rotation = 0,
 }: {
+  mimeType?: string,
   src: string,
   area: Area,
   imageLimit?: number, // 10 * 1024 * 1024,
@@ -79,6 +97,12 @@ export async function createCropImageBlob({
   function getRadianAngle(degreeValue: number) {
     return (degreeValue * Math.PI) / 180;
   }
+
+  if (mimeType && !mimeType.startsWith('image')) {
+    throw new Error('Invalid mime type.');
+  }
+
+  const mime = mimeType || base64MimeType(src) || 'image/png';
 
   const image = await createImage(src);
 
@@ -129,7 +153,7 @@ export async function createCropImageBlob({
   return new Promise<Blob | string>((resolve) => {
     canvas.toBlob(
       (file) => resolve((file || '')),
-      'image',
+      mime,
       Math.min(0.98, imageLimit / imageFileSize),
     );
   });
