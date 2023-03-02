@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.10](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.9...@mezzanine-ui/react-hook-form@0.14.10) (2023-03-02)
+
+### Bug Fixes
+
+- **react-hook-form:** remove `onChangeProp` in InputField ([4f2dd6a](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/4f2dd6ac24a5fb2133c3f1c8f37ec8f0b1656523))
+
 ## [0.14.9](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.8...@mezzanine-ui/react-hook-form@0.14.9) (2023-03-02)
 
 ### Bug Fixes
