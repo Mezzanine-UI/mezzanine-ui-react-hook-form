@@ -117,6 +117,29 @@ export const Basic = () => {
         <button type="button" onClick={() => methods.reset()}>
           reset
         </button>
+
+        <br />
+        <br />
+        <p>Test prop onChange</p>
+        <InputField
+          registerName="test-prop-on-change"
+          onChange={(e) => Message.success(e.target.value)}
+        />
+
+        <br />
+        <br />
+        <p>Test prop onFocus</p>
+        <InputField
+          registerName="test-prop-on-focus"
+          onFocus={() => Message.success('onFocus')}
+        />
+        <br />
+        <br />
+        <p>Test prop onBlur</p>
+        <InputField
+          registerName="test-prop-on-blur"
+          onBlur={() => Message.success('onBlur')}
+        />
       </FormFieldsWrapper>
 
       <br />

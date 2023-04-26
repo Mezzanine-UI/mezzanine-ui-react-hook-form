@@ -36,11 +36,13 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   width,
   label,
   maxLength,
+  max,
   min,
   minLength,
   name,
   placeholder = '請輸入',
   prefix,
+  pattern,
   register,
   registerName,
   remark,
@@ -51,6 +53,8 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   suffix,
   tagsProps,
   type,
+  valueAsDate,
+  valueAsNumber,
   errorMsgRender,
   onChange: onChangeProp,
   ...prop
@@ -77,22 +81,24 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     {
       required,
       maxLength,
+      max,
+      pattern,
       min,
       minLength,
-      valueAsDate: prop.valueAsDate,
-      valueAsNumber: prop.valueAsNumber,
+      valueAsDate,
+      valueAsNumber,
     },
   );
 
   const bindDefaultValueRef = useDefaultValue(registerName, defaultValue);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    onChangeProp?.(e);
     if (e.type === 'change') {
       setValue(registerName, e.target.value, {
         shouldDirty: e.target.value !== bindDefaultValueRef.current,
         shouldTouch: true,
       });
-      onChangeProp?.(e);
     } else {
       resetField(registerName, {
         keepDirty: false,
@@ -121,8 +127,8 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       errorMsgRender={errorMsgRender}
     >
       <Input
-        {...prop}
         {...registration}
+        {...prop}
         fullWidth
         role={role}
         className={inputClassName}
@@ -144,6 +150,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
           minLength,
           type,
           ...registration,
+          ...prop,
         }}
       />
     </BaseField>
