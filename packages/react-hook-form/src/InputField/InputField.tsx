@@ -11,7 +11,6 @@ import {
 } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
-import { useDefaultValue } from '../utils/use-default-value';
 
 /** -------------------------------------------------------------------------------- */
 
@@ -64,6 +63,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     register: contextRegister,
     resetField,
     setValue,
+    trigger,
   } = useFormContext();
 
   const watchValue = useWatch({
@@ -90,15 +90,11 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     },
   );
 
-  const bindDefaultValueRef = useDefaultValue(registerName, defaultValue);
-
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     onChangeProp?.(e);
     if (e.type === 'change') {
-      setValue(registerName, e.target.value, {
-        shouldDirty: e.target.value !== bindDefaultValueRef.current,
-        shouldTouch: true,
-      });
+      setValue(registerName, e.target.value);
+      trigger(registerName);
     } else {
       resetField(registerName, {
         keepDirty: false,

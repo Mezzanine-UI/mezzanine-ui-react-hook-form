@@ -3,7 +3,7 @@
 import { Message } from '@mezzanine-ui/react';
 import { FC, useEffect, useMemo } from 'react';
 import {
-  useForm, useFormContext,
+  useForm, useFormContext, useFormState,
 } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -43,6 +43,15 @@ export const Basic = () => {
       nameB: 'hihi',
     },
   });
+
+  const methods3 = useForm({
+    defaultValues: {
+      nameC: '',
+    },
+    mode: 'onBlur',
+  });
+
+  const { isValid } = useFormState({ control: methods3.control });
 
   return (
     <div
@@ -152,6 +161,19 @@ export const Basic = () => {
         <div style={{ color: 'black' }}>{`${JSON.stringify(methods2.formState.dirtyFields, null, 2)}`}</div>
         <InputField registerName="nameA" />
         <InputField registerName="nameB" disabled />
+      </FormFieldsWrapper>
+
+      <br />
+      <br />
+      <p>Test mode = onChange</p>
+      <FormFieldsWrapper methods={methods3}>
+        <FormFieldsDebug />
+        <InputField
+          required
+          registerName="nameC"
+        />
+        isValid =
+        {isValid ? 'true' : 'false'}
       </FormFieldsWrapper>
     </div>
   );
