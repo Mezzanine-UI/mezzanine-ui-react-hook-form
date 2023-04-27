@@ -74,7 +74,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
 
   const {
     errors,
-  } = useFormState({ control: control || contextControl });
+  } = useFormState({ control: control || contextControl, name: registerName });
 
   const registration = (register || contextRegister)(
     registerName,
@@ -92,9 +92,12 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     onChangeProp?.(e);
+
     if (e.type === 'change') {
       setValue(registerName, e.target.value);
-      trigger(registerName);
+
+      // eslint-disable-next-line no-underscore-dangle
+      if (contextControl._options.mode === 'onChange') trigger(registerName);
     } else {
       resetField(registerName, {
         keepDirty: false,

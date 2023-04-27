@@ -48,10 +48,19 @@ export const Basic = () => {
     defaultValues: {
       nameC: '',
     },
+    mode: 'onChange',
+  });
+
+  const { isValid: method3IsValid } = useFormState({ control: methods3.control });
+
+  const methods4 = useForm({
+    defaultValues: {
+      nameD: '',
+    },
     mode: 'onBlur',
   });
 
-  const { isValid } = useFormState({ control: methods3.control });
+  const { isValid: method4IsValid } = useFormState({ control: methods4.control });
 
   return (
     <div
@@ -167,13 +176,25 @@ export const Basic = () => {
       <br />
       <p>Test mode = onChange</p>
       <FormFieldsWrapper methods={methods3}>
-        <FormFieldsDebug />
         <InputField
           required
           registerName="nameC"
         />
-        isValid =
-        {isValid ? 'true' : 'false'}
+        method3IsValid =
+        {method3IsValid ? 'true' : 'false'}
+      </FormFieldsWrapper>
+
+      <br />
+      <br />
+      <p>Test mode = onBlur</p>
+      <FormFieldsWrapper methods={methods4}>
+        <InputField
+          required
+          registerName="nameD"
+        />
+        method4IsValid =
+        {method4IsValid ? 'true' : 'false'}
+
       </FormFieldsWrapper>
     </div>
   );
