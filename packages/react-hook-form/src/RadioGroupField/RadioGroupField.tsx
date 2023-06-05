@@ -24,6 +24,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
   disabledErrMsg,
   errorMsgRender,
   onChange: onChangeProp,
+  required,
   ...props
 }) => {
   const value = useWatch({ name: registerName });
@@ -42,6 +43,7 @@ const RadioGroupField: HookFormFieldComponent<RadioGroupFieldProps> = ({
       name={registerName}
       errors={errors}
       label={label}
+      required={required}
       className={cx(label && radioGroupClasses.label)}
       disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}

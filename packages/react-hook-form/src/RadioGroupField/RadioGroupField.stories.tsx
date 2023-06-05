@@ -41,6 +41,7 @@ export const Basic = () => {
         <RadioGroupField
           label="Label Name"
           size="large"
+          required
           registerName="radio-group-register-name"
           options={[
             {
