@@ -1,6 +1,6 @@
 {
   "name": "@mezzanine-ui/react-hook-form",
-  "version": "0.14.13",
+  "version": "0.14.14",
   "description": "Form with data binding HOC for mezzanine-ui",
   "author": "mezzanine",
   "repository": {
