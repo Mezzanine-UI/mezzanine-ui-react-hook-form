@@ -26,6 +26,7 @@ export const Basic = () => {
           label="Label Name"
           orientation="horizontal"
           registerName="checkbox-group-register-name"
+          required
           options={[
             {
               label: '1',
