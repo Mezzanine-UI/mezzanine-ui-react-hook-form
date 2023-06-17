@@ -94,7 +94,13 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
     onChangeProp?.(e);
 
     if (e.type === 'change') {
-      setValue(registerName, e.target.value);
+      setValue(
+        registerName,
+        e.target.value,
+        {
+          shouldDirty: true,
+        },
+      );
 
       // eslint-disable-next-line no-underscore-dangle
       if (contextControl._options.mode === 'onChange') trigger(registerName);
@@ -137,7 +143,8 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
         placeholder={placeholder}
         prefix={prefix}
         disabled={disabled}
-        value={watchValue || ''}
+        /** @NOTE 為了 valueAsNumber 額外做的判斷 */
+        value={watchValue === 0 ? 0 : (watchValue || '')}
         required={required}
         suffix={suffix}
         onChange={onChange}
