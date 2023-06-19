@@ -82,7 +82,7 @@ export const CropperModal: FC<CropperModalProps> = ({
             color="text-primary"
             variant="h3"
           >
-            拆切影像
+            裁切影像
           </Typography>
         )}
         <button
