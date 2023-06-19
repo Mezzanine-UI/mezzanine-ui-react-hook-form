@@ -28,7 +28,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { BaseField } from '../BaseField';
-import { CropperModal } from '../Mezzanine/CropperModal/CropperModal';
+import { CropperModal, CropperModalProps } from '../Mezzanine/CropperModal/CropperModal';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { UploadStatus } from '../typings/file';
 import { blobToUrl, byteToMegaByte, fileListToArray } from '../utils';
@@ -57,6 +57,7 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
   mimeType?: string;
   previewClassName?: string;
   crop?: boolean;
+  cropperHeader?: CropperModalProps['header'];
   defaultValue?: string;
   resolve: UseUploadHandlersProps['resolve'];
   upload?(blob: string | Blob, fileName?: string): Promise<any>;
@@ -97,6 +98,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   control,
   mimeType,
   crop = true,
+  cropperHeader,
   disabled,
   height,
   bearerToken,
@@ -498,6 +500,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
         onChange={onInputChange}
       />
       <CropperModal
+        header={cropperHeader}
         mimeType={mimeType}
         aspect={aspect}
         open={crop && cropperOpen}
