@@ -30,8 +30,25 @@ export const Basic = () => {
           formDataName="file"
           resolve={(res: MockUploadResponse) => res.id + res.whatever} // Will update form filed value
           label="Label Name"
+          text="Upload Image"
           registerName="upload-image-register-name-1"
           aspect={1} // To limit the cropped aspect ratio.
+          annotation={{
+            formats: ['jpeg', 'webp'],
+            maximumMb: 10,
+            recommendedDimension: [968, 576],
+          }}
+          labels={{
+            fileLimitationPrefix: 'File Limit: ',
+            formatPrefix: 'Video Format: ',
+            upload: 'Upload',
+            error: 'Upload Failed',
+            success: 'Complete',
+            failed: 'Failed',
+            resolveRecommendedDimension: (w: number, h: number, wR: number, hR: number) => (
+              `Recommend: up to ${w} x ${h} (ratio: ${wR}:${hR})`
+            ),
+          }}
         />
         <p>
           fullWidth
@@ -83,7 +100,7 @@ export const Basic = () => {
           annotation={{
             formats: ['jpeg', 'webp'],
             maximumMb: 10,
-            recommendedText: '建議尺寸：寬度至少 1600px，高度不限',
+            recommendedDimension: [968, 576],
           }}
         />
         <p>

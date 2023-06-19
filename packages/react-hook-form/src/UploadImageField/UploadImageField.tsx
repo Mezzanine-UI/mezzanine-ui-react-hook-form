@@ -34,6 +34,7 @@ import { UploadStatus } from '../typings/file';
 import { blobToUrl, byteToMegaByte, fileListToArray } from '../utils';
 import { useDefaultValue } from '../utils/use-default-value';
 import { useUploadHandlers, UseUploadHandlersProps } from './use-upload-handlers';
+import { gcd } from '../utils/gcd';
 
 const BASE_ACCEPT_FILE_EXTENSION = ['.jpg', '.jpeg', '.png'];
 
@@ -67,6 +68,22 @@ export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
     maximumMb?: number,
     others?: string[],
   },
+  labels?: {
+    /** @default 檔案最大限制： */
+    fileLimitationPrefix?: string;
+    /** @default 影像格式： */
+    formatPrefix?: string;
+    /** @default 建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR}) */
+    resolveRecommendedDimension?: (width: number, height: number, widthRatio: number, heightRatio: number) => string;
+    /** @default 上傳 */
+    upload?: string;
+    /** @default 上傳錯誤 */
+    error?: string;
+    /** @default 成功 */
+    success?: string;
+    /** @default 失敗 */
+    failed?: string;
+  };
 }>;
 
 const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
@@ -101,6 +118,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   defaultValue,
   upload: uploadProp,
   errorMsgRender,
+  labels,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -326,19 +344,32 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     }
   }, [handleFileToCrop, errors, registerName, crop]);
 
+  const {
+    fileLimitationPrefix = '檔案最大限制：',
+    formatPrefix = '影像格式：',
+    resolveRecommendedDimension = (w: number, h: number, wR: number, hR: number) => (
+      `建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR})`
+    ),
+    upload: uploadLabel = '上傳',
+    error: errorLabel = '上傳錯誤',
+    success: successLabel = '完成',
+    failed: failedLabel = '失敗',
+  } = labels || {};
+
   const annotationInfos = useMemo(() => {
     if (!annotation) return null;
 
-    const maximumMbText = `檔案最大限制：${annotation.maximumMb}MB`;
-    const format = annotation.formats ? `影像格式：${annotation.formats.join(', ')}` : null;
+    const maximumMbText = `${fileLimitationPrefix}${annotation.maximumMb}MB`;
+    const format = annotation.formats ? `${formatPrefix}${annotation.formats.join(', ')}` : null;
     const maximumMb = annotation.maximumMb ? maximumMbText : null;
     const recommendedText = annotation?.recommendedText || (() => {
       if (!annotation?.recommendedDimension) return null;
+
       const [w, h] = annotation.recommendedDimension;
-      const lessOne = Math.min(w, h);
-      const wR = Math.round(w / lessOne);
-      const hR = Math.round(h / lessOne);
-      return `建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR})`;
+      const gcdNumber = gcd(w, h);
+      const wR = w / gcdNumber;
+      const hR = h / gcdNumber;
+      return resolveRecommendedDimension(w, h, wR, hR);
     })();
 
     return [
@@ -347,7 +378,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       maximumMb,
       ...(annotation?.others || []),
     ].filter((t) => typeof t === 'string');
-  }, [annotation]);
+  }, [annotation, fileLimitationPrefix, formatPrefix, resolveRecommendedDimension]);
 
   useDefaultValue(registerName, defaultValue);
 
@@ -404,7 +435,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
                 variant="input2"
                 color={status === 'error' ? 'error' : 'primary'}
               >
-                {status === 'error' ? '上傳錯誤' : text}
+                {status === 'error' ? errorLabel : text}
               </Typography>
             )}
           </>
@@ -434,8 +465,8 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
                         color={status}
                         variant="input1"
                       >
-                        上傳
-                        {status === 'success' ? '完成' : '失敗'}
+                        {uploadLabel}
+                        {status === 'success' ? successLabel : failedLabel}
                       </Typography>
                     )}
 

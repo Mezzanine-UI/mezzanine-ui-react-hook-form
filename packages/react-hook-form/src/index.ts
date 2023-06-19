@@ -26,3 +26,4 @@ export * from './typings/error-message';
 export * from './UploadFileField';
 export * from './DefaultValueField';
 export * from './utils/use-default-value';
+export * from './utils/gcd';
