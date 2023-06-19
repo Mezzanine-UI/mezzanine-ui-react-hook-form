@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.14...@mezzanine-ui/react-hook-form@0.15.0) (2023-06-19)
+
+### Bug Fixes
+
+- **react-hook-form:** bypass cropperModal header props in UploadImageField ([5cc6fd1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/5cc6fd1801000b8350eccb73059599f27cc21c03))
+- **react-hook-form:** correct cropper modal title ([2142b6a](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/2142b6a06dbf42a977aaf996d475446f4da33637))
+
+### Features
+
+- **react-hook-form:** upload image field allow customize labels and add gcd method, closed [#34](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/34) ([f50f74e](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/f50f74ef128e3b704c911ea198be915f44f526ef))
+
 ## [0.14.14](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.14.13...@mezzanine-ui/react-hook-form@0.14.14) (2023-06-17)
 
 ### Bug Fixes
