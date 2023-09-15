@@ -1,5 +1,5 @@
 import { Message } from '@mezzanine-ui/react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormState } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
 import SelectField from './SelectField';
@@ -68,7 +68,12 @@ export const Single = () => {
 };
 
 export const Multiple = () => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      'multiple-group-select-register-nam-2': [],
+    },
+  });
+  const { isDirty } = useFormState({ name: 'multiple-group-select-register-nam-2', control: methods.control });
 
   return (
     <div
@@ -150,6 +155,10 @@ export const Multiple = () => {
             },
           ]}
         />
+        <br />
+        <br />
+        multiple-group-select-register-nam-2 is dirty =
+        {isDirty ? 'true' : 'false'}
       </FormFieldsWrapper>
     </div>
   );

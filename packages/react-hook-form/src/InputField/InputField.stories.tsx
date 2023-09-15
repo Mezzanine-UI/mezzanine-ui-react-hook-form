@@ -60,7 +60,7 @@ export const Basic = () => {
     mode: 'onBlur',
   });
 
-  const { isValid: method4IsValid } = useFormState({ control: methods4.control });
+  const { isValid: method4IsValid, isDirty } = useFormState({ control: methods4.control });
 
   return (
     <div
@@ -194,6 +194,9 @@ export const Basic = () => {
         />
         method4IsValid =
         {method4IsValid ? 'true' : 'false'}
+        <br />
+        method4IsDirty =
+        {isDirty ? 'true' : 'false'}
 
       </FormFieldsWrapper>
     </div>

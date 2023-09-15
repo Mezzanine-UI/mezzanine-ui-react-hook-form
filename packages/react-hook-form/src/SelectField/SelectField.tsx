@@ -86,7 +86,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
     setValue(
       registerName,
       newValue,
-      { shouldValidate: true },
+      { shouldValidate: true, shouldDirty: true },
     );
     onChangeProp?.(newValue);
   };
