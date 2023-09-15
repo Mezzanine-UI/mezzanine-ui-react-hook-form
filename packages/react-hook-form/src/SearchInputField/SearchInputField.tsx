@@ -29,7 +29,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   register,
   registerName,
   required,
-  size = 'medium',
+  size,
   style,
   suffix,
   min,
