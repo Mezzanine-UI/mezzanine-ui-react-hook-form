@@ -86,7 +86,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       min,
       minLength,
       valueAsDate: valueAsDate as any,
-      valueAsNumber: valueAsNumber as any,
+      valueAsNumber: type === 'number' && valueAsNumber as any,
     },
   );
 
