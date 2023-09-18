@@ -78,6 +78,11 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
       });
 
       if (!watchedDebouncedValue) onClear();
+    } else if (
+      typeof watchedDebouncedValue === 'undefined'
+      && typeof bindDefaultValueRef.current === 'undefined'
+    ) {
+      setKey((prev) => prev + 1); // force refresh view
     }
   }, [registerName, watchedDebouncedValue]);
 

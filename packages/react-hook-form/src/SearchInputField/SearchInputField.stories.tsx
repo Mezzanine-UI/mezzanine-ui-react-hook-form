@@ -10,7 +10,11 @@ export default {
 };
 
 export const Basic = () => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      'test-default-is-undefined': undefined,
+    },
+  });
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const Watcher = useMemo<FC>(() => () => {
@@ -92,6 +96,22 @@ export const Basic = () => {
           registerName="search-watcher"
         />
         <Watcher />
+        <p>
+          Test reset ui binding as (defaultValue = undefined)
+        </p>
+        <SearchInputField
+          width={300}
+          label="Test Default Is undefined"
+          size="large"
+          registerName="test-default-is-undefined"
+        />
+        <button
+          aria-label="reset-test-default-is-undefined"
+          type="button"
+          onClick={() => methods.reset()}
+        >
+          Reset Default is undefined
+        </button>
       </FormFieldsWrapper>
     </div>
   );
