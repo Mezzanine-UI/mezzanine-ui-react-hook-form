@@ -19,7 +19,7 @@ export function useDebouncedValue({
   cancel$,
   onChange,
 }: UseDebouncedValue) {
-  const value = useWatch({ name: inputId || '' });
+  const value = useWatch({ name: inputId || '' }) as string | undefined;
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   const [inputRefElement, setInputElement] = useState(() => (

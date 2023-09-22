@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { SearchIcon } from '@mezzanine-ui/icons';
-import { Icon, Input } from '@mezzanine-ui/react';
+import { Icon, Input, useControlValueState } from '@mezzanine-ui/react';
 import {
   ChangeEventHandler, useEffect, useMemo, useState,
 } from 'react';
-import { FieldValues, useFormContext } from 'react-hook-form';
+import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { Subject } from 'rxjs';
 import type { InputFieldProps } from '../InputField/InputField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
@@ -36,9 +36,15 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   max,
   pattern,
   onChange: onChangeProp,
+  value: valueProp,
   ...props
 }) => {
   const [key, setKey] = useState(0);
+  const fieldValue = useWatch({ name: registerName }) as string | undefined;
+  const [inputValue, setInputValue] = useControlValueState({
+    defaultValue,
+    value: valueProp,
+  });
   const cancelDebounce$ = useMemo(() => new Subject<void>(), []);
   const { setValue } = useFormContext();
   const debounceMs = debounced ? debounceMsProp : 0;
@@ -57,6 +63,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   const onClear = () => {
     cancelDebounce$.next();
     setKey((prev) => prev + 1);
+    setInputValue('');
     clearInput();
   };
 
@@ -64,6 +71,8 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
     if (e.type !== 'change') {
       // clearable
       onClear();
+    } else {
+      setInputValue(e.target.value);
     }
   };
 
@@ -86,6 +95,13 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
     }
   }, [registerName, watchedDebouncedValue]);
 
+  /** sync form value and input value */
+  useEffect(() => {
+    if (fieldValue) {
+      setInputValue(fieldValue);
+    }
+  }, [fieldValue]);
+
   return (
     <Input
       key={key}
@@ -94,6 +110,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
       style={style}
       className={className}
       size={size}
+      value={inputValue}
       defaultValue={defaultValue}
       placeholder={placeholder}
       prefix={prefix || (<Icon icon={SearchIcon} />)}

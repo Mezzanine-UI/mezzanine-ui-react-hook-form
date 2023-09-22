@@ -1,5 +1,5 @@
 import { Message } from '@mezzanine-ui/react';
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
@@ -13,6 +13,7 @@ export const Basic = () => {
   const methods = useForm({
     defaultValues: {
       'test-default-is-undefined': undefined,
+      'test-setValue': '',
     },
   });
 
@@ -22,6 +23,12 @@ export const Basic = () => {
     const { watch } = useFormContext();
     return <p>{watch('search-watcher')}</p>;
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      methods.setValue('test-setValue', 'Custom set Value');
+    }, 200);
+  }, [methods]);
 
   return (
     <div
@@ -112,6 +119,16 @@ export const Basic = () => {
         >
           Reset Default is undefined
         </button>
+        <p>
+          Test setValue with clearable false
+        </p>
+        <SearchInputField
+          width={300}
+          label="Test setValue"
+          clearable={false}
+          size="large"
+          registerName="test-setValue"
+        />
       </FormFieldsWrapper>
     </div>
   );
