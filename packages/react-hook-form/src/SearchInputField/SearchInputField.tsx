@@ -62,9 +62,9 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
 
   const onClear = () => {
     cancelDebounce$.next();
-    setKey((prev) => prev + 1);
     setInputValue('');
     clearInput();
+    setKey((prev) => prev + 1);
   };
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -91,6 +91,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
       typeof watchedDebouncedValue === 'undefined'
       && typeof bindDefaultValueRef.current === 'undefined'
     ) {
+      setInputValue(''); // reset event
       setKey((prev) => prev + 1); // force refresh view
     }
   }, [registerName, watchedDebouncedValue]);
