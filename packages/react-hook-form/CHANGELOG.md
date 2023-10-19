@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.15.3...@mezzanine-ui/react-hook-form@0.15.4) (2023-10-19)
+
+### Bug Fixes
+
+- **react-hook-form:** solved `SearchInputField` blur issue ([6fedea1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/6fedea1fa1324779b9c87887347038b37d29f3a9))
+
 ## [0.15.3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.15.2...@mezzanine-ui/react-hook-form@0.15.3) (2023-09-22)
 
 ### Bug Fixes
