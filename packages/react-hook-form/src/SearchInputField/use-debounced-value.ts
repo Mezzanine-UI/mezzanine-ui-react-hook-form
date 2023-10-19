@@ -1,7 +1,7 @@
 import { ChangeEvent, RefObject, useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, repeatWhen, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, repeat, takeUntil } from 'rxjs/operators';
 import { isBrowser } from '../utils/type-checker';
 
 export interface UseDebouncedValue {
@@ -38,10 +38,10 @@ export function useDebouncedValue({
     const input$ = fromEvent<ChangeEvent<HTMLInputElement>>(inputRefElement, 'input');
     const subscription = input$
       .pipe(
-        takeUntil(cancel$ || new Subject<void>()),
-        repeatWhen(() => input$),
+        repeat({ delay: () => input$ }),
         debounceTime(debounceMs ?? 500),
         distinctUntilChanged(),
+        takeUntil(cancel$ || new Subject<void>()),
       )
       .subscribe((e) => {
         onChange?.(e);
@@ -54,9 +54,7 @@ export function useDebouncedValue({
   }, [inputRefElement, onChange]);
 
   useEffect(() => {
-    if (!value) {
-      setDebouncedValue(value);
-    }
+    setDebouncedValue((prev) => prev != value ? value : prev);
   }, [value]);
 
   return debouncedValue;

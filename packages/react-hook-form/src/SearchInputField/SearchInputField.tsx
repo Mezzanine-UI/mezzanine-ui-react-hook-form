@@ -61,16 +61,19 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   });
 
   const onClear = () => {
-    cancelDebounce$.next();
     setInputValue('');
-    clearInput();
-    setKey((prev) => prev + 1);
+    // put clean-up task into macro-task queue.
+    setTimeout(() => {
+      clearInput();
+      cancelDebounce$.next();
+    });
   };
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.type !== 'change') {
       // clearable
       onClear();
+      setKey((prev) => prev + 1); // force refresh view.
     } else {
       setInputValue(e.target.value);
     }
@@ -85,14 +88,12 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
         shouldTouch: true,
         shouldValidate: true,
       });
-
-      if (!watchedDebouncedValue) onClear();
+      if (!watchedDebouncedValue) setInputValue('');
     } else if (
       typeof watchedDebouncedValue === 'undefined'
       && typeof bindDefaultValueRef.current === 'undefined'
     ) {
       setInputValue(''); // reset event
-      setKey((prev) => prev + 1); // force refresh view
     }
   }, [registerName, watchedDebouncedValue]);
 
