@@ -1,41 +1,8 @@
 import { SelectValue } from '@mezzanine-ui/react';
-import { EventEmitter } from 'eventemitter3';
-import { useCallback, useEffect, useLayoutEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { debounceTime, Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subject, Subscription, debounceTime, tap } from 'rxjs';
 import { isBrowser } from '../utils/type-checker';
-
-class AutoCompleteStore<T extends SelectValue | SelectValue[]> extends EventEmitter {
-  static Events = {
-    UPDATE: 'E/UPDATE',
-  };
-
-  private _observableMap: Map<string, Observable<T>> = new Map();
-
-  add<F extends SelectValue | SelectValue[] = T>(id: string, value: F) {
-    this.emit(`${AutoCompleteStore.Events.UPDATE}:${id}`, value);
-  }
-
-  watch(id: string) {
-    const storedObservable = this._observableMap.get(id);
-
-    const observable = storedObservable || new Observable<T>((subscriber) => {
-      function onUpdate(nextData: T) {
-        subscriber.next(nextData);
-      }
-
-      this.on(`${AutoCompleteStore.Events.UPDATE}:${id}`, onUpdate);
-    });
-
-    if (!storedObservable) {
-      this._observableMap.set(id, observable);
-    }
-
-    return observable;
-  }
-}
-
-let autoCompleteStore: AutoCompleteStore<SelectValue | SelectValue[]>;
 
 interface UseAutoCompleteDebounceParams<Mode extends 'single' | 'multiple' = 'single' | 'multiple'> {
   registerName: string;
@@ -71,38 +38,35 @@ export function useAutoCompleteDebounce({
   skip = false,
   onChange: onChangeProp,
 }: UseAutoCompleteMultiDebounceParams, mode: 'multiple' | 'single'): any {
+  const emitter$ = useRef<Subject<SelectValue | SelectValue[]>>();
   const { setValue } = useFormContext();
-
-  useLayoutEffect(() => {
-    if (typeof autoCompleteStore === 'undefined' || autoCompleteStore === undefined) {
-      autoCompleteStore = new AutoCompleteStore();
-    }
-  }, []);
 
   useEffect(() => {
     if (!isBrowser()) return;
 
-    let inputObservable = autoCompleteStore.watch(registerName);
+    emitter$.current = emitter$.current || new Subject<SelectValue | SelectValue[]>();
+
+    let inputObservable$ = emitter$.current.asObservable();
     let clickAwaySubscription: Subscription | undefined;
-    let clickObservable = new Observable<VoidFunction>((subscriber) => {
+    let clickObservable$ = new Observable<VoidFunction>((subscriber) => {
       subscriber.next();
     });
 
     if (!skip) {
-      inputObservable = inputObservable.pipe(debounceTime(debounceMs));
+      inputObservable$ = inputObservable$.pipe(debounceTime(debounceMs));
 
       /** 如果是多選，當選完 n 秒後沒動靜，自動關掉下拉選單 */
       if (mode === 'multiple' && !disabledAutoClickAway) {
-        clickObservable = clickObservable.pipe(
+        clickObservable$ = clickObservable$.pipe(
           debounceTime(autoClickAwayDebounceMs),
         );
       }
     }
 
-    const inputSubscription = inputObservable.pipe(
+    const inputSubscription = inputObservable$.pipe(
       tap(() => {
         if (!skip) {
-          clickAwaySubscription = clickObservable.subscribe(() => {
+          clickAwaySubscription = clickObservable$.subscribe(() => {
             window.document.body.click(); // to click away list.
           });
         }
@@ -116,11 +80,18 @@ export function useAutoCompleteDebounce({
       inputSubscription.unsubscribe();
       clickAwaySubscription?.unsubscribe();
     };
-  }, [skip]);
+  }, [
+    registerName,
+    skip,
+    debounceMs,
+    disabledAutoClickAway,
+    autoClickAwayDebounceMs,
+    onChangeProp,
+  ]);
 
-  const onChange = useCallback((value: SelectValue | SelectValue[]) => {
-    autoCompleteStore.add<SelectValue | SelectValue[]>(registerName, value);
-  }, []);
+  const onChange = (value: SelectValue | SelectValue[]) => {
+    emitter$.current?.next(value);
+  };
 
   return onChange;
 }
