@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.5](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.15.4...@mezzanine-ui/react-hook-form@0.15.5) (2023-11-01)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `AutoCompleteField` onChange effect deps ([c9d5bbb](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/c9d5bbbd915d5c14147b2ac59fc3d2250d73ecbc))
+
 ## [0.15.4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.15.3...@mezzanine-ui/react-hook-form@0.15.4) (2023-10-19)
 
 ### Bug Fixes
