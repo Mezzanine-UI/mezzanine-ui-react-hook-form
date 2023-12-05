@@ -32,6 +32,6 @@
     "@mezzanine-ui/system": "^0.7.0"
   },
   "dependencies": {
-    "tslib": "^2.1.0"
+    "tslib": "^2.6.2"
   }
 }
