@@ -16,7 +16,7 @@ export interface FieldProps<Type extends  FieldValues> extends Omit<
 RegisterOptions<Type>, 'render' | 'onChange' | 'onBlur'> {
   disabled?: boolean;
   disabledErrMsg?: boolean;
-  label?: string;
+  label?: ReactNode;
   placeholder?: string;
   required?: boolean;
   autoComplete?: 'on' | 'off';

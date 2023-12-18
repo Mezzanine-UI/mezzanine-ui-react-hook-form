@@ -59,6 +59,11 @@ export const Basic = () => {
           color="text-secondary"
           onChange={(e) => Message.success(e.target.value)}
         />
+        <CheckboxField
+          registerName="checkbox-register-name-5"
+          color="text-secondary"
+          label={<div>123</div>}
+        />
       </FormFieldsWrapper>
     </div>
   );

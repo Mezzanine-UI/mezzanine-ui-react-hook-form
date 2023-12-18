@@ -4,7 +4,6 @@ import {
   Typography,
   TypographyProps,
 } from '@mezzanine-ui/react';
-import { isString } from 'lodash';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import BaseField from '../BaseField/BaseField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
@@ -91,14 +90,15 @@ const CheckboxField: HookFormFieldComponent<CheckboxFieldProps> = ({
         ref={register(registerName).ref}
         value="true"
       >
-        {isString(label) && (
+        {label ? (
           <Typography
+            component="div"
             color={color}
             variant={variant}
           >
             {label}
           </Typography>
-        )}
+        ) : null}
       </Checkbox>
     </BaseField>
   );
