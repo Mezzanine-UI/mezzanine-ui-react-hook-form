@@ -67,6 +67,7 @@ const BaseField: FC<BaseFieldProps> = ({
 
   return (
     <FormField
+      key={name}
       className={cx(
         baseFieldClasses.host,
         className,

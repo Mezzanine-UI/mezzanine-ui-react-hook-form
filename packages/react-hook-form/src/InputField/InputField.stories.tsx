@@ -1,13 +1,19 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Message } from '@mezzanine-ui/react';
-import { FC, useEffect, useMemo } from 'react';
+import { TableColumn } from '@mezzanine-ui/core/table';
+import { Button, Message, Table } from '@mezzanine-ui/react';
 import {
+  FC,
+  useEffect, useMemo,
+} from 'react';
+import {
+  useFieldArray,
   useForm, useFormContext, useFormState,
 } from 'react-hook-form';
+import InputField from './InputField';
+
 import { FormFieldsDebug } from '../FormFieldsDebug';
 import { FormFieldsWrapper } from '../FormFieldsWrapper';
-import InputField from './InputField';
 
 export default {
   title: 'Data Display/InputField',
@@ -199,6 +205,76 @@ export const Basic = () => {
         {isDirty ? 'true' : 'false'}
 
       </FormFieldsWrapper>
+    </div>
+  );
+};
+
+const columns: TableColumn<{
+  name: string;
+  value: string;
+}>[] = [
+  {
+    title: 'name',
+    dataIndex: 'name',
+  },
+  {
+    title: 'value',
+    dataIndex: 'value',
+    render: (record, index) => (
+      <>
+        <InputField label="mzn-rhf" registerName={`table[${index}].value`} />
+        {/* <Input value={record.value} /> */}
+        {/* {record["value"]} */}
+      </>
+    ),
+  },
+];
+
+export const FieldArray = () => {
+  const methods = useForm<{
+    'reset-testing': string;
+    table: { name: string; value: string }[];
+  }>({
+    defaultValues: {
+      table: [
+        { name: 'A', value: '1' },
+        { name: 'b', value: '2' },
+      ],
+    },
+  });
+
+  const { fields, insert } = useFieldArray({
+    control: methods.control,
+    name: 'table',
+  });
+
+  return (
+    <div>
+      <Button
+        type="button"
+        style={{ border: '2px solid red' }}
+        onClick={() => insert(1, {
+          name: 'test',
+          value: '100',
+        })}
+      >
+        insert
+      </Button>
+      <div>
+        <FormFieldsWrapper
+          methods={methods}
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
+          <div>
+            mzn - table
+            <Table
+              style={{ height: '500px', maxWidth: '500px' }}
+              dataSource={fields ?? []}
+              columns={columns}
+            />
+          </div>
+        </FormFieldsWrapper>
+      </div>
     </div>
   );
 };

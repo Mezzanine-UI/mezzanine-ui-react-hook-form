@@ -35,8 +35,12 @@ export function useDefaultValue<V>(
         shouldTouch: false,
         shouldValidate: false,
       });
+
+      return () => {
+        defaultValueRef.current = undefined;
+      };
     }
-  }, [defaultValue]);
+  }, [registerName, defaultValue, options]);
 
   return defaultValueRef;
 }
