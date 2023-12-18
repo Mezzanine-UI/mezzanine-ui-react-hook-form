@@ -30,6 +30,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
   clearable = true,
   control,
   defaultValue,
+  fullWidth,
   disabled,
   disabledErrMsg,
   width,
@@ -129,6 +130,7 @@ const InputField: HookFormFieldComponent<InputFieldProps> = ({
       disabled={disabled}
       label={name || label}
       width={width}
+      fullWidth={fullWidth}
       errorMsgRender={errorMsgRender}
     >
       <Input

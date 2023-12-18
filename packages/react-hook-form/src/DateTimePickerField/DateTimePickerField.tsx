@@ -31,6 +31,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
   registerName,
   remark,
   required,
+  fullWidth,
   secondStep,
   style,
   size,
@@ -91,6 +92,7 @@ const DateTimePickerField: HookFormFieldComponent<DateTimePickerFieldProps> = ({
       remark={remark}
       required={required}
       width={width}
+      fullWidth={fullWidth}
       disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >

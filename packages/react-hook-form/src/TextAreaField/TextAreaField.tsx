@@ -31,6 +31,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
   placeholder = '請輸入',
   register,
   registerName,
+  fullWidth,
   required,
   remark,
   style,
@@ -80,6 +81,7 @@ const TextAreaField: HookFormFieldComponent<TextAreaFieldProps> = ({
       remark={remark}
       required={required}
       width={width}
+      fullWidth={fullWidth}
       disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >

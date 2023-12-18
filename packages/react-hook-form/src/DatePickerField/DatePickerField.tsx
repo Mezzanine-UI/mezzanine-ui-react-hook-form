@@ -33,6 +33,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
   defaultValue,
   size,
   width,
+  fullWidth,
   errorMsgRender,
   disabledErrMsg,
   onChange: onChangeProp,
@@ -86,6 +87,7 @@ const DatePickerField: HookFormFieldComponent<DatePickerFieldProps> = ({
       remark={remark}
       required={required}
       width={width}
+      fullWidth={fullWidth}
       disabledErrMsg={disabledErrMsg}
       errorMsgRender={errorMsgRender}
     >
