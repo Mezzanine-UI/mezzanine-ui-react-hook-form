@@ -2,7 +2,7 @@ import { passwordFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { EyeIcon, EyeSlashIcon } from '@mezzanine-ui/icons';
 import { Icon, Typography } from '@mezzanine-ui/react';
 import { useState } from 'react';
-import { FieldValues } from 'react-hook-form';
+import { FieldValues, useFormContext } from 'react-hook-form';
 
 import InputField, { InputFieldProps } from '../InputField/InputField';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
@@ -17,6 +17,7 @@ const PasswordField: HookFormFieldComponent<PassWordFieldProps> = ({
   remarkText,
   ...props
 }) => {
+  const { trigger } = useFormContext();
   const [passwordMasking, setPasswordMasking] = useState(true);
 
   const renderRemark = remark ?? (
@@ -45,6 +46,10 @@ const PasswordField: HookFormFieldComponent<PassWordFieldProps> = ({
       type={passwordMasking ? 'password' : undefined}
       suffix={renderSuffix}
       remark={renderRemark}
+      onChange={(e) => {
+        props?.onChange?.(e);
+        trigger(props.registerName);
+      }}
     />
   );
 };
