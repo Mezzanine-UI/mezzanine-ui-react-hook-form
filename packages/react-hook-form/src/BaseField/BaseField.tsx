@@ -6,6 +6,7 @@ import {
   FormMessage,
   cx,
 } from '@mezzanine-ui/react';
+import get from 'lodash/get';
 import { baseFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import {
   CSSProperties, FC,
@@ -63,7 +64,7 @@ const BaseField: FC<BaseFieldProps> = ({
     '--width': width ? `${width}px` : (fullWidth ? '100%' : undefined),
     ...baseFieldStyle,
   } as CSSProperties;
-  const isError = !disabledErrMsg && errors?.[name];
+  const isError = !disabledErrMsg && get(errors, name);
 
   return (
     <FormField

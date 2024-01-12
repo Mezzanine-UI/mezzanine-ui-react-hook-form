@@ -68,6 +68,25 @@ export const Basic = () => {
 
   const { isValid: method4IsValid, isDirty } = useFormState({ control: methods4.control });
 
+  const methods5 = useForm({
+    defaultValues: {
+      list: [{
+        value: '123',
+      }],
+    },
+    mode: 'onChange',
+  });
+
+  useEffect(() => {
+    methods5.setError(
+      'list[0].value' as 'list.0.value',
+      {
+        type: 'custom',
+        message: 'Default error should be red (severity=error)',
+      },
+    );
+  }, []);
+
   return (
     <div
       style={{ width: '100%', maxWidth: '680px' }}
@@ -204,6 +223,15 @@ export const Basic = () => {
         method4IsDirty =
         {isDirty ? 'true' : 'false'}
 
+      </FormFieldsWrapper>
+      <br />
+      <br />
+      <p>Error display</p>
+      <FormFieldsWrapper methods={methods5}>
+        <InputField
+          required
+          registerName="list[0].value"
+        />
       </FormFieldsWrapper>
     </div>
   );
