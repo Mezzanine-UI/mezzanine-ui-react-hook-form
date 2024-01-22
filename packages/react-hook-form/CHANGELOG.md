@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.16.2...@mezzanine-ui/react-hook-form@0.16.3) (2024-01-22)
+
+### Bug Fixes
+
+- **react-hook-form:** basefield severity fixed, closed [#50](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/50) ([12e7abc](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/12e7abc11beffe2ee5f902bb652548ddf004aea2))
+
 ## [0.16.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.16.1...@mezzanine-ui/react-hook-form@0.16.2) (2024-01-10)
 
 **Note:** Version bump only for package @mezzanine-ui/react-hook-form
