@@ -39,6 +39,7 @@ export const Basic = () => {
             multiple: true,
             variant: 'outlined',
             size: 'large',
+            accept: '.jpg,.png',
           }}
           resolve={(res: MockUploadResponse, originFile: File) => ({
             response: res,

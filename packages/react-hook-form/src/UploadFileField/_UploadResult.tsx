@@ -12,6 +12,7 @@ import { lastValueFrom, of, switchMap } from 'rxjs';
 import { useUploadHandlers, UseUploadHandlersProps } from '../UploadImageField';
 
 export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | 'percentage'> {
+  accept?: string;
   file: File;
   registerName: string;
   url: string;
@@ -25,6 +26,7 @@ export interface _UploadResultProps extends Omit<UploadResultProps, 'status' | '
 }
 
 const _UploadResult: FC<_UploadResultProps> = ({
+  accept,
   url,
   file,
   registerName,
@@ -47,16 +49,35 @@ const _UploadResult: FC<_UploadResultProps> = ({
     typeof value === 'undefined' && !disabledUpload ? 'loading' : 'done',
   );
 
+  const acceptFileExtensions = useMemo(() => (accept ? accept.split(',') : undefined), [accept]);
+
   const upload: _UploadResultProps['upload'] = useMemo(() => uploadProp || (() => new Promise(async (_resolve, _reject) => {
     try {
+      const filename = name || file.name;
+      const checkFileExtension = () => {
+        if (Array.isArray(acceptFileExtensions)) {
+          const someFileAcceptExtension = acceptFileExtensions.some((ext) => filename.toLowerCase().endsWith(ext));
+
+          if (someFileAcceptExtension) return true;
+
+          return false;
+        }
+
+        return true;
+      };
+
+      if (!checkFileExtension()) {
+        throw new Error('檔案格式不支援');
+      }
+
       const Authorization = bearerToken?.replace(/^Bearer\s/, '')
         ? `Bearer ${bearerToken}`
         : '';
 
       const formData = new FormData();
 
-      formData.append(formDataFileName, name || file.name);
-      formData.append(formDataName, new Blob([file], { type: file.type }), name || file.name);
+      formData.append(formDataFileName, filename);
+      formData.append(formDataName, new Blob([file], { type: file.type }), filename);
 
       const { data } = await axios.post(
         url,
@@ -80,7 +101,7 @@ const _UploadResult: FC<_UploadResultProps> = ({
     } catch (e: any) {
       _reject(e);
     }
-  })), [url]);
+  })), [url, acceptFileExtensions]);
 
   const { handleFileUpload } = useUploadHandlers({
     url,

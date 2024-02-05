@@ -186,6 +186,7 @@ export function UploadFileField({
             formDataFileName={formDataFileName}
             bearerToken={bearerToken}
             file={file.file}
+            accept={uploadButton?.accept}
             disabledUpload={initialValueMap.has(file.key)}
             registerName={`${registerName}.${(fileRegisterName?.(file.file, file.key) || file.file.name).replaceAll('.', '-')}`}
             onDelete={() => onDelete(file.file)}
