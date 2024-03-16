@@ -6,7 +6,7 @@ import {
 } from '@mezzanine-ui/react';
 import { selectFieldClasses } from '@mezzanine-ui/react-hook-form-core';
 import { SelectMultipleProps, SelectProps, SelectSingleProps } from '@mezzanine-ui/react/Select/Select';
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 import {
   FieldValues,
   useFormContext,
@@ -57,6 +57,7 @@ function SelectField(props: SelectFieldProps): ReactNode {
     style,
     errorMsgRender,
     onChange: onChangeProp,
+    onClear: onClearProp,
     disabledErrMsg,
     ...restProps
   } = props || {};
@@ -75,9 +76,10 @@ function SelectField(props: SelectFieldProps): ReactNode {
     defaultValue,
   }) || defaultValue;
 
-  const onClear = () => {
+  const onClear: MouseEventHandler = (e) => {
     resetField(registerName);
     setValue(registerName, undefined, { shouldValidate: true });
+    onClearProp?.(e);
   };
 
   const onChange = (newValue: any) => {
