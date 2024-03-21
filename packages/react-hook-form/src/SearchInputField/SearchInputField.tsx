@@ -15,6 +15,7 @@ import { useDebouncedValue } from './use-debounced-value';
 export type SearchInputFieldProps = HookFormFieldProps<FieldValues, InputFieldProps, {
   debounced?: boolean,
   debounceMs?: number;
+  onClear?: ChangeEventHandler<HTMLInputElement>;
 }>;
 
 const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
@@ -36,6 +37,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
   max,
   pattern,
   onChange: onChangeProp,
+  onClear: onClearProp,
   value: valueProp,
   ...props
 }) => {
@@ -74,6 +76,7 @@ const SearchInputField: HookFormFieldComponent<SearchInputFieldProps> = ({
       // clearable
       onClear();
       setKey((prev) => prev + 1); // force refresh view.
+      onClearProp?.(e);
     } else {
       setInputValue(e.target.value);
     }
