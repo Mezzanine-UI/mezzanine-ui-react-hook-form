@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "baseUrl": "./packages",
+    "composite": true,
     "paths": {
       "@mezzanine-ui/react-hook-form-core/*": ["core/src/*"],
       "@mezzanine-ui/react-hook-form/*": ["react-hook-form/src/*"]

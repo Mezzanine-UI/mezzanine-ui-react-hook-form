@@ -18,6 +18,7 @@
         "airbnb-typescript"
       ],
       "rules": {
+        "operator-linebreak": "off",
         "arrow-parens": [
           "error",
           "always",
@@ -63,16 +64,6 @@
           "error",
           {
             "allowAfterThis": true
-          }
-        ],
-        "operator-linebreak": [
-          "error",
-          "after",
-          {
-            "overrides": {
-              "?": "before",
-              ":": "before"
-            }
           }
         ],
         "padding-line-between-statements": [
@@ -180,12 +171,13 @@
     {
       "files": ["*.ts", "*.tsx"],
       "rules": {
+        "operator-linebreak": "off",
         "consistent-return": "off",
         "indent": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-member-accessibility": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/indent": ["error", 2],
+        "@typescript-eslint/indent": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-unused-vars": [
           "error",

@@ -1,12 +1,19 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-async-promise-executor */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  CheckIcon, TimesIcon, TrashIcon, UploadIcon,
+  CheckIcon,
+  TimesIcon,
+  TrashIcon,
+  UploadIcon,
 } from '@mezzanine-ui/icons';
 import {
-  cx, Fade, Icon,
+  cx,
+  Fade,
+  Icon,
   IconProps,
   Message,
   Typography,
@@ -16,8 +23,11 @@ import { CssVarInterpolations } from '@mezzanine-ui/system/css';
 import axios from 'axios';
 import { concat, isString, uniq } from 'lodash';
 import {
-  ChangeEventHandler, DragEventHandler,
-  MouseEventHandler, useCallback, useMemo,
+  ChangeEventHandler,
+  DragEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -28,64 +38,84 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { BaseField } from '../BaseField';
-import { CropperModal, CropperModalProps } from '../Mezzanine/CropperModal/CropperModal';
+import {
+  CropperModal,
+  CropperModalProps,
+} from '../Mezzanine/CropperModal/CropperModal';
 import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import { UploadStatus } from '../typings/file';
-import { blobToUrl, byteToMegaByte, fileListToArray } from '../utils';
-import { useDefaultValue } from '../utils/use-default-value';
-import { useUploadHandlers, UseUploadHandlersProps } from './use-upload-handlers';
+import {
+  blobToUrl,
+  byteToMegaByte,
+  fileListToArray,
+  preprocessImg,
+} from '../utils';
 import { gcd } from '../utils/gcd';
+import { useDefaultValue } from '../utils/use-default-value';
+import {
+  useUploadHandlers,
+  UseUploadHandlersProps,
+} from './use-upload-handlers';
 
 const BASE_ACCEPT_FILE_EXTENSION = ['.jpg', '.jpeg', '.png'];
 
-export type UploadImageFieldProps = HookFormFieldProps<FieldValues, {
-  url: string;
-  bearerToken?: string;
-  acceptFileExtensions?: string[];
-  border?: boolean;
-  aspect?: number;
-  dimensionLimit?: number[];
-  sizeLimitMb?: number;
-  typeHint?: boolean;
-  small?: boolean;
-  size?: number;
-  formDataName?: string;
-  width?: number;
-  icon?: IconProps;
-  text?: string;
-  height?: number;
-  mimeType?: string;
-  previewClassName?: string;
-  crop?: boolean;
-  cropperHeader?: CropperModalProps['header'];
-  defaultValue?: string;
-  resolve: UseUploadHandlersProps['resolve'];
-  upload?(blob: string | Blob, fileName?: string): Promise<any>;
-  previewBgSize?: 'auto' | 'contain' | 'cover' | 'initial';
-  annotation?: {
-    formats?: string[],
-    recommendedDimension?: [number, number],
-    recommendedText?: string;
-    maximumMb?: number,
-    others?: string[],
-  },
-  labels?: {
-    /** @default 檔案最大限制： */
-    fileLimitationPrefix?: string;
-    /** @default 影像格式： */
-    formatPrefix?: string;
-    /** @default 建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR}) */
-    resolveRecommendedDimension?: (width: number, height: number, widthRatio: number, heightRatio: number) => string;
-    /** @default 上傳 */
-    upload?: string;
-    /** @default 上傳錯誤 */
-    error?: string;
-    /** @default 成功 */
-    success?: string;
-    /** @default 失敗 */
-    failed?: string;
-  };
-}>;
+export type UploadImageFieldProps = HookFormFieldProps<
+  FieldValues,
+  {
+    url: string;
+    bearerToken?: string;
+    acceptFileExtensions?: string[];
+    border?: boolean;
+    aspect?: number;
+    dimensionLimit?: number[];
+    sizeLimitMb?: number;
+    typeHint?: boolean;
+    small?: boolean;
+    size?: number;
+    formDataName?: string;
+    width?: number;
+    icon?: IconProps;
+    text?: string;
+    height?: number;
+    mimeType?: string;
+    previewClassName?: string;
+    crop?: boolean;
+    compressLog?: boolean;
+    cropperHeader?: CropperModalProps['header'];
+    defaultValue?: string;
+    resolve: UseUploadHandlersProps['resolve'];
+    upload?(blob: string | Blob, fileName?: string): Promise<any>;
+    previewBgSize?: 'auto' | 'contain' | 'cover' | 'initial';
+    annotation?: {
+      formats?: string[];
+      recommendedDimension?: [number, number];
+      recommendedText?: string;
+      maximumMb?: number;
+      others?: string[];
+    };
+    labels?: {
+      /** @default 檔案最大限制： */
+      fileLimitationPrefix?: string;
+      /** @default 影像格式： */
+      formatPrefix?: string;
+      /** @default 建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR}) */
+      resolveRecommendedDimension?: (
+        width: number,
+        height: number,
+        widthRatio: number,
+        heightRatio: number,
+      ) => string;
+      /** @default 上傳 */
+      upload?: string;
+      /** @default 上傳錯誤 */
+      error?: string;
+      /** @default 成功 */
+      success?: string;
+      /** @default 失敗 */
+      failed?: string;
+    };
+  }
+>;
 
 const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   url,
@@ -121,6 +151,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   upload: uploadProp,
   errorMsgRender,
   labels,
+  compressLog = false,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -138,22 +169,25 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     defaultValue,
   });
 
-  const {
-    errors,
-  } = useFormState({ control: control || contextControl });
+  const { errors } = useFormState({ control: control || contextControl });
 
-  const registration = useMemo(() => (register || contextRegister)(
-    registerName,
-    {
-      required,
-    },
-  ), [registerName, required]);
+  const registration = useMemo(
+    () =>
+      (register || contextRegister)(registerName, {
+        required,
+      }),
+    [registerName, required],
+  );
 
   const fileName = useRef('');
   const [dragActive, setDragActive] = useState(false);
   const [hover, setHover] = useState(false);
-  const [imageSrc, setImageSrc] = useState<string>(isString(watchValue) ? watchValue : watchValue?.name || '');
-  const [preview, setPreview] = useState<string>(isString(watchValue) ? watchValue : watchValue?.name || '');
+  const [imageSrc, setImageSrc] = useState<string>(
+    isString(watchValue) ? watchValue : watchValue?.name || '',
+  );
+  const [preview, setPreview] = useState<string>(
+    isString(watchValue) ? watchValue : watchValue?.name || '',
+  );
   const [progress, setProgress] = useState<number>(0);
   const [status, setStatus] = useState<UploadStatus>('ready');
   const [cropperOpen, setCropperOpen] = useState(false);
@@ -169,61 +203,54 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
 
   const handlePreview = (img: string) => setPreview(img);
 
-  const acceptExtensions = useMemo(() => (
-    uniq(
-      concat(
-        BASE_ACCEPT_FILE_EXTENSION,
-        acceptFileExtensions,
-      ),
-    )
-  ), [acceptFileExtensions]);
+  const acceptExtensions = useMemo(
+    () => uniq(concat(BASE_ACCEPT_FILE_EXTENSION, acceptFileExtensions)),
+    [acceptFileExtensions],
+  );
 
-  const upload: UseUploadHandlersProps['upload'] = useMemo(() => uploadProp || ((b, f) => new Promise(async (_resolve, _reject) => {
-    try {
-      const Authorization = bearerToken?.replace(/^Bearer\s/, '')
-        ? `Bearer ${bearerToken}`
-        : '';
+  const upload: UseUploadHandlersProps['upload'] = useMemo(
+    () =>
+      uploadProp ||
+      ((b, f) =>
+        new Promise(async (_resolve, _reject) => {
+          try {
+            const Authorization = bearerToken?.replace(/^Bearer\s/, '')
+              ? `Bearer ${bearerToken}`
+              : '';
 
-      const formData = new FormData();
+            const formData = new FormData();
 
-      const uploadFile = (new File(
-        [b],
-        f || '',
-        { type: 'image/jpeg' },
-      ));
+            const uploadFile = new File([b], f || '', { type: 'image/jpeg' });
 
-      Message.info?.(`檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`);
-
-      formData.append(formDataName, b, f);
-
-      const { data } = await axios.post(
-        url,
-        formData,
-        {
-          headers: {
-            Authorization,
-            'Content-Type': 'multipart/form-data',
-          },
-          onUploadProgress: (progressEvent: any) => {
-            const progressPercentage = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total,
+            Message.info?.(
+              `檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`,
             );
 
-            setProgress(progressPercentage);
-          },
-        },
-      );
+            formData.append(formDataName, b, f);
 
-      _resolve(resolve(data, uploadFile));
-    } catch (e: any) {
-      _reject(e);
-    }
-  })), [setProgress, bearerToken, formDataName]);
+            const { data } = await axios.post(url, formData, {
+              headers: {
+                Authorization,
+                'Content-Type': 'multipart/form-data',
+              },
+              onUploadProgress: (progressEvent: any) => {
+                const progressPercentage = Math.round(
+                  (progressEvent.loaded * 100) / progressEvent.total,
+                );
 
-  const {
-    handleFileToCrop,
-    handleFileUpload,
-  } = useUploadHandlers({
+                setProgress(progressPercentage);
+              },
+            });
+
+            _resolve(resolve(data, uploadFile));
+          } catch (e: any) {
+            _reject(e);
+          }
+        })),
+    [setProgress, bearerToken, formDataName],
+  );
+
+  const { handleFileToCrop, handleFileUpload } = useUploadHandlers({
     url,
     bearerToken,
     fileExtensions: acceptExtensions,
@@ -256,31 +283,39 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     setDragActive(false);
   }, []);
 
-  const onDrop: DragEventHandler<HTMLDivElement> = useCallback((e) => {
-    e.preventDefault();
-    setDragActive(false);
+  const onDrop: DragEventHandler<HTMLDivElement> = useCallback(
+    (e) => {
+      e.preventDefault();
+      setDragActive(false);
 
-    if (e.dataTransfer) {
-      const [file] = fileListToArray(e.dataTransfer.files);
+      if (e.dataTransfer) {
+        const [file] = fileListToArray(e.dataTransfer.files);
 
-      if (!file) return;
+        if (!file) return;
 
-      fileName.current = file.name;
+        fileName.current = file.name;
+        /** 如果 `sizeLimitMb` 未有提供，預設就是預處理成 10mb 以內的照片 */
+        preprocessImg(file, sizeLimitMb || 10, { log: compressLog }).then(
+          (compressedFile) => {
+            if (crop) {
+              handleFileToCrop(compressedFile);
+            } else {
+              const blob = new Blob([compressedFile], {
+                type: compressedFile.type || 'image/jpeg',
+              });
 
-      if (crop) {
-        handleFileToCrop(file);
-      } else {
-        const blob = new Blob([file], { type: file.type || 'image/jpeg' });
-
-        handleFileUpload(blob, fileName.current)
-          .then((success) => {
-            if (success) {
-              handlePreview(blobToUrl(blob));
+              handleFileUpload(blob, fileName.current).then((success) => {
+                if (success) {
+                  handlePreview(blobToUrl(blob));
+                }
+              });
             }
-          });
+          },
+        );
       }
-    }
-  }, [handleFileToCrop, errors, registerName, crop]);
+    },
+    [handleFileToCrop, errors, registerName, crop, sizeLimitMb, compressLog],
+  );
 
   const onMouseEnter: MouseEventHandler<HTMLDivElement> = useCallback((e) => {
     e.preventDefault();
@@ -300,58 +335,72 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     setValue(registerName, undefined, { shouldValidate: true });
   }, []);
 
-  const onClick: MouseEventHandler<HTMLDivElement> = useCallback((e) => {
-    const { current: $inputEl } = inputRef;
+  const onClick: MouseEventHandler<HTMLDivElement> = useCallback(
+    (e) => {
+      const { current: $inputEl } = inputRef;
 
-    if (!$inputEl) return;
+      if (!$inputEl) return;
 
-    e.preventDefault();
+      e.preventDefault();
 
-    switch (status) {
-      case 'success':
-      case 'error':
-        $inputEl.value = '';
-        resetStates();
-        break;
-      default:
-        $inputEl.value = '';
-        $inputEl.click();
-    }
-  }, [handleFileToCrop, status]);
-
-  const onInputChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    if (errors?.[registerName]) clearErrors(registerName);
-
-    const target = (e.target as HTMLInputElement);
-
-    if (target.files?.length) {
-      const [file] = fileListToArray(target.files);
-
-      if (!file) return;
-
-      fileName.current = file.name;
-
-      if (crop) {
-        handleFileToCrop(file);
-      } else {
-        const blob = new Blob([file], { type: file.type || 'image/jpeg' });
-
-        handleFileUpload(blob, fileName.current)
-          .then((success) => {
-            if (success) {
-              handlePreview(blobToUrl(blob));
-            }
-          });
+      switch (status) {
+        case 'success':
+        case 'error':
+          $inputEl.value = '';
+          resetStates();
+          break;
+        default:
+          $inputEl.value = '';
+          $inputEl.click();
       }
-    }
-  }, [handleFileToCrop, errors, registerName, crop]);
+    },
+    [handleFileToCrop, status],
+  );
+
+  const onInputChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      if (errors?.[registerName]) clearErrors(registerName);
+
+      const target = e.target as HTMLInputElement;
+
+      if (target.files?.length) {
+        const [file] = fileListToArray(target.files);
+
+        if (!file) return;
+
+        fileName.current = file.name;
+        /** 如果 `sizeLimitMb` 未有提供，預設就是預處理成 10mb 以內的照片 */
+        preprocessImg(file, sizeLimitMb || 10, { log: compressLog }).then(
+          (compressedFile) => {
+            if (crop) {
+              handleFileToCrop(compressedFile);
+            } else {
+              const blob = new Blob([compressedFile], {
+                type: compressedFile.type || 'image/jpeg',
+              });
+
+              handleFileUpload(blob, fileName.current).then((success) => {
+                if (success) {
+                  handlePreview(blobToUrl(blob));
+                }
+              });
+            }
+          },
+        );
+      }
+    },
+    [handleFileToCrop, errors, registerName, crop, sizeLimitMb, compressLog],
+  );
 
   const {
     fileLimitationPrefix = '檔案最大限制：',
     formatPrefix = '影像格式：',
-    resolveRecommendedDimension = (w: number, h: number, wR: number, hR: number) => (
-      `建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR})`
-    ),
+    resolveRecommendedDimension = (
+      w: number,
+      h: number,
+      wR: number,
+      hR: number,
+    ) => `建議尺寸：${w} x ${h} 以上 (圖像比例為 ${wR}:${hR})`,
     upload: uploadLabel = '上傳',
     error: errorLabel = '上傳錯誤',
     success: successLabel = '完成',
@@ -362,17 +411,21 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
     if (!annotation) return null;
 
     const maximumMbText = `${fileLimitationPrefix}${annotation.maximumMb}MB`;
-    const format = annotation.formats ? `${formatPrefix}${annotation.formats.join(', ')}` : null;
+    const format = annotation.formats
+      ? `${formatPrefix}${annotation.formats.join(', ')}`
+      : null;
     const maximumMb = annotation.maximumMb ? maximumMbText : null;
-    const recommendedText = annotation?.recommendedText || (() => {
-      if (!annotation?.recommendedDimension) return null;
+    const recommendedText =
+      annotation?.recommendedText ||
+      (() => {
+        if (!annotation?.recommendedDimension) return null;
 
-      const [w, h] = annotation.recommendedDimension;
-      const gcdNumber = gcd(w, h);
-      const wR = w / gcdNumber;
-      const hR = h / gcdNumber;
-      return resolveRecommendedDimension(w, h, wR, hR);
-    })();
+        const [w, h] = annotation.recommendedDimension;
+        const gcdNumber = gcd(w, h);
+        const wR = w / gcdNumber;
+        const hR = h / gcdNumber;
+        return resolveRecommendedDimension(w, h, wR, hR);
+      })();
 
     return [
       format,
@@ -380,7 +433,12 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
       maximumMb,
       ...(annotation?.others || []),
     ].filter((t) => typeof t === 'string');
-  }, [annotation, fileLimitationPrefix, formatPrefix, resolveRecommendedDimension]);
+  }, [
+    annotation,
+    fileLimitationPrefix,
+    formatPrefix,
+    resolveRecommendedDimension,
+  ]);
 
   useDefaultValue(registerName, defaultValue);
 
@@ -419,7 +477,8 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
         onClick={onClick}
         className={cx(
           uploadImageFieldClasses.host,
-          (status === 'error' || errors?.[registerName]) && uploadImageFieldClasses.error,
+          (status === 'error' || errors?.[registerName]) &&
+            uploadImageFieldClasses.error,
           dragActive && uploadImageFieldClasses.drag,
           small && uploadImageFieldClasses.small,
           previewClassName,
@@ -452,37 +511,28 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
 
         <Fade in={!!progress}>
           <div role="progressbar" className={uploadImageFieldClasses.progress}>
-            {
-              (status === 'success' || status === 'error') && (
-                <Fade in>
-                  <>
-                    <Icon
-                      className={uploadImageFieldClasses.icon}
-                      color={status}
-                      icon={status === 'success' ? CheckIcon : TimesIcon}
-                    />
-                    {!small
-                    && (
-                      <Typography
-                        color={status}
-                        variant="input1"
-                      >
-                        {uploadLabel}
-                        {status === 'success' ? successLabel : failedLabel}
-                      </Typography>
-                    )}
-
-                  </>
-                </Fade>
-              )
-            }
+            {(status === 'success' || status === 'error') && (
+              <Fade in>
+                <>
+                  <Icon
+                    className={uploadImageFieldClasses.icon}
+                    color={status}
+                    icon={status === 'success' ? CheckIcon : TimesIcon}
+                  />
+                  {!small && (
+                    <Typography color={status} variant="input1">
+                      {uploadLabel}
+                      {status === 'success' ? successLabel : failedLabel}
+                    </Typography>
+                  )}
+                </>
+              </Fade>
+            )}
           </div>
         </Fade>
 
         <Fade in={!!preview && hover}>
-          <div
-            className={uploadImageFieldClasses.delete}
-          >
+          <div className={uploadImageFieldClasses.delete}>
             <Icon
               className={uploadImageFieldClasses.icon}
               color={status === 'error' ? 'error' : 'primary'}
