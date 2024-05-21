@@ -131,7 +131,7 @@ export async function createCropImageBlob({
   const ctx = canvas.getContext('2d')!;
 
   const maxSize = Math.max(image.width, image.height);
-  const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));
+  const safeArea = Math.min(4096, 2 * ((maxSize / 2) * Math.sqrt(2)));
 
   // set each dimensions to double largest dimension to allow for a safe area for the
   // image to rotate in without being clipped by canvas context
