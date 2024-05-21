@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.17.1...@mezzanine-ui/react-hook-form@0.17.2) (2024-05-21)
+
+### Bug Fixes
+
+- **react-hook-form:** [#54](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/issues/54) remove default aspect-ratio logic ([c52bbe4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/c52bbe41ff77034cbab67cce7e047e836c59487e))
+
 ## [0.17.1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.17.0...@mezzanine-ui/react-hook-form@0.17.1) (2024-05-21)
 
 ### Bug Fixes
