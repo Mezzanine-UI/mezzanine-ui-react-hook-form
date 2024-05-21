@@ -197,22 +197,11 @@ export function preprocessImg(
         // 設定canvas參數
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const MAX_WIDTH = 1200;
-        const MAX_HEIGHT = 720;
         const MAX_AREA = 16777216; // iOS canvas maximum area.
         let width = img.width;
         let height = img.height;
 
-        if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
-          /** 如果寬高不及 MAX_WIDTH & MAX_HEIGHT 建立一個1200x720的白色畫布，並將原始圖片壓在白色畫布上 */
-          canvas.width = MAX_WIDTH;
-          canvas.height = MAX_HEIGHT;
-
-          ctx?.fillRect(0, 0, canvas.width, canvas.height);
-          ctx?.drawImage(img, 0, 0, width, height);
-          width = MAX_WIDTH;
-          height = MAX_HEIGHT;
-        } else if (width * height > MAX_AREA) {
+        if (width * height > MAX_AREA) {
           /** Canvas area 面積上限: (width * height > 16777216) */
           const scalar = Math.sqrt(MAX_AREA) / Math.sqrt(width * height);
 
