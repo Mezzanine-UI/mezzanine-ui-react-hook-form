@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.17.3...@mezzanine-ui/react-hook-form@0.17.4) (2024-05-23)
+
+### Bug Fixes
+
+- **react-hook-form:** fixed `use-default-value` rerender issue ([268cf4c](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/268cf4c6be6ae310c52629d51c0eb812b9c91f2a))
+
 ## [0.17.3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.17.2...@mezzanine-ui/react-hook-form@0.17.3) (2024-05-21)
 
 ### Bug Fixes
