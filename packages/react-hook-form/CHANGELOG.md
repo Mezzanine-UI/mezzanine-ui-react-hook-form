@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.18.0...@mezzanine-ui/react-hook-form@0.18.1) (2024-09-05)
+
+### Bug Fixes
+
+- **react-hook-form:** on input change support resize props ([fc431a4](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/fc431a4985184befef577eb0da9c0bbc69829f67))
+
 # [0.18.0](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.17.6...@mezzanine-ui/react-hook-form@0.18.0) (2024-09-05)
 
 ### Features
