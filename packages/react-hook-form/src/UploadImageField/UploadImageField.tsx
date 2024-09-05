@@ -211,7 +211,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   const upload: UseUploadHandlersProps['upload'] = useMemo(
     () =>
       uploadProp ||
-      ((b, f) =>
+      ((b: Blob, f) =>
         new Promise(async (_resolve, _reject) => {
           try {
             const Authorization = bearerToken?.replace(/^Bearer\s/, '')
@@ -220,7 +220,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
 
             const formData = new FormData();
 
-            const uploadFile = new File([b], f || '');
+            const uploadFile = new File([b], f || '', { type: b.type });
 
             Message.info?.(
               `檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`,
