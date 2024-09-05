@@ -220,7 +220,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
 
             const formData = new FormData();
 
-            const uploadFile = new File([b], f || '', { type: 'image/jpeg' });
+            const uploadFile = new File([b], f || '');
 
             Message.info?.(
               `檔案大小: ${byteToMegaByte(uploadFile.size).toFixed(1)} Mb`,
