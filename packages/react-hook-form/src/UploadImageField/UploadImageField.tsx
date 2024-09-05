@@ -114,6 +114,7 @@ export type UploadImageFieldProps = HookFormFieldProps<
       /** @default 失敗 */
       failed?: string;
     };
+    shouldResize?: (file: File) => boolean;
   }
 >;
 
@@ -152,6 +153,7 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
   errorMsgRender,
   labels,
   compressLog = false,
+  shouldResize = () => true,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -294,24 +296,41 @@ const UploadImageField: HookFormFieldComponent<UploadImageFieldProps> = ({
         if (!file) return;
 
         fileName.current = file.name;
-        /** 如果 `sizeLimitMb` 未有提供，預設就是預處理成 10mb 以內的照片 */
-        preprocessImg(file, sizeLimitMb || 10, { log: compressLog }).then(
-          (compressedFile) => {
-            if (crop) {
-              handleFileToCrop(compressedFile);
-            } else {
-              const blob = new Blob([compressedFile], {
-                type: compressedFile.type || 'image/jpeg',
-              });
 
-              handleFileUpload(blob, fileName.current).then((success) => {
-                if (success) {
-                  handlePreview(blobToUrl(blob));
-                }
-              });
+        const processing = shouldResize(file);
+
+        if (processing) {
+          /** 如果 `sizeLimitMb` 未有提供，預設就是預處理成 10mb 以內的照片 */
+          preprocessImg(file, sizeLimitMb || 10, { log: compressLog }).then(
+            (compressedFile) => {
+              if (crop) {
+                handleFileToCrop(compressedFile);
+              } else {
+                const blob = new Blob([compressedFile], {
+                  type: compressedFile.type || 'image/jpeg',
+                });
+
+                handleFileUpload(blob, fileName.current).then((success) => {
+                  if (success) {
+                    handlePreview(blobToUrl(blob));
+                  }
+                });
+              }
+            },
+          );
+        } else if (crop) {
+          handleFileToCrop(file);
+        } else {
+          const blob = new Blob([file], {
+            type: file.type || 'image/jpeg',
+          });
+
+          handleFileUpload(blob, fileName.current).then((success) => {
+            if (success) {
+              handlePreview(blobToUrl(blob));
             }
-          },
-        );
+          });
+        }
       }
     },
     [handleFileToCrop, errors, registerName, crop, sizeLimitMb, compressLog],
