@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.6](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.17.5...@mezzanine-ui/react-hook-form@0.17.6) (2024-09-05)
+
+### Bug Fixes
+
+- **react-hook-form:** pass image type from blob ([3090046](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/3090046af8826894cc2e0a7017e416819be0d150))
+
 ## [0.17.5](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.17.4...@mezzanine-ui/react-hook-form@0.17.5) (2024-09-05)
 
 ### Bug Fixes
