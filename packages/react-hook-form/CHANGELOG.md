@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.3](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.18.2...@mezzanine-ui/react-hook-form@0.18.3) (2025-02-18)
+
+### Bug Fixes
+
+- **react-hook-form:** type of date picker field ([8924e86](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/8924e8682ea357230e4f88fc7ff7d0bc274f4d8d))
+
 ## [0.18.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.18.1...@mezzanine-ui/react-hook-form@0.18.2) (2025-02-18)
 
 ### Bug Fixes
