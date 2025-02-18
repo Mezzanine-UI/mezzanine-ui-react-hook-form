@@ -23,11 +23,11 @@ type CustomSelectFieldProps = {
   options?: OptionItemsType;
 };
 
-export type SelectSingleFieldProps = HookFormFieldProps<FieldValues, SelectSingleProps, CustomSelectFieldProps>;
+export type SelectSingleFieldProps = Omit<HookFormFieldProps<FieldValues, SelectSingleProps, CustomSelectFieldProps>, 'children'>;
 
-export type SelectMultiFieldProps = HookFormFieldProps<FieldValues, SelectMultipleProps, CustomSelectFieldProps>;
+export type SelectMultiFieldProps = Omit<HookFormFieldProps<FieldValues, SelectMultipleProps, CustomSelectFieldProps>, 'children'>;
 
-export type SelectFieldProps = HookFormFieldProps<FieldValues, SelectProps, CustomSelectFieldProps>;
+export type SelectFieldProps = Omit<HookFormFieldProps<FieldValues, SelectProps, CustomSelectFieldProps>, 'children'>;
 
 function SelectField(props: SelectSingleFieldProps): ReactNode;
 function SelectField(props: SelectMultiFieldProps): ReactNode;
