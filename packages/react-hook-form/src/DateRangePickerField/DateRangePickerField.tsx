@@ -10,9 +10,9 @@ import { HookFormFieldComponent, HookFormFieldProps } from '../typings/field';
 import BaseField from '../BaseField/BaseField';
 import { useDefaultValue } from '../utils/use-default-value';
 
-export type DateRangePickerFieldProps = HookFormFieldProps<FieldValues, DateRangePickerProps, {
+export type DateRangePickerFieldProps = Omit<HookFormFieldProps<FieldValues, DateRangePickerProps, {
   width?: number;
-}>;
+}>, 'children'>;
 
 const DateRangePickerField: HookFormFieldComponent<DateRangePickerFieldProps> = ({
   clearable = true,
