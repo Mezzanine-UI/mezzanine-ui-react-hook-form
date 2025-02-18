@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.2](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.18.1...@mezzanine-ui/react-hook-form@0.18.2) (2025-02-18)
+
+### Bug Fixes
+
+- **react-hook-form:** type of SelectField, remove children props ([efa8fee](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/commit/efa8fee5aeef57a44837755279843aa5986d70e5))
+
 ## [0.18.1](https://github.com/Mezzanine-UI/mezzanine-ui-react-hook-form/compare/@mezzanine-ui/react-hook-form@0.18.0...@mezzanine-ui/react-hook-form@0.18.1) (2024-09-05)
 
 ### Bug Fixes
